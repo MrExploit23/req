@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RELIQ — Vintage Streetwear</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;1,400&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #0a0a08;
+      --cream: #e8e0ce;
+      --aged: #c9b99a;
+      --rust: #8b3a2a;
+      --olive: #4a4a2e;
+      --smoke: #1a1a16;
+      --grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: 'Space Mono', monospace;
+      cursor: crosshair;
+      overflow-x: hidden;
+    }
+
+    /* GRAIN OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: var(--grain);
+      background-size: 200px 200px;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+      mix-blend-mode: overlay;
+    }
+
+    /* CUSTOM CURSOR */
+    .cursor {
+      position: fixed;
+      width: 12px; height: 12px;
+      background: var(--cream);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10000;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+      mix-blend-mode: difference;
+    }
+    .cursor.expand { width: 40px; height: 40px; }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      mix-blend-mode: normal;
+    }
+
+    nav::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(10,10,8,0.95), transparent);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.3em;
+      color: var(--cream);
+      text-decoration: none;
+      position: relative;
+    }
+
+    .nav-logo::after {
+      content: '™';
+      font-size: 0.5rem;
+      position: absolute;
+      top: 0.3rem;
+      right: -1rem;
+      opacity: 0.5;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--aged);
+      text-decoration: none;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 1px;
+      background: var(--cream);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--cream); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 4rem 4rem 6rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 40px; height: 1px;
+      background: var(--rust);
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 12vw, 11rem);
+      line-height: 0.9;
+      letter-spacing: 0.02em;
+      color: var(--cream);
+      position: relative;
+    }
+
+    .hero-title .aged-text {
+      color: transparent;
+      -webkit-text-stroke: 1px var(--aged);
+      display: block;
+    }
+
+    .hero-sub {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--aged);
+      margin-top: 2rem;
+      line-height: 1.6;
+      max-width: 340px;
+    }
+
+    .hero-cta {
+      margin-top: 3rem;
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .btn-primary {
+      background: var(--cream);
+      color: var(--black);
+      padding: 1rem 2.5rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.2em;
+      text-decoration: none;
+      display: inline-block;
+      position: relative;
+      transition: transform 0.2s;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    }
+
+    .btn-primary:hover { transform: translate(-2px, -2px); }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      background: var(--rust);
+      z-index: -1;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      transition: transform 0.2s;
+    }
+    .btn-primary:hover::after { transform: translate(4px, 4px); }
+
+    .btn-ghost {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--aged);
+      text-decoration: none;
+      border-bottom: 1px solid var(--aged);
+      padding-bottom: 2px;
+      transition: color 0.3s, border-color 0.3s;
+    }
+    .btn-ghost:hover { color: var(--cream); border-color: var(--cream); }
+
+    .hero-right {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-right::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(139,58,42,0.15) 0%, transparent 70%);
+    }
+
+    .hero-img-container {
+      width: 85%;
+      aspect-ratio: 3/4;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-img-container::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 60%, var(--black) 100%);
+      z-index: 2;
+    }
+
+    .hero-img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: sepia(20%) contrast(1.1) brightness(0.85);
+      transform: scale(1.05);
+      transition: transform 8s ease;
+    }
+
+    .hero-img-container:hover img { transform: scale(1); }
+
+    .hero-badge {
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: var(--rust);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-align: center;
+      line-height: 1.4;
+      color: var(--cream);
+      z-index: 3;
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate { to { transform: rotate(360deg); } }
+
+    /* MARQUEE */
+    .marquee-section {
+      border-top: 1px solid rgba(201,185,154,0.15);
+      border-bottom: 1px solid rgba(201,185,154,0.15);
+      padding: 1.2rem 0;
+      overflow: hidden;
+      background: var(--smoke);
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 4rem;
+      white-space: nowrap;
+      animation: marquee 25s linear infinite;
+    }
+
+    .marquee-track span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.3em;
+      color: var(--aged);
+      flex-shrink: 0;
+    }
+
+    .marquee-track span.dot {
+      color: var(--rust);
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* COLLECTION */
+    .collection {
+      padding: 8rem 6rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 6vw, 5rem);
+      line-height: 1;
+      color: var(--cream);
+    }
+
+    .section-title span {
+      display: block;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(201,185,154,0.4);
+    }
+
+    .section-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      color: var(--aged);
+      text-transform: uppercase;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .product-card {
+      position: relative;
+      overflow: hidden;
+      cursor: crosshair;
+    }
+
+    .product-card:first-child {
+      grid-row: span 2;
+    }
+
+    .product-img {
+      width: 100%;
+      height: 100%;
+      min-height: 400px;
+      object-fit: cover;
+      filter: sepia(15%) contrast(1.05) brightness(0.8);
+      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.5s;
+    }
+
+    .product-card:hover .product-img {
+      transform: scale(1.08);
+      filter: sepia(0%) contrast(1.1) brightness(0.9);
+    }
+
+    .product-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,10,8,0.9) 0%, transparent 50%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2rem;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: transform 0.4s, opacity 0.4s;
+    }
+
+    .product-card:hover .product-overlay {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .product-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.1em;
+      color: var(--cream);
+    }
+
+    .product-price {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--aged);
+      margin-top: 0.3rem;
+    }
+
+    .product-tag {
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
+      background: var(--rust);
+      color: var(--cream);
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+    }
+
+    /* PLACEHOLDER product images using CSS */
+    .product-bg {
+      width: 100%;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 6rem;
+      color: rgba(201,185,154,0.1);
+      position: relative;
+      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .product-card:first-child .product-bg { min-height: 802px; }
+
+    .product-bg-1 { background: linear-gradient(135deg, #1a1a16, #2a2018); }
+    .product-bg-2 { background: linear-gradient(135deg, #1e1810, #2e2215); }
+    .product-bg-3 { background: linear-gradient(135deg, #12181a, #1a2520); }
+    .product-bg-4 { background: linear-gradient(135deg, #1a1218, #221520); }
+    .product-bg-5 { background: linear-gradient(135deg, #1a1a12, #222215); }
+
+    .product-card:hover .product-bg { transform: scale(1.08); }
+
+    /* MANIFESTO */
+    .manifesto {
+      padding: 10rem 6rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8rem;
+      align-items: center;
+      background: var(--smoke);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .manifesto::before {
+      content: 'RELIQ';
+      position: absolute;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 25vw;
+      color: rgba(201,185,154,0.03);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .manifesto-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      color: var(--rust);
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+
+    .manifesto-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 1.2;
+      color: var(--cream);
+      font-style: italic;
+    }
+
+    .manifesto-quote em {
+      color: var(--aged);
+      font-style: normal;
+    }
+
+    .manifesto-text {
+      font-size: 0.75rem;
+      line-height: 2;
+      color: rgba(201,185,154,0.7);
+    }
+
+    .manifesto-text p + p { margin-top: 1.5rem; }
+
+    .manifesto-stat {
+      margin-top: 3rem;
+      display: flex;
+      gap: 3rem;
+    }
+
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      color: var(--cream);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--aged);
+      text-transform: uppercase;
+    }
+
+    /* DROPS */
+    .drops {
+      padding: 8rem 6rem;
+    }
+
+    .drops-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2px;
+      margin-top: 4rem;
+    }
+
+    .drop-featured {
+      background: var(--smoke);
+      padding: 4rem;
+      position: relative;
+      overflow: hidden;
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .drop-featured::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(139,58,42,0.2) 0%, transparent 70%);
+    }
+
+    .drop-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 10rem;
+      color: rgba(201,185,154,0.08);
+      position: absolute;
+      top: 1rem;
+      right: 2rem;
+      line-height: 1;
+    }
+
+    .drop-tag {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      color: var(--rust);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .drop-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.5rem;
+      color: var(--cream);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .drop-desc {
+      font-size: 0.7rem;
+      color: var(--aged);
+      line-height: 1.8;
+      max-width: 400px;
+      margin-bottom: 2rem;
+    }
+
+    .drop-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .drop-mini {
+      background: var(--smoke);
+      padding: 2.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+
+    .drop-mini:hover { background: #222218; }
+
+    .drop-mini-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      color: var(--cream);
+    }
+
+    .drop-mini-info {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--aged);
+      margin-top: 0.4rem;
+    }
+
+    /* NEWSLETTER */
+    .newsletter {
+      padding: 8rem 6rem;
+      background: var(--cream);
+      color: var(--black);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .newsletter .section-title { color: var(--black); }
+    .newsletter .section-title span { -webkit-text-stroke-color: rgba(10,10,8,0.2); }
+
+    .newsletter-sub {
+      font-size: 0.75rem;
+      line-height: 1.8;
+      color: rgba(10,10,8,0.6);
+      margin-top: 1.5rem;
+    }
+
+    .email-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .email-input {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid rgba(10,10,8,0.3);
+      padding: 1rem 0;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--black);
+      outline: none;
+      transition: border-color 0.3s;
+      letter-spacing: 0.1em;
+    }
+
+    .email-input::placeholder { color: rgba(10,10,8,0.4); }
+    .email-input:focus { border-color: var(--black); }
+
+    .submit-btn {
+      background: var(--black);
+      color: var(--cream);
+      border: none;
+      padding: 1.2rem 2.5rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      align-self: flex-start;
+      transition: background 0.3s;
+      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+    }
+
+    .submit-btn:hover { background: var(--rust); }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      border-top: 1px solid rgba(201,185,154,0.1);
+      padding: 4rem 6rem;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 4rem;
+    }
+
+    .footer-brand-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      color: var(--cream);
+      letter-spacing: 0.2em;
+      margin-bottom: 1rem;
+    }
+
+    .footer-tagline {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--aged);
+      line-height: 1.6;
+    }
+
+    .footer-heading {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--cream);
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .footer-links a {
+      font-size: 0.7rem;
+      color: rgba(201,185,154,0.5);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover { color: var(--cream); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(201,185,154,0.1);
+      padding: 2rem 6rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copy {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: rgba(201,185,154,0.3);
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .footer-socials a {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: rgba(201,185,154,0.3);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .footer-socials a:hover { color: var(--cream); }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* LOADING SCREEN */
+    .loader {
+      position: fixed;
+      inset: 0;
+      background: var(--black);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 2rem;
+      transition: opacity 0.8s, visibility 0.8s;
+    }
+
+    .loader.hidden { opacity: 0; visibility: hidden; }
+
+    .loader-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 5rem;
+      letter-spacing: 0.4em;
+      color: var(--cream);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .loader-bar {
+      width: 200px;
+      height: 1px;
+      background: rgba(201,185,154,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .loader-bar::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: var(--cream);
+      animation: load 1.5s ease forwards;
+    }
+
+    @keyframes load {
+      to { left: 0; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .hero-left { padding: 8rem 2rem 4rem; }
+      .collection, .manifesto, .drops, .newsletter, footer { padding: 4rem 2rem; }
+      .products-grid { grid-template-columns: 1fr 1fr; }
+      .product-card:first-child { grid-row: span 1; }
+      .manifesto, .newsletter { grid-template-columns: 1fr; gap: 3rem; }
+      .drops-grid { grid-template-columns: 1fr; }
+      footer { grid-template-columns: 1fr 1fr; }
+      nav { padding: 1.5rem 2rem; }
+      .nav-links { gap: 1.5rem; }
+      .section-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .footer-bottom { padding: 2rem; flex-direction: column; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOADER -->
+  <div class="loader" id="loader">
+    <div class="loader-logo">RELIQ</div>
+    <div class="loader-bar"></div>
+  </div>
+
+  <!-- CURSOR -->
+  <div class="cursor" id="cursor"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">RELIQ</a>
+    <ul class="nav-links">
+      <li><a href="#collection">Collection</a></li>
+      <li><a href="#drops">Drops</a></li>
+      <li><a href="#manifesto">About</a></li>
+      <li><a href="#newsletter">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow reveal">Est. 2025 — Vintage Streetwear</div>
+      <h1 class="hero-title reveal">
+        WORN
+        <span class="aged-text">WITH</span>
+        PRIDE
+      </h1>
+      <p class="hero-sub reveal">Garments that carry history. Threads that tell stories. Every piece a relic of something real.</p>
+      <div class="hero-cta reveal">
+        <a href="#collection" class="btn-primary">Shop Collection</a>
+        <a href="#manifesto" class="btn-ghost">Our Story</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-img-container">
+        <div class="product-bg product-bg-1" style="min-height:100%; display:flex; align-items:center; justify-content:center;">
+          <span style="font-size:8rem; opacity:0.05; font-family:'Bebas Neue',sans-serif; letter-spacing:0.1em;">RELIQ</span>
+        </div>
+        <div class="hero-badge">DROP<br>001<br>NOW<br>LIVE</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-section">
+    <div class="marquee-track">
+      <span>VINTAGE STREETWEAR</span><span class="dot">✦</span>
+      <span>WORN NOT WASTED</span><span class="dot">✦</span>
+      <span>RELIQ</span><span class="dot">✦</span>
+      <span>EST. 2025</span><span class="dot">✦</span>
+      <span>AGED TO PERFECTION</span><span class="dot">✦</span>
+      <span>DROP 001</span><span class="dot">✦</span>
+      <span>VINTAGE STREETWEAR</span><span class="dot">✦</span>
+      <span>WORN NOT WASTED</span><span class="dot">✦</span>
+      <span>RELIQ</span><span class="dot">✦</span>
+      <span>EST. 2025</span><span class="dot">✦</span>
+      <span>AGED TO PERFECTION</span><span class="dot">✦</span>
+      <span>DROP 001</span><span class="dot">✦</span>
+    </div>
+  </div>
+
+  <!-- COLLECTION -->
+  <section class="collection" id="collection">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-label">— Drop 001</div>
+        <h2 class="section-title">
+          THE
+          <span>COLLECTION</span>
+        </h2>
+      </div>
+      <a href="#" class="btn-ghost">View All</a>
+    </div>
+
+    <div class="products-grid">
+      <div class="product-card reveal">
+        <div class="product-bg product-bg-1">⬡</div>
+        <div class="product-tag">New</div>
+        <div class="product-overlay">
+          <div class="product-name">CRACKED CROWN TEE</div>
+          <div class="product-price">€ 65.00</div>
+        </div>
+      </div>
+      <div class="product-card reveal">
+        <div class="product-bg product-bg-2" style="min-height:400px;">⬡</div>
+        <div class="product-tag">Limited</div>
+        <div class="product-overlay">
+          <div class="product-name">GHOST YARD HOODIE</div>
+          <div class="product-price">€ 120.00</div>
+        </div>
+      </div>
+      <div class="product-card reveal">
+        <div class="product-bg product-bg-3" style="min-height:400px;">⬡</div>
+        <div class="product-overlay">
+          <div class="product-name">FADED BLOC CAP</div>
+          <div class="product-price">€ 45.00</div>
+        </div>
+      </div>
+      <div class="product-card reveal">
+        <div class="product-bg product-bg-4" style="min-height:400px;">⬡</div>
+        <div class="product-tag">Sold Out</div>
+        <div class="product-overlay">
+          <div class="product-name">WORN DISTRICT JACKET</div>
+          <div class="product-price">€ 185.00</div>
+        </div>
+      </div>
+      <div class="product-card reveal">
+        <div class="product-bg product-bg-5" style="min-height:400px;">⬡</div>
+        <div class="product-overlay">
+          <div class="product-name">RELIC CARGO PANTS</div>
+          <div class="product-price">€ 95.00</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO -->
+  <section class="manifesto" id="manifesto">
+    <div>
+      <div class="manifesto-label reveal">— Our Manifesto</div>
+      <blockquote class="manifesto-quote reveal">
+        "Wear what <em>survived.</em><br>
+        Own what <em>endured.</em>"
+      </blockquote>
+    </div>
+    <div>
+      <div class="manifesto-text reveal">
+        <p>RELIQ was born from an obsession with things that age well. Not trends. Not hype. Garments that carry weight — physical and emotional.</p>
+        <p>Every piece is designed to look like it's already lived a life. Because the best clothes aren't new. They're already broken in.</p>
+        <p>We make clothes for people who don't chase seasons. Who keep pieces for years. Who know that real style isn't about being current — it's about being undeniable.</p>
+      </div>
+      <div class="manifesto-stat reveal">
+        <div>
+          <div class="stat-num">001</div>
+          <div class="stat-label">First Drop</div>
+        </div>
+        <div>
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Limited Runs</div>
+        </div>
+        <div>
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Vintage Soul</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DROPS -->
+  <section class="drops" id="drops">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-label">— Upcoming</div>
+        <h2 class="section-title">
+          NEXT
+          <span>DROPS</span>
+        </h2>
+      </div>
+    </div>
+    <div class="drops-grid reveal">
+      <div class="drop-featured">
+        <div class="drop-number">02</div>
+        <div class="drop-tag">Coming Soon — Spring 2025</div>
+        <div class="drop-title">DEAD<br>SEASON<br>COLLECTION</div>
+        <p class="drop-desc">Twelve pieces. Zero restocks. Inspired by the off-season — when the streets are empty and the real ones stay out.</p>
+        <a href="#newsletter" class="btn-primary">Get Notified</a>
+      </div>
+      <div class="drop-sidebar">
+        <div class="drop-mini">
+          <div class="drop-mini-title">HOLLOW AVE CAPSULE</div>
+          <div class="drop-mini-info">Drop 003 — Summer 2025</div>
+        </div>
+        <div class="drop-mini">
+          <div class="drop-mini-title">RUST & THREAD COLLAB</div>
+          <div class="drop-mini-info">TBA — 2025</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter" id="newsletter">
+    <div>
+      <h2 class="section-title reveal">
+        JOIN THE
+        <span>INNER CIRCLE</span>
+      </h2>
+      <p class="newsletter-sub reveal">Early access to drops. No spam. No noise. Just the things that matter, when they drop.</p>
+    </div>
+    <form class="email-form reveal" onsubmit="return false;">
+      <input type="text" class="email-input" placeholder="YOUR NAME" />
+      <input type="email" class="email-input" placeholder="YOUR EMAIL" />
+      <button class="submit-btn" type="submit">GET ACCESS</button>
+    </form>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-brand-name">RELIQ</div>
+      <p class="footer-tagline">Vintage streetwear for those<br>who wear what survived.</p>
+    </div>
+    <div>
+      <div class="footer-heading">Shop</div>
+      <ul class="footer-links">
+        <li><a href="#">New Arrivals</a></li>
+        <li><a href="#">Tees</a></li>
+        <li><a href="#">Hoodies</a></li>
+        <li><a href="#">Headwear</a></li>
+        <li><a href="#">Accessories</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Brand</div>
+      <ul class="footer-links">
+        <li><a href="#">Manifesto</a></li>
+        <li><a href="#">Drops</a></li>
+        <li><a href="#">Collabs</a></li>
+        <li><a href="#">Press</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Support</div>
+      <ul class="footer-links">
+        <li><a href="#">Sizing Guide</a></li>
+        <li><a href="#">Shipping</a></li>
+        <li><a href="#">Returns</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 RELIQ. All rights reserved. Wear what survived.</div>
+    <div class="footer-socials">
+      <a href="#">Instagram</a>
+      <a href="#">TikTok</a>
+      <a href="#">Pinterest</a>
+    </div>
+  </div>
+
+  <script>
+    // LOADER
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+      }, 1800);
+    });
+
+    // CURSOR
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+
+    document.querySelectorAll('a, button, .product-card').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
+    });
+
+    // SCROLL REVEAL
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    reveals.forEach(el => observer.observe(el));
+
+    // HERO reveal on load
+    setTimeout(() => {
+      document.querySelectorAll('.hero .reveal').forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), 1900 + i * 150);
+      });
+    }, 0);
+  </script>
+
+</body>
+</html>
