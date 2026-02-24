@@ -1,1140 +1,1186 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RELIQ — Vintage Streetwear</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;1,400&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --black: #0a0a08;
-      --cream: #e8e0ce;
-      --aged: #c9b99a;
-      --rust: #8b3a2a;
-      --olive: #4a4a2e;
-      --smoke: #1a1a16;
-      --grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--black);
-      color: var(--cream);
-      font-family: 'Space Mono', monospace;
-      cursor: crosshair;
-      overflow-x: hidden;
-    }
-
-    /* GRAIN OVERLAY */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: var(--grain);
-      background-size: 200px 200px;
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 0.4;
-      mix-blend-mode: overlay;
-    }
-
-    /* CUSTOM CURSOR */
-    .cursor {
-      position: fixed;
-      width: 12px; height: 12px;
-      background: var(--cream);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 10000;
-      transform: translate(-50%, -50%);
-      transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
-      mix-blend-mode: difference;
-    }
-    .cursor.expand { width: 40px; height: 40px; }
-
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 1.5rem 3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      mix-blend-mode: normal;
-    }
-
-    nav::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, rgba(10,10,8,0.95), transparent);
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .nav-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2rem;
-      letter-spacing: 0.3em;
-      color: var(--cream);
-      text-decoration: none;
-      position: relative;
-    }
-
-    .nav-logo::after {
-      content: '™';
-      font-size: 0.5rem;
-      position: absolute;
-      top: 0.3rem;
-      right: -1rem;
-      opacity: 0.5;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--aged);
-      text-decoration: none;
-      font-size: 0.65rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      transition: color 0.3s;
-      position: relative;
-    }
-
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -3px; left: 0;
-      width: 0; height: 1px;
-      background: var(--cream);
-      transition: width 0.3s;
-    }
-
-    .nav-links a:hover { color: var(--cream); }
-    .nav-links a:hover::after { width: 100%; }
-
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-left {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 8rem 4rem 4rem 6rem;
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero-eyebrow {
-      font-size: 0.6rem;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: var(--rust);
-      margin-bottom: 2rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .hero-eyebrow::before {
-      content: '';
-      width: 40px; height: 1px;
-      background: var(--rust);
-    }
-
-    .hero-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(5rem, 12vw, 11rem);
-      line-height: 0.9;
-      letter-spacing: 0.02em;
-      color: var(--cream);
-      position: relative;
-    }
-
-    .hero-title .aged-text {
-      color: transparent;
-      -webkit-text-stroke: 1px var(--aged);
-      display: block;
-    }
-
-    .hero-sub {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 1.1rem;
-      color: var(--aged);
-      margin-top: 2rem;
-      line-height: 1.6;
-      max-width: 340px;
-    }
-
-    .hero-cta {
-      margin-top: 3rem;
-      display: flex;
-      gap: 1.5rem;
-      align-items: center;
-    }
-
-    .btn-primary {
-      background: var(--cream);
-      color: var(--black);
-      padding: 1rem 2.5rem;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1rem;
-      letter-spacing: 0.2em;
-      text-decoration: none;
-      display: inline-block;
-      position: relative;
-      transition: transform 0.2s;
-      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-    }
-
-    .btn-primary:hover { transform: translate(-2px, -2px); }
-    .btn-primary::after {
-      content: '';
-      position: absolute;
-      inset: -3px;
-      background: var(--rust);
-      z-index: -1;
-      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-      transition: transform 0.2s;
-    }
-    .btn-primary:hover::after { transform: translate(4px, 4px); }
-
-    .btn-ghost {
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--aged);
-      text-decoration: none;
-      border-bottom: 1px solid var(--aged);
-      padding-bottom: 2px;
-      transition: color 0.3s, border-color 0.3s;
-    }
-    .btn-ghost:hover { color: var(--cream); border-color: var(--cream); }
-
-    .hero-right {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .hero-right::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at center, rgba(139,58,42,0.15) 0%, transparent 70%);
-    }
-
-    .hero-img-container {
-      width: 85%;
-      aspect-ratio: 3/4;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-img-container::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, transparent 60%, var(--black) 100%);
-      z-index: 2;
-    }
-
-    .hero-img-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: sepia(20%) contrast(1.1) brightness(0.85);
-      transform: scale(1.05);
-      transition: transform 8s ease;
-    }
-
-    .hero-img-container:hover img { transform: scale(1); }
-
-    .hero-badge {
-      position: absolute;
-      bottom: -20px;
-      right: -20px;
-      width: 120px; height: 120px;
-      border-radius: 50%;
-      background: var(--rust);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-align: center;
-      line-height: 1.4;
-      color: var(--cream);
-      z-index: 3;
-      animation: rotate 20s linear infinite;
-    }
-
-    @keyframes rotate { to { transform: rotate(360deg); } }
-
-    /* MARQUEE */
-    .marquee-section {
-      border-top: 1px solid rgba(201,185,154,0.15);
-      border-bottom: 1px solid rgba(201,185,154,0.15);
-      padding: 1.2rem 0;
-      overflow: hidden;
-      background: var(--smoke);
-    }
-
-    .marquee-track {
-      display: flex;
-      gap: 4rem;
-      white-space: nowrap;
-      animation: marquee 25s linear infinite;
-    }
-
-    .marquee-track span {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1rem;
-      letter-spacing: 0.3em;
-      color: var(--aged);
-      flex-shrink: 0;
-    }
-
-    .marquee-track span.dot {
-      color: var(--rust);
-    }
-
-    @keyframes marquee {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
-    }
-
-    /* COLLECTION */
-    .collection {
-      padding: 8rem 6rem;
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 4rem;
-    }
-
-    .section-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3rem, 6vw, 5rem);
-      line-height: 1;
-      color: var(--cream);
-    }
-
-    .section-title span {
-      display: block;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(201,185,154,0.4);
-    }
-
-    .section-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.3em;
-      color: var(--aged);
-      text-transform: uppercase;
-    }
-
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-    }
-
-    .product-card {
-      position: relative;
-      overflow: hidden;
-      cursor: crosshair;
-    }
-
-    .product-card:first-child {
-      grid-row: span 2;
-    }
-
-    .product-img {
-      width: 100%;
-      height: 100%;
-      min-height: 400px;
-      object-fit: cover;
-      filter: sepia(15%) contrast(1.05) brightness(0.8);
-      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.5s;
-    }
-
-    .product-card:hover .product-img {
-      transform: scale(1.08);
-      filter: sepia(0%) contrast(1.1) brightness(0.9);
-    }
-
-    .product-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(10,10,8,0.9) 0%, transparent 50%);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 2rem;
-      transform: translateY(20px);
-      opacity: 0;
-      transition: transform 0.4s, opacity 0.4s;
-    }
-
-    .product-card:hover .product-overlay {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    .product-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.8rem;
-      letter-spacing: 0.1em;
-      color: var(--cream);
-    }
-
-    .product-price {
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      color: var(--aged);
-      margin-top: 0.3rem;
-    }
-
-    .product-tag {
-      position: absolute;
-      top: 1.5rem;
-      left: 1.5rem;
-      background: var(--rust);
-      color: var(--cream);
-      font-size: 0.55rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      padding: 0.3rem 0.7rem;
-    }
-
-    /* PLACEHOLDER product images using CSS */
-    .product-bg {
-      width: 100%;
-      min-height: 400px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 6rem;
-      color: rgba(201,185,154,0.1);
-      position: relative;
-      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .product-card:first-child .product-bg { min-height: 802px; }
-
-    .product-bg-1 { background: linear-gradient(135deg, #1a1a16, #2a2018); }
-    .product-bg-2 { background: linear-gradient(135deg, #1e1810, #2e2215); }
-    .product-bg-3 { background: linear-gradient(135deg, #12181a, #1a2520); }
-    .product-bg-4 { background: linear-gradient(135deg, #1a1218, #221520); }
-    .product-bg-5 { background: linear-gradient(135deg, #1a1a12, #222215); }
-
-    .product-card:hover .product-bg { transform: scale(1.08); }
-
-    /* MANIFESTO */
-    .manifesto {
-      padding: 10rem 6rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8rem;
-      align-items: center;
-      background: var(--smoke);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .manifesto::before {
-      content: 'RELIQ';
-      position: absolute;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 25vw;
-      color: rgba(201,185,154,0.03);
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      white-space: nowrap;
-    }
-
-    .manifesto-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.4em;
-      color: var(--rust);
-      text-transform: uppercase;
-      margin-bottom: 2rem;
-    }
-
-    .manifesto-quote {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 4vw, 3.5rem);
-      line-height: 1.2;
-      color: var(--cream);
-      font-style: italic;
-    }
-
-    .manifesto-quote em {
-      color: var(--aged);
-      font-style: normal;
-    }
-
-    .manifesto-text {
-      font-size: 0.75rem;
-      line-height: 2;
-      color: rgba(201,185,154,0.7);
-    }
-
-    .manifesto-text p + p { margin-top: 1.5rem; }
-
-    .manifesto-stat {
-      margin-top: 3rem;
-      display: flex;
-      gap: 3rem;
-    }
-
-    .stat-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3rem;
-      color: var(--cream);
-      line-height: 1;
-    }
-
-    .stat-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      color: var(--aged);
-      text-transform: uppercase;
-    }
-
-    /* DROPS */
-    .drops {
-      padding: 8rem 6rem;
-    }
-
-    .drops-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 2px;
-      margin-top: 4rem;
-    }
-
-    .drop-featured {
-      background: var(--smoke);
-      padding: 4rem;
-      position: relative;
-      overflow: hidden;
-      min-height: 500px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-    }
-
-    .drop-featured::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -20%;
-      width: 500px;
-      height: 500px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(139,58,42,0.2) 0%, transparent 70%);
-    }
-
-    .drop-number {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 10rem;
-      color: rgba(201,185,154,0.08);
-      position: absolute;
-      top: 1rem;
-      right: 2rem;
-      line-height: 1;
-    }
-
-    .drop-tag {
-      font-size: 0.6rem;
-      letter-spacing: 0.3em;
-      color: var(--rust);
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-    }
-
-    .drop-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3.5rem;
-      color: var(--cream);
-      line-height: 1;
-      margin-bottom: 1rem;
-    }
-
-    .drop-desc {
-      font-size: 0.7rem;
-      color: var(--aged);
-      line-height: 1.8;
-      max-width: 400px;
-      margin-bottom: 2rem;
-    }
-
-    .drop-sidebar {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .drop-mini {
-      background: var(--smoke);
-      padding: 2.5rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.3s;
-    }
-
-    .drop-mini:hover { background: #222218; }
-
-    .drop-mini-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.5rem;
-      color: var(--cream);
-    }
-
-    .drop-mini-info {
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      color: var(--aged);
-      margin-top: 0.4rem;
-    }
-
-    /* NEWSLETTER */
-    .newsletter {
-      padding: 8rem 6rem;
-      background: var(--cream);
-      color: var(--black);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: center;
-    }
-
-    .newsletter .section-title { color: var(--black); }
-    .newsletter .section-title span { -webkit-text-stroke-color: rgba(10,10,8,0.2); }
-
-    .newsletter-sub {
-      font-size: 0.75rem;
-      line-height: 1.8;
-      color: rgba(10,10,8,0.6);
-      margin-top: 1.5rem;
-    }
-
-    .email-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .email-input {
-      background: transparent;
-      border: none;
-      border-bottom: 2px solid rgba(10,10,8,0.3);
-      padding: 1rem 0;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.8rem;
-      color: var(--black);
-      outline: none;
-      transition: border-color 0.3s;
-      letter-spacing: 0.1em;
-    }
-
-    .email-input::placeholder { color: rgba(10,10,8,0.4); }
-    .email-input:focus { border-color: var(--black); }
-
-    .submit-btn {
-      background: var(--black);
-      color: var(--cream);
-      border: none;
-      padding: 1.2rem 2.5rem;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1rem;
-      letter-spacing: 0.2em;
-      cursor: pointer;
-      align-self: flex-start;
-      transition: background 0.3s;
-      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-    }
-
-    .submit-btn:hover { background: var(--rust); }
-
-    /* FOOTER */
-    footer {
-      background: var(--black);
-      border-top: 1px solid rgba(201,185,154,0.1);
-      padding: 4rem 6rem;
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 4rem;
-    }
-
-    .footer-brand-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3rem;
-      color: var(--cream);
-      letter-spacing: 0.2em;
-      margin-bottom: 1rem;
-    }
-
-    .footer-tagline {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 0.85rem;
-      color: var(--aged);
-      line-height: 1.6;
-    }
-
-    .footer-heading {
-      font-size: 0.6rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--cream);
-      margin-bottom: 1.5rem;
-    }
-
-    .footer-links {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-
-    .footer-links a {
-      font-size: 0.7rem;
-      color: rgba(201,185,154,0.5);
-      text-decoration: none;
-      letter-spacing: 0.1em;
-      transition: color 0.3s;
-    }
-
-    .footer-links a:hover { color: var(--cream); }
-
-    .footer-bottom {
-      border-top: 1px solid rgba(201,185,154,0.1);
-      padding: 2rem 6rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .footer-copy {
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      color: rgba(201,185,154,0.3);
-    }
-
-    .footer-socials {
-      display: flex;
-      gap: 2rem;
-    }
-
-    .footer-socials a {
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      color: rgba(201,185,154,0.3);
-      text-decoration: none;
-      text-transform: uppercase;
-      transition: color 0.3s;
-    }
-
-    .footer-socials a:hover { color: var(--cream); }
-
-    /* SCROLL REVEAL */
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* LOADING SCREEN */
-    .loader {
-      position: fixed;
-      inset: 0;
-      background: var(--black);
-      z-index: 99999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 2rem;
-      transition: opacity 0.8s, visibility 0.8s;
-    }
-
-    .loader.hidden { opacity: 0; visibility: hidden; }
-
-    .loader-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 5rem;
-      letter-spacing: 0.4em;
-      color: var(--cream);
-      animation: pulse 1.5s ease-in-out infinite;
-    }
-
-    .loader-bar {
-      width: 200px;
-      height: 1px;
-      background: rgba(201,185,154,0.2);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .loader-bar::after {
-      content: '';
-      position: absolute;
-      top: 0; left: -100%;
-      width: 100%; height: 100%;
-      background: var(--cream);
-      animation: load 1.5s ease forwards;
-    }
-
-    @keyframes load {
-      to { left: 0; }
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; }
-      .hero-right { display: none; }
-      .hero-left { padding: 8rem 2rem 4rem; }
-      .collection, .manifesto, .drops, .newsletter, footer { padding: 4rem 2rem; }
-      .products-grid { grid-template-columns: 1fr 1fr; }
-      .product-card:first-child { grid-row: span 1; }
-      .manifesto, .newsletter { grid-template-columns: 1fr; gap: 3rem; }
-      .drops-grid { grid-template-columns: 1fr; }
-      footer { grid-template-columns: 1fr 1fr; }
-      nav { padding: 1.5rem 2rem; }
-      .nav-links { gap: 1.5rem; }
-      .section-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-      .footer-bottom { padding: 2rem; flex-direction: column; gap: 1rem; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Literacia Financeira</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #00c896;
+    --green-light: rgba(0,200,150,0.08);
+    --navy: #0a1628;
+    --bg: #f4f7fb;
+    --bg2: #eef2f8;
+    --white: #ffffff;
+    --border: rgba(0,0,0,0.07);
+    --border-green: rgba(0,200,150,0.25);
+    --text: #0d1b2e;
+    --muted: #8fa0b8;
+    --red: #ff3d6b;
+    --amber: #f59e0b;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+    --shadow-md: 0 8px 24px rgba(0,0,0,0.09);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; overflow: hidden; }
+
+  .phone { max-width: 420px; height: 100dvh; margin: 0 auto; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); position: relative; }
+  .phone::before { content: ''; position: fixed; top: -100px; right: -80px; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle, rgba(0,200,150,0.1), transparent 70%); pointer-events: none; z-index: 0; }
+
+  .header { padding: 16px 20px 10px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; position: relative; z-index: 1; }
+  .logo-mark { display: flex; align-items: center; gap: 10px; }
+  .logo-icon { width: 38px; height: 38px; background: var(--navy); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.72rem; color: var(--green); box-shadow: 0 4px 12px rgba(10,22,40,0.25); }
+  .logo-text { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.95rem; color: var(--text); line-height: 1.1; }
+  .logo-text span { display: block; font-size: 0.58rem; font-weight: 500; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .header-right { display: flex; gap: 8px; }
+  .icon-btn { width: 38px; height: 38px; border-radius: 12px; background: var(--white); border: 1px solid var(--border); box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; transition: all 0.2s; }
+  .icon-btn:active { transform: scale(0.94); }
+
+  .sub-tab-bar { display: flex; padding: 0 16px 10px; gap: 6px; flex-shrink: 0; overflow-x: auto; scrollbar-width: none; position: relative; z-index: 1; }
+  .sub-tab-bar::-webkit-scrollbar { display: none; }
+  .sub-tab-btn { flex-shrink: 0; padding: 7px 16px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--white); color: var(--muted); font-family: 'Outfit', sans-serif; font-size: 0.74rem; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; box-shadow: var(--shadow-sm); }
+  .sub-tab-btn.active { background: var(--navy); border-color: var(--navy); color: var(--green); box-shadow: 0 4px 14px rgba(10,22,40,0.2); }
+
+  .scroll-area { flex: 1; overflow-y: auto; padding: 4px 16px 16px; scrollbar-width: none; position: relative; z-index: 1; }
+  .scroll-area::-webkit-scrollbar { display: none; }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; animation: fadeUp 0.25s ease both; }
+
+  .hero-card { background: var(--navy); border-radius: 22px; padding: 22px; margin-bottom: 16px; position: relative; overflow: hidden; box-shadow: 0 12px 40px rgba(10,22,40,0.22); }
+  .hero-card::before { content: ''; position: absolute; top: -60px; right: -60px; width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(0,200,150,0.2), transparent 70%); }
+  .hero-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.4); margin-bottom: 6px; position: relative; z-index: 1; }
+  .hero-value { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; color: #fff; line-height: 1; margin-bottom: 4px; position: relative; z-index: 1; }
+  .hero-value .accent { color: var(--green); }
+  .hero-sub { font-size: 0.75rem; color: rgba(255,255,255,0.45); position: relative; z-index: 1; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 5px; background: rgba(0,200,150,0.15); border: 1px solid rgba(0,200,150,0.25); border-radius: 20px; padding: 4px 12px; font-size: 0.68rem; color: var(--green); margin-top: 14px; position: relative; z-index: 1; font-weight: 600; }
+
+  .section-title { font-family: 'Syne', sans-serif; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); margin-bottom: 10px; margin-top: 20px; padding-left: 2px; }
+
+  .sim-card { background: var(--white); border: 1px solid var(--border); border-radius: 18px; padding: 16px; margin-bottom: 10px; box-shadow: var(--shadow-sm); }
+  .sim-card-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.88rem; color: var(--text); display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .sim-icon { width: 34px; height: 34px; border-radius: 10px; background: var(--green-light); border: 1px solid var(--border-green); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+
+  .input-group { margin-bottom: 10px; }
+  .input-label { font-size: 0.7rem; color: var(--muted); margin-bottom: 5px; font-weight: 500; display: flex; justify-content: space-between; align-items: center; }
+  .input-wrapper { position: relative; }
+  .input-field { width: 100%; background: var(--bg); border: 1.5px solid var(--border); border-radius: 12px; padding: 11px 44px 11px 14px; color: var(--text); font-family: 'Outfit', sans-serif; font-size: 0.92rem; font-weight: 600; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+  .input-field:focus { border-color: var(--green); box-shadow: 0 0 0 3px var(--green-light); background: var(--white); }
+  .input-unit { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 0.72rem; color: var(--muted); font-weight: 700; }
+
+  .calc-btn { width: 100%; background: var(--navy); color: #fff; border: none; border-radius: 14px; padding: 14px; font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.2s; margin-top: 4px; letter-spacing: 0.03em; box-shadow: 0 6px 20px rgba(10,22,40,0.2); position: relative; overflow: hidden; }
+  .calc-btn::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,200,150,0.5), transparent); }
+  .calc-btn:active { transform: scale(0.98); }
+
+  .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  .result-box { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 11px 14px; }
+  .result-box.highlight { background: var(--navy); border-color: var(--navy); }
+  .result-box.highlight-red { background: rgba(255,61,107,0.08); border-color: rgba(255,61,107,0.2); }
+  .result-label { font-size: 0.62rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+  .result-box.highlight .result-label { color: rgba(255,255,255,0.4); }
+  .result-box.highlight-red .result-label { color: rgba(255,61,107,0.6); }
+  .result-value { font-family: 'Syne', sans-serif; font-size: 0.98rem; font-weight: 800; color: var(--text); }
+  .result-box.highlight .result-value { color: var(--green); }
+  .result-box.highlight-red .result-value { color: var(--red); }
+
+  .chip-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .chip { padding: 6px 13px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--bg); font-size: 0.72rem; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+  .chip.active { background: var(--green-light); border-color: var(--green); color: #008c69; }
+
+  .progress-bar { height: 6px; background: var(--bg2); border-radius: 3px; margin-top: 12px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 3px; background: var(--green); transition: width 0.8s cubic-bezier(0.4,0,0.2,1); }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--bg2); margin: 14px 0 10px; }
+
+  /* INFO BOX */
+  .info-box { background: rgba(0,200,150,0.06); border: 1px solid var(--border-green); border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; font-size: 0.75rem; color: #008c69; line-height: 1.5; }
+  .info-box strong { font-weight: 700; }
+
+  /* RETENTION TAG */
+  .retention-tag { display: inline-flex; align-items: center; gap: 4px; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.25); border-radius: 20px; padding: 3px 10px; font-size: 0.65rem; color: var(--amber); font-weight: 700; margin-left: 6px; }
+
+  /* MORTGAGE */
+  .mortgage-breakdown { background: var(--navy); border-radius: 18px; padding: 18px; margin-top: 12px; box-shadow: 0 8px 30px rgba(10,22,40,0.18); }
+  .breakdown-title { font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700; color: rgba(255,255,255,0.5); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .breakdown-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.8rem; }
+  .breakdown-row:last-child { border-bottom: none; }
+  .breakdown-row .key { color: rgba(255,255,255,0.45); }
+  .breakdown-row .val { font-weight: 700; color: #fff; }
+  .breakdown-row .val.green { color: var(--green); }
+  .breakdown-row .val.red { color: var(--red); }
+  .breakdown-row .val.amber { color: var(--amber); }
+
+  /* PRODUCT RATE CARD */
+  .product-card { background: var(--white); border: 1px solid var(--border); border-radius: 18px; padding: 16px; margin-bottom: 10px; box-shadow: var(--shadow-sm); }
+  .product-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .product-left { display: flex; align-items: center; gap: 12px; }
+  .product-logo { width: 40px; height: 40px; border-radius: 12px; background: var(--navy); display: flex; align-items: center; justify-content: center; font-size: 0.62rem; font-weight: 800; color: var(--green); text-align: center; flex-shrink: 0; }
+  .product-name { font-weight: 700; font-size: 0.85rem; color: var(--text); }
+  .product-type { font-size: 0.67rem; color: var(--muted); margin-top: 1px; }
+  .product-rate { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 800; color: var(--text); text-align: right; }
+  .product-rate-label { font-size: 0.62rem; color: var(--muted); text-align: right; }
+  .product-detail-row { display: flex; justify-content: space-between; padding: 5px 0; border-top: 1px solid var(--bg2); font-size: 0.75rem; }
+  .product-detail-row .dk { color: var(--muted); }
+  .product-detail-row .dv { font-weight: 600; color: var(--text); }
+  .product-detail-row .dv.green { color: var(--green); }
+  .product-detail-row .dv.red { color: var(--red); }
+  .product-detail-row .dv.amber { color: var(--amber); }
+
+  /* RATE CARDS (taxas) */
+  .rate-card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 14px 16px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-sm); }
+  .rate-left { display: flex; align-items: center; gap: 12px; }
+  .rate-logo { width: 40px; height: 40px; border-radius: 12px; background: var(--navy); display: flex; align-items: center; justify-content: center; font-size: 0.62rem; font-weight: 800; color: var(--green); }
+  .rate-name { font-weight: 700; font-size: 0.83rem; color: var(--text); }
+  .rate-type { font-size: 0.67rem; color: var(--muted); margin-top: 1px; }
+  .rate-value { font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 800; color: var(--text); text-align: right; }
+  .rate-period { font-size: 0.62rem; color: var(--muted); text-align: right; margin-top: 1px; }
+
+  .euribor-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+  .euribor-box { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 14px 10px; text-align: center; box-shadow: var(--shadow-sm); }
+  .euribor-label { font-size: 0.62rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; font-weight: 600; }
+  .euribor-val { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 800; color: var(--text); }
+  .euribor-change { font-size: 0.63rem; margin-top: 3px; font-weight: 600; }
+  .up { color: var(--red); } .down { color: var(--green); }
+
+  .bottom-nav { display: flex; padding: 8px 12px 22px; gap: 4px; background: var(--white); border-top: 1px solid var(--border); flex-shrink: 0; box-shadow: 0 -8px 24px rgba(0,0,0,0.06); position: relative; z-index: 10; }
+  .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 8px 4px; border-radius: 14px; background: transparent; border: none; cursor: pointer; transition: all 0.2s; color: var(--muted); }
+  .nav-btn.active { background: var(--navy); color: var(--green); }
+  .nav-icon { font-size: 1.05rem; }
+  .nav-label { font-size: 0.58rem; font-weight: 700; font-family: 'Outfit', sans-serif; }
+
+
+  /* FILTER BLOCK */
+  .filter-block { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 14px; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
+  .filter-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .filter-toggle { display: flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--bg); font-size: 0.72rem; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .filter-toggle.active { background: var(--green-light); border-color: var(--green); color: #008c69; }
+  .filter-toggle.filter-neg { background: rgba(255,61,107,0.08); border-color: rgba(255,61,107,0.3); color: var(--red); }
+  .filter-toggle.filter-neg .ft-dot { background: var(--red); }
+  .ft-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; opacity: 0.5; }
+  .filter-toggle.active .ft-dot { opacity: 1; }
+  .sort-btn { margin-left: auto; padding: 7px 14px; border-radius: 20px; border: 1.5px solid var(--navy); background: var(--navy); color: var(--green); font-size: 0.7rem; font-weight: 700; cursor: pointer; white-space: nowrap; font-family: 'Outfit', sans-serif; }
+  .filter-input-wrap { display: flex; align-items: center; gap: 6px; flex: 1; background: var(--bg); border: 1.5px solid var(--border); border-radius: 12px; padding: 8px 12px; }
+  .fi-label { font-size: 0.65rem; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  .fi-input { flex: 1; border: none; background: transparent; outline: none; font-family: 'Outfit', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--text); width: 0; min-width: 0; }
+  .fi-unit { font-size: 0.65rem; color: var(--muted); font-weight: 700; }
+  .results-count { font-size: 0.68rem; color: var(--muted); margin-top: 8px; text-align: right; }
+
+  /* DP CARD */
+  .dp-card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 8px; box-shadow: var(--shadow-sm); overflow: hidden; }
+  .dp-card-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; cursor: pointer; }
+  .dp-card-left { display: flex; align-items: center; gap: 12px; }
+  .dp-logo { width: 40px; height: 40px; border-radius: 12px; background: var(--navy); display: flex; align-items: center; justify-content: center; font-size: 0.58rem; font-weight: 800; color: var(--green); text-align: center; line-height: 1.2; flex-shrink: 0; }
+  .dp-name { font-weight: 700; font-size: 0.83rem; color: var(--text); }
+  .dp-sub { font-size: 0.67rem; color: var(--muted); margin-top: 1px; }
+  .dp-rate-col { text-align: right; }
+  .dp-tanb { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--text); }
+  .dp-tanl { font-size: 0.68rem; color: var(--green); font-weight: 600; margin-top: 1px; }
+  .dp-expand-icon { width: 24px; height: 24px; border-radius: 6px; background: var(--bg2); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--muted); margin-left: 8px; transition: transform 0.2s; flex-shrink: 0; }
+  .dp-card.open .dp-expand-icon { transform: rotate(180deg); }
+  .dp-details { display: none; border-top: 1px solid var(--bg2); padding: 12px 16px; background: var(--bg); }
+  .dp-card.open .dp-details { display: block; animation: fadeUp 0.2s ease; }
+  .dp-detail-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 0.78rem; }
+  .dp-detail-row:last-child { border-bottom: none; }
+  .dp-dk { color: var(--muted); }
+  .dp-dv { font-weight: 600; color: var(--text); }
+  .dp-dv.green { color: var(--green); }
+  .dp-dv.red { color: var(--red); }
+  .dp-dv.amber { color: var(--amber); }
+  .dp-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .dp-tag { padding: 3px 10px; border-radius: 20px; font-size: 0.62rem; font-weight: 700; }
+  .dp-tag.green { background: var(--green-light); color: #008c69; border: 1px solid var(--border-green); }
+  .dp-tag.gray { background: var(--bg2); color: var(--muted); border: 1px solid var(--border); }
+
+  .dp-fin-link { display: flex; align-items: center; gap: 6px; margin-top: 10px; padding: 9px 14px; background: var(--navy); border-radius: 10px; color: var(--green); font-size: 0.75rem; font-weight: 600; text-decoration: none; }
+  .dp-fin-link:hover { opacity: 0.85; }
+  .loading-state { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 0.85rem; }
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 0.85rem; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+</style>
 </head>
 <body>
+<div class="phone">
 
-  <!-- LOADER -->
-  <div class="loader" id="loader">
-    <div class="loader-logo">RELIQ</div>
-    <div class="loader-bar"></div>
-  </div>
-
-  <!-- CURSOR -->
-  <div class="cursor" id="cursor"></div>
-
-  <!-- NAV -->
-  <nav>
-    <a href="#" class="nav-logo">RELIQ</a>
-    <ul class="nav-links">
-      <li><a href="#collection">Collection</a></li>
-      <li><a href="#drops">Drops</a></li>
-      <li><a href="#manifesto">About</a></li>
-      <li><a href="#newsletter">Contact</a></li>
-    </ul>
-  </nav>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-left">
-      <div class="hero-eyebrow reveal">Est. 2025 — Vintage Streetwear</div>
-      <h1 class="hero-title reveal">
-        WORN
-        <span class="aged-text">WITH</span>
-        PRIDE
-      </h1>
-      <p class="hero-sub reveal">Garments that carry history. Threads that tell stories. Every piece a relic of something real.</p>
-      <div class="hero-cta reveal">
-        <a href="#collection" class="btn-primary">Shop Collection</a>
-        <a href="#manifesto" class="btn-ghost">Our Story</a>
-      </div>
+  <div class="header">
+    <div class="logo-mark">
+      <div class="logo-icon">LF</div>
+      <div class="logo-text">Literacia <span>Financeira</span></div>
     </div>
-    <div class="hero-right">
-      <div class="hero-img-container">
-        <div class="product-bg product-bg-1" style="min-height:100%; display:flex; align-items:center; justify-content:center;">
-          <span style="font-size:8rem; opacity:0.05; font-family:'Bebas Neue',sans-serif; letter-spacing:0.1em;">RELIQ</span>
-        </div>
-        <div class="hero-badge">DROP<br>001<br>NOW<br>LIVE</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MARQUEE -->
-  <div class="marquee-section">
-    <div class="marquee-track">
-      <span>VINTAGE STREETWEAR</span><span class="dot">✦</span>
-      <span>WORN NOT WASTED</span><span class="dot">✦</span>
-      <span>RELIQ</span><span class="dot">✦</span>
-      <span>EST. 2025</span><span class="dot">✦</span>
-      <span>AGED TO PERFECTION</span><span class="dot">✦</span>
-      <span>DROP 001</span><span class="dot">✦</span>
-      <span>VINTAGE STREETWEAR</span><span class="dot">✦</span>
-      <span>WORN NOT WASTED</span><span class="dot">✦</span>
-      <span>RELIQ</span><span class="dot">✦</span>
-      <span>EST. 2025</span><span class="dot">✦</span>
-      <span>AGED TO PERFECTION</span><span class="dot">✦</span>
-      <span>DROP 001</span><span class="dot">✦</span>
+    <div class="header-right">
+      <div class="icon-btn">🔔</div>
+      <div class="icon-btn">⚙️</div>
     </div>
   </div>
 
-  <!-- COLLECTION -->
-  <section class="collection" id="collection">
-    <div class="section-header reveal">
-      <div>
-        <div class="section-label">— Drop 001</div>
-        <h2 class="section-title">
-          THE
-          <span>COLLECTION</span>
-        </h2>
+  <div class="sub-tab-bar" id="sub-tab-bar"></div>
+
+  <div class="scroll-area">
+
+    <!-- ======== SIMULAR: SALÁRIO ======== -->
+    <div class="tab-content active" id="tab-salario">
+      <div class="hero-card">
+        <div class="hero-label">Calculadora Fiscal</div>
+        <div class="hero-value"><span class="accent" id="hero-liquido">—</span></div>
+        <div class="hero-sub">Salário líquido estimado mensal</div>
+        <div class="hero-badge">✦ Tabelas IRS 2025</div>
       </div>
-      <a href="#" class="btn-ghost">View All</a>
+      <div class="sim-card">
+        <div class="sim-card-title"><div class="sim-icon">💶</div>Salário Líquido</div>
+        <div class="input-group"><div class="input-label">Salário Bruto Mensal</div><div class="input-wrapper"><input class="input-field" type="number" id="sal-bruto" placeholder="2000" value="2000"><span class="input-unit">€</span></div></div>
+        <div class="chip-row" id="irs-chips">
+          <div class="chip active" onclick="selectChip(this,'irs-chips')">Solteiro</div>
+          <div class="chip" onclick="selectChip(this,'irs-chips')">Casado 1T</div>
+          <div class="chip" onclick="selectChip(this,'irs-chips')">Casado 2T</div>
+        </div>
+        <div class="input-group"><div class="input-label">Dependentes</div><div class="input-wrapper"><input class="input-field" type="number" id="dependentes" placeholder="0" value="0" min="0"><span class="input-unit">#</span></div></div>
+        <button class="calc-btn" onclick="calcSalario()">Calcular Líquido</button>
+        <div class="result-grid" id="sal-results" style="display:none">
+          <div class="result-box highlight" style="grid-column:1/-1"><div class="result-label">Salário Líquido</div><div class="result-value" id="res-liquido">—</div></div>
+          <div class="result-box"><div class="result-label">Retenção IRS</div><div class="result-value" id="res-irs">—</div></div>
+          <div class="result-box"><div class="result-label">Seg. Social</div><div class="result-value" id="res-ss">—</div></div>
+          <div class="result-box" style="grid-column:1/-1"><div class="result-label">Total Descontos</div><div class="result-value" id="res-desc">—</div></div>
+        </div>
+      </div>
     </div>
 
-    <div class="products-grid">
-      <div class="product-card reveal">
-        <div class="product-bg product-bg-1">⬡</div>
-        <div class="product-tag">New</div>
-        <div class="product-overlay">
-          <div class="product-name">CRACKED CROWN TEE</div>
-          <div class="product-price">€ 65.00</div>
-        </div>
+    <!-- ======== SIMULAR: TAXA ESFORÇO ======== -->
+    <div class="tab-content" id="tab-esforco">
+      <div class="hero-card">
+        <div class="hero-label">Saúde Financeira</div>
+        <div class="hero-value"><span class="accent" id="hero-esforco">—</span></div>
+        <div class="hero-sub">Taxa de esforço dos teus créditos</div>
+        <div class="hero-badge">📊 Recomendado ≤ 33%</div>
       </div>
-      <div class="product-card reveal">
-        <div class="product-bg product-bg-2" style="min-height:400px;">⬡</div>
-        <div class="product-tag">Limited</div>
-        <div class="product-overlay">
-          <div class="product-name">GHOST YARD HOODIE</div>
-          <div class="product-price">€ 120.00</div>
+      <div class="sim-card">
+        <div class="sim-card-title"><div class="sim-icon">📊</div>Taxa de Esforço</div>
+        <div class="input-group"><div class="input-label">Rendimento Líquido Mensal</div><div class="input-wrapper"><input class="input-field" type="number" id="esf-rend" placeholder="1500"><span class="input-unit">€</span></div></div>
+        <div class="input-group"><div class="input-label">Total de Prestações de Crédito</div><div class="input-wrapper"><input class="input-field" type="number" id="esf-prest" placeholder="400"><span class="input-unit">€</span></div></div>
+        <button class="calc-btn" onclick="calcEsforco()">Calcular Taxa</button>
+        <div class="result-grid" id="esf-results" style="display:none">
+          <div class="result-box highlight" style="grid-column:1/-1"><div class="result-label">Taxa de Esforço</div><div class="result-value" id="res-esforco">—</div></div>
+          <div class="result-box" style="grid-column:1/-1"><div class="result-label">Avaliação</div><div class="result-value" id="esf-status">—</div></div>
         </div>
-      </div>
-      <div class="product-card reveal">
-        <div class="product-bg product-bg-3" style="min-height:400px;">⬡</div>
-        <div class="product-overlay">
-          <div class="product-name">FADED BLOC CAP</div>
-          <div class="product-price">€ 45.00</div>
-        </div>
-      </div>
-      <div class="product-card reveal">
-        <div class="product-bg product-bg-4" style="min-height:400px;">⬡</div>
-        <div class="product-tag">Sold Out</div>
-        <div class="product-overlay">
-          <div class="product-name">WORN DISTRICT JACKET</div>
-          <div class="product-price">€ 185.00</div>
-        </div>
-      </div>
-      <div class="product-card reveal">
-        <div class="product-bg product-bg-5" style="min-height:400px;">⬡</div>
-        <div class="product-overlay">
-          <div class="product-name">RELIC CARGO PANTS</div>
-          <div class="product-price">€ 95.00</div>
-        </div>
+        <div class="progress-bar" id="esf-bar" style="display:none"><div class="progress-fill" id="esf-fill" style="width:0%"></div></div>
       </div>
     </div>
-  </section>
 
-  <!-- MANIFESTO -->
-  <section class="manifesto" id="manifesto">
-    <div>
-      <div class="manifesto-label reveal">— Our Manifesto</div>
-      <blockquote class="manifesto-quote reveal">
-        "Wear what <em>survived.</em><br>
-        Own what <em>endured.</em>"
-      </blockquote>
-    </div>
-    <div>
-      <div class="manifesto-text reveal">
-        <p>RELIQ was born from an obsession with things that age well. Not trends. Not hype. Garments that carry weight — physical and emotional.</p>
-        <p>Every piece is designed to look like it's already lived a life. Because the best clothes aren't new. They're already broken in.</p>
-        <p>We make clothes for people who don't chase seasons. Who keep pieces for years. Who know that real style isn't about being current — it's about being undeniable.</p>
+    <!-- ======== SIMULAR: IMT ======== -->
+    <div class="tab-content" id="tab-imt">
+      <div class="hero-card">
+        <div class="hero-label">Impostos na Compra</div>
+        <div class="hero-value"><span class="accent" id="hero-imt">—</span></div>
+        <div class="hero-sub">IMT + Imposto de Selo estimado</div>
+        <div class="hero-badge">🏠 Tabelas 2025</div>
       </div>
-      <div class="manifesto-stat reveal">
-        <div>
-          <div class="stat-num">001</div>
-          <div class="stat-label">First Drop</div>
+      <div class="sim-card">
+        <div class="sim-card-title"><div class="sim-icon">🏠</div>IMT + Imposto de Selo</div>
+        <div class="input-group"><div class="input-label">Valor do Imóvel</div><div class="input-wrapper"><input class="input-field" type="number" id="imt-valor" placeholder="200000"><span class="input-unit">€</span></div></div>
+        <div class="chip-row" id="imt-chips">
+          <div class="chip active" onclick="selectChip(this,'imt-chips')">Habitação Própria</div>
+          <div class="chip" onclick="selectChip(this,'imt-chips')">Secundária</div>
         </div>
-        <div>
-          <div class="stat-num">100%</div>
-          <div class="stat-label">Limited Runs</div>
-        </div>
-        <div>
-          <div class="stat-num">∞</div>
-          <div class="stat-label">Vintage Soul</div>
+        <button class="calc-btn" onclick="calcIMT()">Calcular Impostos</button>
+        <div class="result-grid" id="imt-results" style="display:none">
+          <div class="result-box"><div class="result-label">IMT</div><div class="result-value" id="res-imt">—</div></div>
+          <div class="result-box"><div class="result-label">Imposto de Selo</div><div class="result-value" id="res-selo">—</div></div>
+          <div class="result-box highlight" style="grid-column:1/-1"><div class="result-label">Total a Pagar</div><div class="result-value" id="res-imt-total">—</div></div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- DROPS -->
-  <section class="drops" id="drops">
-    <div class="section-header reveal">
-      <div>
-        <div class="section-label">— Upcoming</div>
-        <h2 class="section-title">
-          NEXT
-          <span>DROPS</span>
-        </h2>
+    <!-- ======== SIMULAR: POUPANÇA (simulator) ======== -->
+    <div class="tab-content" id="tab-sim-poupanca">
+      <div class="hero-card">
+        <div class="hero-label">Simulador de Poupança</div>
+        <div class="hero-value"><span class="accent" id="hero-poup">—</span></div>
+        <div class="hero-sub">Valor final líquido após impostos</div>
+        <div class="hero-badge">🏦 Com retenção na fonte</div>
       </div>
-    </div>
-    <div class="drops-grid reveal">
-      <div class="drop-featured">
-        <div class="drop-number">02</div>
-        <div class="drop-tag">Coming Soon — Spring 2025</div>
-        <div class="drop-title">DEAD<br>SEASON<br>COLLECTION</div>
-        <p class="drop-desc">Twelve pieces. Zero restocks. Inspired by the off-season — when the streets are empty and the real ones stay out.</p>
-        <a href="#newsletter" class="btn-primary">Get Notified</a>
-      </div>
-      <div class="drop-sidebar">
-        <div class="drop-mini">
-          <div class="drop-mini-title">HOLLOW AVE CAPSULE</div>
-          <div class="drop-mini-info">Drop 003 — Summer 2025</div>
+      <div class="sim-card">
+        <div class="sim-card-title"><div class="sim-icon">🏦</div>Poupança com Juro Composto</div>
+
+        <div class="info-box">💡 Os juros de poupanças são sujeitos a <strong>retenção na fonte de 28%</strong> em Portugal. A capitalização aplica retenção em cada período.</div>
+
+        <div class="input-group"><div class="input-label">Capital Inicial</div><div class="input-wrapper"><input class="input-field" type="number" id="p-capital" placeholder="5000" value="5000"><span class="input-unit">€</span></div></div>
+        <div class="input-group"><div class="input-label">Depósito Mensal Adicional</div><div class="input-wrapper"><input class="input-field" type="number" id="p-mensal" placeholder="200" value="200"><span class="input-unit">€</span></div></div>
+        <div class="input-group"><div class="input-label">Taxa de Juro Bruta Anual</div><div class="input-wrapper"><input class="input-field" type="number" id="p-taxa" placeholder="3.5" value="3.5" step="0.1"><span class="input-unit">%</span></div></div>
+
+        <div class="input-group">
+          <div class="input-label">
+            Taxa de Retenção na Fonte
+            <span class="retention-tag">⚠️ Estado fica</span>
+          </div>
+          <div class="input-wrapper"><input class="input-field" type="number" id="p-retencao" placeholder="28" value="28" step="1"><span class="input-unit">%</span></div>
         </div>
-        <div class="drop-mini">
-          <div class="drop-mini-title">RUST & THREAD COLLAB</div>
-          <div class="drop-mini-info">TBA — 2025</div>
+
+        <div class="input-group"><div class="input-label">Capitalização dos Juros</div></div>
+        <div class="chip-row" id="p-cap-chips">
+          <div class="chip" onclick="selectChip(this,'p-cap-chips')">Mensal</div>
+          <div class="chip" onclick="selectChip(this,'p-cap-chips')">3 Meses</div>
+          <div class="chip active" onclick="selectChip(this,'p-cap-chips')">6 Meses</div>
+          <div class="chip" onclick="selectChip(this,'p-cap-chips')">12 Meses</div>
+        </div>
+
+        <div class="input-group"><div class="input-label">Período Total</div><div class="input-wrapper"><input class="input-field" type="number" id="p-anos" placeholder="5" value="5"><span class="input-unit">anos</span></div></div>
+
+        <button class="calc-btn" onclick="calcPoupanca()">Calcular Poupança</button>
+
+        <div id="p-results" style="display:none">
+          <div class="result-grid">
+            <div class="result-box highlight" style="grid-column:1/-1"><div class="result-label">Valor Final Líquido</div><div class="result-value" id="res-p-liquido">—</div></div>
+            <div class="result-box"><div class="result-label">Capital Depositado</div><div class="result-value" id="res-p-depositado">—</div></div>
+            <div class="result-box"><div class="result-label">Juros Brutos</div><div class="result-value" id="res-p-juros-brutos">—</div></div>
+            <div class="result-box highlight-red"><div class="result-label">Retenção (Estado)</div><div class="result-value" id="res-p-retencao">—</div></div>
+            <div class="result-box"><div class="result-label">Juros Líquidos</div><div class="result-value" id="res-p-juros-liq">—</div></div>
+          </div>
+          <div class="mortgage-breakdown" style="margin-top:12px">
+            <div class="breakdown-title">Detalhe por Período</div>
+            <div class="breakdown-row"><span class="key">Taxa Líquida Efetiva</span><span class="val green" id="bd-p-taxa-liq">—</span></div>
+            <div class="breakdown-row"><span class="key">Capitalização</span><span class="val" id="bd-p-cap">—</span></div>
+            <div class="breakdown-row"><span class="key">Nº de Períodos</span><span class="val" id="bd-p-periodos">—</span></div>
+            <div class="breakdown-row"><span class="key">Rentabilidade Total</span><span class="val green" id="bd-p-rentab">—</span></div>
+          </div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- NEWSLETTER -->
-  <section class="newsletter" id="newsletter">
-    <div>
-      <h2 class="section-title reveal">
-        JOIN THE
-        <span>INNER CIRCLE</span>
-      </h2>
-      <p class="newsletter-sub reveal">Early access to drops. No spam. No noise. Just the things that matter, when they drop.</p>
-    </div>
-    <form class="email-form reveal" onsubmit="return false;">
-      <input type="text" class="email-input" placeholder="YOUR NAME" />
-      <input type="email" class="email-input" placeholder="YOUR EMAIL" />
-      <button class="submit-btn" type="submit">GET ACCESS</button>
-    </form>
-  </section>
+    <!-- ======== SIMULAR: INVESTIMENTO ======== -->
+    <div class="tab-content" id="tab-investimento">
+      <div class="hero-card">
+        <div class="hero-label">Retorno de Capital</div>
+        <div class="hero-value"><span class="accent" id="hero-inv">—</span></div>
+        <div class="hero-sub">Valor final líquido após impostos</div>
+        <div class="hero-badge">📊 Mais-valias e dividendos</div>
+      </div>
+      <div class="sim-card">
+        <div class="sim-card-title"><div class="sim-icon">📈</div>Simulador de Investimento</div>
 
-  <!-- FOOTER -->
-  <footer>
-    <div>
-      <div class="footer-brand-name">RELIQ</div>
-      <p class="footer-tagline">Vintage streetwear for those<br>who wear what survived.</p>
-    </div>
-    <div>
-      <div class="footer-heading">Shop</div>
-      <ul class="footer-links">
-        <li><a href="#">New Arrivals</a></li>
-        <li><a href="#">Tees</a></li>
-        <li><a href="#">Hoodies</a></li>
-        <li><a href="#">Headwear</a></li>
-        <li><a href="#">Accessories</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-heading">Brand</div>
-      <ul class="footer-links">
-        <li><a href="#">Manifesto</a></li>
-        <li><a href="#">Drops</a></li>
-        <li><a href="#">Collabs</a></li>
-        <li><a href="#">Press</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-heading">Support</div>
-      <ul class="footer-links">
-        <li><a href="#">Sizing Guide</a></li>
-        <li><a href="#">Shipping</a></li>
-        <li><a href="#">Returns</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </div>
-  </footer>
+        <div class="info-box">💡 Mais-valias e dividendos de fundos/ações estão sujeitos a <strong>28% de imposto</strong> em Portugal (ou englobamento).</div>
 
-  <div class="footer-bottom">
-    <div class="footer-copy">© 2025 RELIQ. All rights reserved. Wear what survived.</div>
-    <div class="footer-socials">
-      <a href="#">Instagram</a>
-      <a href="#">TikTok</a>
-      <a href="#">Pinterest</a>
+        <div class="input-group"><div class="input-label">Capital Investido</div><div class="input-wrapper"><input class="input-field" type="number" id="inv-capital" placeholder="10000" value="10000"><span class="input-unit">€</span></div></div>
+        <div class="input-group"><div class="input-label">Reforço Mensal</div><div class="input-wrapper"><input class="input-field" type="number" id="inv-mensal" placeholder="0" value="0"><span class="input-unit">€</span></div></div>
+        <div class="input-group"><div class="input-label">Rentabilidade Anual Bruta</div><div class="input-wrapper"><input class="input-field" type="number" id="inv-taxa" placeholder="7" value="7" step="0.5"><span class="input-unit">%</span></div></div>
+        <div class="input-group">
+          <div class="input-label">
+            Taxa de Retenção / Imposto
+            <span class="retention-tag">⚠️ Estado fica</span>
+          </div>
+          <div class="input-wrapper"><input class="input-field" type="number" id="inv-retencao" placeholder="28" value="28" step="1"><span class="input-unit">%</span></div>
+        </div>
+        <div class="input-group"><div class="input-label">Horizonte Temporal</div><div class="input-wrapper"><input class="input-field" type="number" id="inv-anos" placeholder="20" value="20"><span class="input-unit">anos</span></div></div>
+
+        <button class="calc-btn" onclick="calcInvestimento()">Simular Investimento</button>
+
+        <div id="inv-results" style="display:none">
+          <div class="result-grid">
+            <div class="result-box highlight" style="grid-column:1/-1"><div class="result-label">Valor Final Líquido</div><div class="result-value" id="res-inv-liq">—</div></div>
+            <div class="result-box"><div class="result-label">Total Investido</div><div class="result-value" id="res-inv-dep">—</div></div>
+            <div class="result-box"><div class="result-label">Ganho Bruto</div><div class="result-value" id="res-inv-bruto">—</div></div>
+            <div class="result-box highlight-red"><div class="result-label">Imposto (Estado)</div><div class="result-value" id="res-inv-imposto">—</div></div>
+            <div class="result-box"><div class="result-label">Ganho Líquido</div><div class="result-value" id="res-inv-liquido">—</div></div>
+          </div>
+          <div class="mortgage-breakdown" style="margin-top:12px">
+            <div class="breakdown-title">Detalhe</div>
+            <div class="breakdown-row"><span class="key">Taxa Líquida Efetiva</span><span class="val green" id="bd-inv-taxa-liq">—</span></div>
+            <div class="breakdown-row"><span class="key">Multiplicador do Capital</span><span class="val" id="bd-inv-mult">—</span></div>
+            <div class="breakdown-row"><span class="key">Rentabilidade Líquida</span><span class="val green" id="bd-inv-rentab">—</span></div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- ======== SIMULAR: INFLAÇÃO ======== -->
+    <div class="tab-content" id="tab-inflacao">
+      <div class="hero-card">
+        <div class="hero-label">Poder de Compra</div>
+        <div class="hero-value"><span class="accent" id="hero-inf">—</span></div>
+        <div class="hero-sub">Valor real futuro do teu dinheiro</div>
+        <div class="hero-badge">📉 Impacto da inflação</div>
+      </div>
+      <div class="sim-card">
+        <div class="sim-card-title"><div class="sim-icon">📉</div>Erosão pela Inflação</div>
+        <div class="input-group"><div class="input-label">Valor Atual</div><div class="input-wrapper"><input class="input-field" type="number" id="inf-valor" placeholder="100000" value="100000"><span class="input-unit">€</span></div></div>
+        <div class="input-group"><div class="input-label">Taxa de Inflação Anual</div><div class="input-wrapper"><input class="input-field" type="number" id="inf-taxa" placeholder="2.5" value="2.5" step="0.1"><span class="input-unit">%</span></div></div>
+        <div class="input-group"><div class="input-label">Período</div><div class="input-wrapper"><input class="input-field" type="number" id="inf-anos" placeholder="10" value="10"><span class="input-unit">anos</span></div></div>
+        <button class="calc-btn" onclick="calcInflacao()">Calcular Impacto</button>
+        <div class="result-grid" id="inf-results" style="display:none">
+          <div class="result-box highlight" style="grid-column:1/-1"><div class="result-label">Poder de Compra Futuro</div><div class="result-value" id="res-inf-futuro">—</div></div>
+          <div class="result-box" style="grid-column:1/-1"><div class="result-label">Perda de Valor Real</div><div class="result-value" id="res-inf-perda" style="color:var(--red)">—</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======== POUPANÇA: DEPÓSITOS A PRAZO ======== -->
+    <div class="tab-content" id="tab-dep-prazo">
+      <div class="hero-card" id="dp-hero">
+        <div class="hero-label">Melhor Depósito a Prazo</div>
+        <div class="hero-value"><span class="accent" id="dp-best-rate">—</span></div>
+        <div class="hero-sub" id="dp-best-sub">A carregar...</div>
+        <div class="hero-badge">⚠️ Retenção 28% sobre juros</div>
+      </div>
+
+      <div class="info-box">⚠️ Juros sujeitos a <strong>retenção na fonte de 28%</strong>. A TANL é o que efetivamente recebes.</div>
+
+      <div class="filter-block">
+        <div class="filter-row">
+          <div class="filter-toggle" id="ft-novos-capitais" onclick="toggleFilter('novos_capitais')"><div class="ft-dot"></div><span class="ft-label">Novos Capitais</span></div>
+          <div class="filter-toggle" id="ft-novos-clientes" onclick="toggleFilter('novos_clientes')"><div class="ft-dot"></div><span class="ft-label">Novos Clientes</span></div>
+          <div class="sort-btn" onclick="toggleSort()" id="sort-btn">↓ TANB</div>
+        </div>
+        <div class="filter-row" style="gap:8px;margin-top:8px;">
+          <div class="filter-input-wrap">
+            <span class="fi-label">Dep. Mín. ≤</span>
+            <input class="fi-input" type="number" id="f-dep-min" placeholder="ex: 1000" oninput="applyFilters()">
+            <span class="fi-unit">€</span>
+          </div>
+          <div class="filter-input-wrap">
+            <span class="fi-label">Dep. Máx. ≥</span>
+            <input class="fi-input" type="number" id="f-dep-max" placeholder="ex: 50000" oninput="applyFilters()">
+            <span class="fi-unit">€</span>
+          </div>
+        </div>
+        <div class="results-count" id="dp-count"></div>
+      </div>
+
+      <div id="dp-list"><div class="loading-state">⏳ A carregar depósitos...</div></div>
+    </div>
+
+    <!-- PLACEHOLDER removed old cards -->
+    <div style="display:none" id="dp-placeholder">
+
+      <div class="product-card">
+        <div class="product-header">
+          <div class="product-left"><div class="product-logo">ACTV</div><div><div class="product-name">Activobank</div><div class="product-type">Poupança Online · 12M</div></div></div>
+          <div><div class="product-rate">3.50%</div><div class="product-rate-label">TANB bruta</div></div>
+        </div>
+        <div class="product-detail-row"><span class="dk">Taxa Líquida (após 28%)</span><span class="dv green">2.52%</span></div>
+        <div class="product-detail-row"><span class="dk">Retenção Estado (por €1.000)</span><span class="dv red">9.80 €</span></div>
+        <div class="product-detail-row"><span class="dk">Juros Líquidos (por €1.000)</span><span class="dv">25.20 €</span></div>
+        <div class="product-detail-row"><span class="dk">Capitalização</span><span class="dv">No vencimento</span></div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-header">
+          <div class="product-left"><div class="product-logo">CGD</div><div><div class="product-name">Caixa Geral Dep.</div><div class="product-type">Depósito a Prazo · 12M</div></div></div>
+          <div><div class="product-rate">3.25%</div><div class="product-rate-label">TANB bruta</div></div>
+        </div>
+        <div class="product-detail-row"><span class="dk">Taxa Líquida (após 28%)</span><span class="dv green">2.34%</span></div>
+        <div class="product-detail-row"><span class="dk">Retenção Estado (por €1.000)</span><span class="dv red">9.10 €</span></div>
+        <div class="product-detail-row"><span class="dk">Juros Líquidos (por €1.000)</span><span class="dv">23.40 €</span></div>
+        <div class="product-detail-row"><span class="dk">Capitalização</span><span class="dv">No vencimento</span></div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-header">
+          <div class="product-left"><div class="product-logo">BPI</div><div><div class="product-name">Banco BPI</div><div class="product-type">Depósito a Prazo · 12M</div></div></div>
+          <div><div class="product-rate">3.00%</div><div class="product-rate-label">TANB bruta</div></div>
+        </div>
+        <div class="product-detail-row"><span class="dk">Taxa Líquida (após 28%)</span><span class="dv green">2.16%</span></div>
+        <div class="product-detail-row"><span class="dk">Retenção Estado (por €1.000)</span><span class="dv red">8.40 €</span></div>
+        <div class="product-detail-row"><span class="dk">Juros Líquidos (por €1.000)</span><span class="dv">21.60 €</span></div>
+        <div class="product-detail-row"><span class="dk">Capitalização</span><span class="dv">No vencimento</span></div>
+      </div>
+
+      <div class="product-card" style="margin-bottom:20px">
+        <div class="product-header">
+          <div class="product-left"><div class="product-logo">BCP</div><div><div class="product-name">Millennium BCP</div><div class="product-type">Depósito a Prazo · 12M</div></div></div>
+          <div><div class="product-rate">2.85%</div><div class="product-rate-label">TANB bruta</div></div>
+        </div>
+        <div class="product-detail-row"><span class="dk">Taxa Líquida (após 28%)</span><span class="dv green">2.05%</span></div>
+        <div class="product-detail-row"><span class="dk">Retenção Estado (por €1.000)</span><span class="dv red">7.98 €</span></div>
+        <div class="product-detail-row"><span class="dk">Juros Líquidos (por €1.000)</span><span class="dv">20.52 €</span></div>
+        <div class="product-detail-row"><span class="dk">Capitalização</span><span class="dv">No vencimento</span></div>
+</div>
+
+    <!-- ======== POUPANÇA: CERTIFICADOS / DÍVIDA PÚBLICA ======== -->
+    <div class="tab-content" id="tab-certificados">
+      <div class="hero-card">
+        <div class="hero-label">Dívida Pública Portuguesa</div>
+        <div class="hero-value"><span class="accent">3.50%</span></div>
+        <div class="hero-sub">Certificados de Aforro · Série E · líquido: 2.52%</div>
+        <div class="hero-badge">🇵🇹 Garantido pelo Estado</div>
+      </div>
+
+      <div class="info-box">⚠️ Os Certificados de Aforro e do Tesouro também estão sujeitos a <strong>retenção na fonte de 28%</strong> sobre os juros creditados.</div>
+
+      <p class="section-title">Certificados de Aforro</p>
+
+      <div class="product-card">
+        <div class="product-header">
+          <div class="product-left"><div class="product-logo">CA</div><div><div class="product-name">Certificados de Aforro</div><div class="product-type">Série E — capitalização anual</div></div></div>
+          <div><div class="product-rate">3.50%</div><div class="product-rate-label">TANB bruta</div></div>
+        </div>
+        <div class="product-detail-row"><span class="dk">Taxa Líquida (após 28%)</span><span class="dv green">2.52%</span></div>
+        <div class="product-detail-row"><span class="dk">Retenção Estado (por €1.000)</span><span class="dv red">9.80 €/ano</span></div>
+        <div class="product-detail-row"><span class="dk">Capitalização</span><span class="dv">Anual (12M)</span></div>
+        <div class="product-detail-row"><span class="dk">Prazo Mínimo</span><span class="dv">3 meses</span></div>
+        <div class="product-detail-row"><span class="dk">Garantia</span><span class="dv green">Estado Português</span></div>
+      </div>
+
+      <p class="section-title">Certificados do Tesouro</p>
+
+      <div class="product-card" style="margin-bottom:20px">
+        <div class="product-header">
+          <div class="product-left"><div class="product-logo">CT</div><div><div class="product-name">Certificados do Tesouro</div><div class="product-type">CTPP — 10 anos</div></div></div>
+          <div><div class="product-rate">3.25%</div><div class="product-rate-label">ano 1 bruta</div></div>
+        </div>
+        <div class="product-detail-row"><span class="dk">Taxa Líquida Ano 1 (após 28%)</span><span class="dv green">2.34%</span></div>
+        <div class="product-detail-row"><span class="dk">Taxa Bruta Ano 5</span><span class="dv">3.50%</span></div>
+        <div class="product-detail-row"><span class="dk">Taxa Bruta Ano 10</span><span class="dv">3.75%</span></div>
+        <div class="product-detail-row"><span class="dk">Retenção</span><span class="dv red">28% sobre juros</span></div>
+        <div class="product-detail-row"><span class="dk">Capitalização</span><span class="dv">Anual</span></div>
+        <div class="product-detail-row"><span class="dk">Garantia</span><span class="dv green">Estado Português</span></div>
+      </div>
+    </div>
+
+    <!-- ======== POUPANÇA: FUNDOS ======== -->
+    <div class="tab-content" id="tab-fundos">
+      <div class="hero-card">
+        <div class="hero-label">Fundos de Investimento</div>
+        <div class="hero-value">Retorno <span class="accent">variável</span></div>
+        <div class="hero-sub">Rentabilidade histórica e tributação</div>
+        <div class="hero-badge">📊 Imposto 28% sobre mais-valias</div>
+      </div>
+
+      <div class="info-box">⚠️ As mais-valias e dividendos de fundos estão sujeitos a <strong>28% de imposto</strong> em Portugal. ETFs domiciliados na Irlanda/Luxemburgo podem ter retenção adicional na fonte.</div>
+
+      <p class="section-title">Fundos / ETFs Populares em Portugal</p>
+
+      <div class="product-card">
+        <div class="product-header">
+          <div class="product-left"><div class="product-logo" style="font-size:0.5rem">VWCE</div><div><div class="product-name">Vanguard FTSE All-World</div><div class="product-type">ETF Acumulação · IE</div></div></div>
+          <div><div class="product-rate">~9%</div><div class="product-rate-label">retorno médio</div></div>
+        </div>
+        <div class="product-detail-row"><span class="dk">Retenção dividendos (IE→PT)</span><span class="dv amber">15% + 28%</span></div>
+        <div class="product-detail-row"><span class="dk">Imposto Mais-valias</span><span class="dv red">28%</span></div>
+        <div class="product-detail-row"><span class="dk">TER (custo anual)</span><span class="dv">0.22%</span></div>
+        <div class="product-detail-row"><span class="dk">Distribuição</span><span class="dv">Acumulação</span></div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-header">
+          <div class="product-left"><div class="product-logo" style="font-size:0.5rem">IWDA</div><div><div class="product-name">iShares Core MSCI World</div><div class="product-type">ETF Acumulação · IE</div></div></div>
+          <div><div class="product-rate">~10%</div><div class="product-rate-label">retorno médio</div></div>
+        </div>
+        <div class="product-detail-row"><span class="dk">Imposto Mais-valias</span><span class="dv red">28%</span></div>
+        <div class="product-detail-row"><span class="dk">TER (custo anual)</span><span class="dv">0.20%</span></div>
+        <div class="product-detail-row"><span class="dk">Distribuição</span><span class="dv">Acumulação</span></div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-header">
+          <div class="product-left"><div class="product-logo" style="font-size:0.5rem">PPR</div><div><div class="product-name">PPR — Plano Poupança Reform.</div><div class="product-type">Benefício fiscal dedução IRS</div></div></div>
+          <div><div class="product-rate">variável</div><div class="product-rate-label">depende do fundo</div></div>
+        </div>
+        <div class="product-detail-row"><span class="dk">Retenção se resgate antes 5 anos</span><span class="dv red">21.5%</span></div>
+        <div class="product-detail-row"><span class="dk">Retenção após 5 anos</span><span class="dv green">8%</span></div>
+        <div class="product-detail-row"><span class="dk">Dedução IRS (até 400€)</span><span class="dv green">20% de benefício</span></div>
+        <div class="product-detail-row"><span class="dk">Vantagem fiscal</span><span class="dv green">Alta se longo prazo</span></div>
+      </div>
+
+    </div>
+
+    <!-- ======== CRÉDITO HABITAÇÃO ======== -->
+    <div class="tab-content" id="tab-credito">
+      <div class="hero-card">
+        <div class="hero-label">Prestação Estimada</div>
+        <div class="hero-value"><span class="accent" id="cred-hero">—</span></div>
+        <div class="hero-sub">Crédito habitação · Euribor + Spread</div>
+        <div class="hero-badge">🏠 Simulação completa</div>
+      </div>
+      <div class="sim-card">
+        <div class="sim-card-title"><div class="sim-icon">🏗️</div>Simulador Hipotecário</div>
+        <div class="input-group"><div class="input-label">Valor do Imóvel</div><div class="input-wrapper"><input class="input-field" type="number" id="cred-imovel" placeholder="250000" value="250000"><span class="input-unit">€</span></div></div>
+        <div class="input-group"><div class="input-label">Entrada</div><div class="input-wrapper"><input class="input-field" type="number" id="cred-entrada" placeholder="50000" value="50000"><span class="input-unit">€</span></div></div>
+        <div class="input-group"><div class="input-label">Euribor</div><div class="input-wrapper"><input class="input-field" type="number" id="cred-euribor" placeholder="2.65" value="2.65" step="0.01"><span class="input-unit">%</span></div></div>
+        <div class="input-group"><div class="input-label">Spread do Banco</div><div class="input-wrapper"><input class="input-field" type="number" id="cred-spread" placeholder="1.0" value="1.0" step="0.1"><span class="input-unit">%</span></div></div>
+        <div class="chip-row" id="prazo-chips">
+          <div class="chip" onclick="selectChip(this,'prazo-chips');document.getElementById('cred-prazo').value=15">15 anos</div>
+          <div class="chip active" onclick="selectChip(this,'prazo-chips');document.getElementById('cred-prazo').value=30">30 anos</div>
+          <div class="chip" onclick="selectChip(this,'prazo-chips');document.getElementById('cred-prazo').value=40">40 anos</div>
+        </div>
+        <div class="input-group"><div class="input-label">Prazo Personalizado</div><div class="input-wrapper"><input class="input-field" type="number" id="cred-prazo" placeholder="30" value="30"><span class="input-unit">anos</span></div></div>
+        <button class="calc-btn" onclick="calcCredito()">Simular Crédito Habitação</button>
+        <div class="mortgage-breakdown" id="cred-breakdown" style="display:none">
+          <div class="breakdown-title">Resumo do Crédito</div>
+          <div class="breakdown-row"><span class="key">Prestação Mensal</span><span class="val green" id="bd-prestacao">—</span></div>
+          <div class="breakdown-row"><span class="key">Capital Financiado</span><span class="val" id="bd-capital">—</span></div>
+          <div class="breakdown-row"><span class="key">TAN Total</span><span class="val" id="bd-tan">—</span></div>
+          <div class="breakdown-row"><span class="key">Total a Pagar</span><span class="val" id="bd-total">—</span></div>
+          <div class="breakdown-row"><span class="key">Juros Totais</span><span class="val red" id="bd-juros">—</span></div>
+          <div class="breakdown-row"><span class="key">LTV</span><span class="val" id="bd-ltv">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======== TAXAS: EURIBOR ======== -->
+    <div class="tab-content" id="tab-euribor">
+      <div class="hero-card">
+        <div class="hero-label">Euribor 12M · Fevereiro 2025</div>
+        <div class="hero-value"><span class="accent">2.65%</span></div>
+        <div class="hero-sub">Actualizado mensalmente pela equipa</div>
+        <div class="hero-badge down">▼ −0.08% vs mês anterior</div>
+      </div>
+      <p class="section-title">Euribor por Prazo</p>
+      <div class="euribor-strip">
+        <div class="euribor-box"><div class="euribor-label">3 Meses</div><div class="euribor-val">2.41%</div><div class="euribor-change down">▼ −0.05%</div></div>
+        <div class="euribor-box"><div class="euribor-label">6 Meses</div><div class="euribor-val">2.52%</div><div class="euribor-change down">▼ −0.06%</div></div>
+        <div class="euribor-box"><div class="euribor-label">12 Meses</div><div class="euribor-val">2.65%</div><div class="euribor-change down">▼ −0.08%</div></div>
+      </div>
+    </div>
+
+    <!-- ======== TAXAS: SPREADS ======== -->
+    <div class="tab-content" id="tab-spreads">
+      <div class="hero-card">
+        <div class="hero-label">Melhor Spread</div>
+        <div class="hero-value"><span class="accent">0.85%</span></div>
+        <div class="hero-sub">Caixa Geral de Depósitos</div>
+        <div class="hero-badge">🏠 Crédito Habitação</div>
+      </div>
+      <p class="section-title">Spreads — Crédito Habitação</p>
+      <div class="rate-card"><div class="rate-left"><div class="rate-logo">CGD</div><div><div class="rate-name">Caixa Geral Dep.</div><div class="rate-type">Crédito Habitação</div></div></div><div><div class="rate-value">0.85%</div><div class="rate-period">spread</div></div></div>
+      <div class="rate-card"><div class="rate-left"><div class="rate-logo">BPI</div><div><div class="rate-name">Banco BPI</div><div class="rate-type">Crédito Habitação</div></div></div><div><div class="rate-value">0.95%</div><div class="rate-period">spread</div></div></div>
+      <div class="rate-card"><div class="rate-left"><div class="rate-logo">SNT</div><div><div class="rate-name">Santander</div><div class="rate-type">Crédito Habitação</div></div></div><div><div class="rate-value">1.00%</div><div class="rate-period">spread</div></div></div>
+      <div class="rate-card" style="margin-bottom:20px"><div class="rate-left"><div class="rate-logo">NVB</div><div><div class="rate-name">Novobanco</div><div class="rate-type">Crédito Habitação</div></div></div><div><div class="rate-value">1.10%</div><div class="rate-period">spread</div></div></div>
+    </div>
+
+  </div><!-- end scroll -->
+
+  <div class="bottom-nav">
+    <button class="nav-btn active" onclick="switchSection('simular', this)">
+      <div class="nav-icon">🧮</div><div class="nav-label">Simular</div>
+    </button>
+    <button class="nav-btn" onclick="switchSection('poupanca', this)">
+      <div class="nav-icon">🏦</div><div class="nav-label">Poupança</div>
+    </button>
+    <button class="nav-btn" onclick="switchSection('credito', this)">
+      <div class="nav-icon">🏠</div><div class="nav-label">Crédito</div>
+    </button>
+    <button class="nav-btn" onclick="switchSection('taxas', this)">
+      <div class="nav-icon">📈</div><div class="nav-label">Taxas</div>
+    </button>
   </div>
 
-  <script>
-    // LOADER
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.getElementById('loader').classList.add('hidden');
-      }, 1800);
-    });
+</div>
 
-    // CURSOR
-    const cursor = document.getElementById('cursor');
-    document.addEventListener('mousemove', e => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-    });
+<script>
+const sections = {
+  simular: {
+    tabs: [
+      { label: 'Salário Líquido', id: 'salario' },
+      { label: 'Taxa de Esforço', id: 'esforco' },
+      { label: 'IMT', id: 'imt' },
+      { label: 'Poupança', id: 'sim-poupanca' },
+      { label: 'Investimento', id: 'investimento' },
+      { label: 'Inflação', id: 'inflacao' },
+    ],
+    default: 'salario'
+  },
+  poupanca: {
+    tabs: [
+      { label: 'Depósitos a Prazo', id: 'dep-prazo' },
+      { label: 'Certificados', id: 'certificados' },
+      { label: 'Fundos & ETFs', id: 'fundos' },
+    ],
+    default: 'dep-prazo'
+  },
+  credito: {
+    tabs: [{ label: 'Crédito Habitação', id: 'credito' }],
+    default: 'credito'
+  },
+  taxas: {
+    tabs: [
+      { label: 'Euribor', id: 'euribor' },
+      { label: 'Spreads', id: 'spreads' },
+    ],
+    default: 'euribor'
+  }
+};
 
-    document.querySelectorAll('a, button, .product-card').forEach(el => {
-      el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
-      el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
-    });
+function renderSubTabs(section, activeId) {
+  const bar = document.getElementById('sub-tab-bar');
+  bar.innerHTML = '';
+  sections[section].tabs.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'sub-tab-btn' + (t.id === activeId ? ' active' : '');
+    btn.textContent = t.label;
+    btn.onclick = () => {
+      document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      showTab(t.id);
+    };
+    bar.appendChild(btn);
+  });
+}
 
-    // SCROLL REVEAL
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            entry.target.classList.add('visible');
-          }, i * 80);
-          observer.unobserve(entry.target);
+function switchSection(section, navBtn) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  navBtn.classList.add('active');
+  const def = sections[section].default;
+  renderSubTabs(section, def);
+  showTab(def);
+}
+
+function showTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  const el = document.getElementById('tab-' + tabId);
+  if (el) el.classList.add('active');
+  maybeLoadDeposits(tabId);
+}
+
+renderSubTabs('simular', 'salario');
+
+function selectChip(el, group) {
+  document.querySelectorAll('#' + group + ' .chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+const fmt = v => v.toLocaleString('pt-PT', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+const fmtPct = v => v.toFixed(2) + '%';
+
+// SALÁRIO
+function calcSalario() {
+  const bruto = parseFloat(document.getElementById('sal-bruto').value) || 0;
+  const ss = bruto * 0.11;
+  const base_irs = bruto - ss;
+  let irs = 0;
+  if (base_irs <= 792) irs = 0;
+  else if (base_irs <= 10700) irs = base_irs * 0.1325 - 102.64;
+  else if (base_irs <= 15216) irs = base_irs * 0.18 - 710.77;
+  else if (base_irs <= 19696) irs = base_irs * 0.23 - 1472.37;
+  else if (base_irs <= 25076) irs = base_irs * 0.26 - 2063.29;
+  else if (base_irs <= 36757) irs = base_irs * 0.3275 - 4006.36;
+  else if (base_irs <= 48033) irs = base_irs * 0.37 - 5563.82;
+  else if (base_irs <= 75009) irs = base_irs * 0.435 - 8682.49;
+  else irs = base_irs * 0.48 - 12439.74;
+  irs = Math.max(0, irs / 12);
+  const liquido = bruto - ss - irs;
+  document.getElementById('res-liquido').textContent = fmt(liquido);
+  document.getElementById('res-irs').textContent = fmt(irs);
+  document.getElementById('res-ss').textContent = fmt(ss);
+  document.getElementById('res-desc').textContent = fmt(ss + irs);
+  document.getElementById('sal-results').style.display = 'grid';
+  document.getElementById('hero-liquido').textContent = fmt(liquido);
+}
+
+// ESFORÇO
+function calcEsforco() {
+  const rend = parseFloat(document.getElementById('esf-rend').value) || 0;
+  const prest = parseFloat(document.getElementById('esf-prest').value) || 0;
+  if (!rend) return;
+  const taxa = (prest / rend) * 100;
+  document.getElementById('res-esforco').textContent = fmtPct(taxa);
+  document.getElementById('hero-esforco').textContent = fmtPct(taxa);
+  let status, color;
+  if (taxa <= 33) { status = '✅ Saudável (≤33%)'; color = 'var(--green)'; }
+  else if (taxa <= 40) { status = '⚠️ Atenção (33–40%)'; color = 'var(--amber)'; }
+  else { status = '❌ Elevada (>40%)'; color = 'var(--red)'; }
+  document.getElementById('esf-status').textContent = status;
+  document.getElementById('esf-status').style.color = color;
+  document.getElementById('esf-results').style.display = 'grid';
+  document.getElementById('esf-bar').style.display = 'block';
+  setTimeout(() => {
+    document.getElementById('esf-fill').style.width = Math.min(taxa, 100) + '%';
+    document.getElementById('esf-fill').style.background = color;
+  }, 50);
+}
+
+// IMT
+function calcIMT() {
+  const valor = parseFloat(document.getElementById('imt-valor').value) || 0;
+  const tipo = document.querySelector('#imt-chips .chip.active')?.textContent || '';
+  let imt = 0;
+  if (tipo.includes('Própria')) {
+    if (valor <= 97064) imt = 0;
+    else if (valor <= 132774) imt = valor * 0.02 - 1941.28;
+    else if (valor <= 181034) imt = valor * 0.05 - 5924.54;
+    else if (valor <= 301688) imt = valor * 0.07 - 9545.22;
+    else if (valor <= 603289) imt = valor * 0.08 - 12562.10;
+    else imt = valor * 0.06;
+  } else { imt = valor * 0.065; }
+  const selo = valor * 0.008;
+  document.getElementById('res-imt').textContent = fmt(imt);
+  document.getElementById('res-selo').textContent = fmt(selo);
+  document.getElementById('res-imt-total').textContent = fmt(imt + selo);
+  document.getElementById('hero-imt').textContent = fmt(imt + selo);
+  document.getElementById('imt-results').style.display = 'grid';
+}
+
+// POUPANÇA com capitalização e retenção
+function calcPoupanca() {
+  const capital = parseFloat(document.getElementById('p-capital').value) || 0;
+  const mensal = parseFloat(document.getElementById('p-mensal').value) || 0;
+  const taxaBruta = parseFloat(document.getElementById('p-taxa').value) / 100 || 0;
+  const retencao = parseFloat(document.getElementById('p-retencao').value) / 100 || 0.28;
+  const anos = parseFloat(document.getElementById('p-anos').value) || 0;
+
+  // capitalização: mensal=1, 3m=3, 6m=6, 12m=12
+  const capLabel = document.querySelector('#p-cap-chips .chip.active')?.textContent || '6 Meses';
+  const capMap = { 'Mensal': 1, '3 Meses': 3, '6 Meses': 6, '12 Meses': 12 };
+  const capMeses = capMap[capLabel.trim()] || 6;
+  const periodsPerYear = 12 / capMeses;
+  const totalPeriods = anos * periodsPerYear;
+
+  // taxa bruta por período
+  const taxaBrutaPeriod = taxaBruta / periodsPerYear;
+  // taxa líquida por período (retenção aplicada em cada capitalização)
+  const taxaLiqPeriod = taxaBrutaPeriod * (1 - retencao);
+  const taxaLiqAnual = Math.pow(1 + taxaLiqPeriod, periodsPerYear) - 1;
+
+  // calcular valor final com capitalização líquida
+  // contribuições mensais convertidas para por período
+  const contribuicaoPeriod = mensal * capMeses;
+
+  let saldo = capital;
+  let totalDepositado = capital;
+  let jurosBrutos = 0;
+  let retencaoTotal = 0;
+
+  for (let i = 0; i < totalPeriods; i++) {
+    const juroBruto = saldo * taxaBrutaPeriod;
+    const retencaoP = juroBruto * retencao;
+    const juroLiq = juroBruto - retencaoP;
+    jurosBrutos += juroBruto;
+    retencaoTotal += retencaoP;
+    saldo += juroLiq + contribuicaoPeriod;
+    totalDepositado += contribuicaoPeriod;
+  }
+
+  const jurosLiquidos = saldo - totalDepositado;
+  const rentabTotal = ((saldo / capital) - 1) * 100;
+
+  document.getElementById('res-p-liquido').textContent = fmt(saldo);
+  document.getElementById('res-p-depositado').textContent = fmt(totalDepositado);
+  document.getElementById('res-p-juros-brutos').textContent = fmt(jurosBrutos);
+  document.getElementById('res-p-retencao').textContent = fmt(retencaoTotal);
+  document.getElementById('res-p-juros-liq').textContent = fmt(jurosLiquidos);
+  document.getElementById('bd-p-taxa-liq').textContent = fmtPct(taxaLiqAnual * 100);
+  document.getElementById('bd-p-cap').textContent = capLabel;
+  document.getElementById('bd-p-periodos').textContent = Math.round(totalPeriods) + ' períodos';
+  document.getElementById('bd-p-rentab').textContent = fmtPct(rentabTotal) + ' total';
+  document.getElementById('p-results').style.display = 'block';
+  document.getElementById('hero-poup').textContent = fmt(saldo);
+}
+
+// INVESTIMENTO
+function calcInvestimento() {
+  const capital = parseFloat(document.getElementById('inv-capital').value) || 0;
+  const mensal = parseFloat(document.getElementById('inv-mensal').value) || 0;
+  const taxaBruta = parseFloat(document.getElementById('inv-taxa').value) / 100 || 0;
+  const retencao = parseFloat(document.getElementById('inv-retencao').value) / 100 || 0.28;
+  const anos = parseFloat(document.getElementById('inv-anos').value) || 0;
+
+  // For investments, tax typically applied at end (capital gains)
+  const taxaLiq = taxaBruta; // grows at full rate
+  const n = anos * 12;
+  const r = taxaBruta / 12;
+
+  let finalBruto = capital * Math.pow(1 + r, n);
+  if (r > 0) finalBruto += mensal * (Math.pow(1 + r, n) - 1) / r;
+  else finalBruto += mensal * n;
+
+  const totalInvestido = capital + mensal * n;
+  const ganhoBruto = finalBruto - totalInvestido;
+  const imposto = ganhoBruto * retencao;
+  const finalLiq = finalBruto - imposto;
+  const ganhoLiq = finalLiq - totalInvestido;
+  const taxaLiqEfetiva = (Math.pow(finalLiq / capital, 1 / anos) - 1) * 100;
+
+  document.getElementById('res-inv-liq').textContent = fmt(finalLiq);
+  document.getElementById('res-inv-dep').textContent = fmt(totalInvestido);
+  document.getElementById('res-inv-bruto').textContent = fmt(ganhoBruto);
+  document.getElementById('res-inv-imposto').textContent = fmt(imposto);
+  document.getElementById('res-inv-liquido').textContent = fmt(ganhoLiq);
+  document.getElementById('bd-inv-taxa-liq').textContent = fmtPct(taxaLiqEfetiva);
+  document.getElementById('bd-inv-mult').textContent = 'x' + (finalLiq / capital).toFixed(2);
+  document.getElementById('bd-inv-rentab').textContent = fmtPct((ganhoLiq / totalInvestido) * 100);
+  document.getElementById('inv-results').style.display = 'block';
+  document.getElementById('hero-inv').textContent = fmt(finalLiq);
+}
+
+// INFLAÇÃO
+function calcInflacao() {
+  const valor = parseFloat(document.getElementById('inf-valor').value) || 0;
+  const taxa = parseFloat(document.getElementById('inf-taxa').value) / 100 || 0;
+  const anos = parseFloat(document.getElementById('inf-anos').value) || 0;
+  const futuro = valor / Math.pow(1 + taxa, anos);
+  document.getElementById('res-inf-futuro').textContent = fmt(futuro);
+  document.getElementById('res-inf-perda').textContent = fmt(valor - futuro);
+  document.getElementById('hero-inf').textContent = fmt(futuro);
+  document.getElementById('inf-results').style.display = 'grid';
+}
+
+// CRÉDITO
+function calcCredito() {
+  const imovel = parseFloat(document.getElementById('cred-imovel').value) || 0;
+  const entrada = parseFloat(document.getElementById('cred-entrada').value) || 0;
+  const euribor = parseFloat(document.getElementById('cred-euribor').value) / 100 || 0;
+  const spread = parseFloat(document.getElementById('cred-spread').value) / 100 || 0;
+  const prazo = parseFloat(document.getElementById('cred-prazo').value) || 30;
+  const capital = imovel - entrada;
+  const tan = euribor + spread;
+  const r = tan / 12;
+  const n = prazo * 12;
+  const prestacao = capital * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+  const totalPagar = prestacao * n;
+  document.getElementById('cred-hero').textContent = fmt(prestacao);
+  document.getElementById('bd-prestacao').textContent = fmt(prestacao);
+  document.getElementById('bd-capital').textContent = fmt(capital);
+  document.getElementById('bd-tan').textContent = fmtPct(tan * 100);
+  document.getElementById('bd-total').textContent = fmt(totalPagar);
+  document.getElementById('bd-juros').textContent = fmt(totalPagar - capital);
+  document.getElementById('bd-ltv').textContent = ((capital / imovel) * 100).toFixed(1) + '%';
+  document.getElementById('cred-breakdown').style.display = 'block';
+}
+
+
+// ============================================================
+// DEPOSITS — Supabase integration + fallback demo data
+// ============================================================
+
+// ---- CONFIG: replace with your Supabase credentials ----
+const SUPABASE_URL = 'https://zdjfscurtpbmdzybjaqf.supabase.co'; // e.g. https://abcde.supabase.co
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpkamZzY3VydHBibWR6eWJqYXFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5NTY0MDUsImV4cCI6MjA4NzUzMjQwNX0.ZqSqKwGcy8GzOsk7Ui500vatlMKhn-g6EK7lHrfkU-w';
+// --------------------------------------------------------
+
+// Demo data — used when Supabase is not configured
+const DEMO_DEPOSITS = [
+  { id:1, banco:'Activobank', nome_deposito:'Poupança Online', prazo:12, unidade:'meses', tanb:3.50, tanl:2.52, tipo_taxa:'Fixa', deposito_minimo:500, deposito_maximo:null, mobilizacao_antecipada:'Perda total de juros', novos_capitais:false, novos_clientes:false },
+  { id:2, banco:'Caixa Geral Dep.', nome_deposito:'Depósito a Prazo', prazo:12, unidade:'meses', tanb:3.25, tanl:2.34, tipo_taxa:'Fixa', deposito_minimo:1000, deposito_maximo:null, mobilizacao_antecipada:'Perda de 50% dos juros', novos_capitais:true, novos_clientes:false },
+  { id:3, banco:'Banco BPI', nome_deposito:'Depósito a Prazo 12M', prazo:12, unidade:'meses', tanb:3.00, tanl:2.16, tipo_taxa:'Fixa', deposito_minimo:2500, deposito_maximo:500000, mobilizacao_antecipada:'Sem juros', novos_capitais:true, novos_clientes:true },
+  { id:4, banco:'Millennium BCP', nome_deposito:'Depósito BCP', prazo:12, unidade:'meses', tanb:2.85, tanl:2.05, tipo_taxa:'Fixa', deposito_minimo:1000, deposito_maximo:null, mobilizacao_antecipada:'Perda total de juros', novos_capitais:false, novos_clientes:true },
+  { id:5, banco:'Banco Santander', nome_deposito:'Depósito Santander Plus', prazo:6, unidade:'meses', tanb:2.70, tanl:1.94, tipo_taxa:'Fixa', deposito_minimo:5000, deposito_maximo:250000, mobilizacao_antecipada:'Perda total de juros', novos_capitais:true, novos_clientes:true },
+  { id:6, banco:'Novobanco', nome_deposito:'Depósito NB Online', prazo:6, unidade:'meses', tanb:2.60, tanl:1.87, tipo_taxa:'Fixa', deposito_minimo:1000, deposito_maximo:null, mobilizacao_antecipada:'50% dos juros', novos_capitais:false, novos_clientes:false },
+  { id:7, banco:'Banco CTT', nome_deposito:'Depósito CTT 12M', prazo:12, unidade:'meses', tanb:3.10, tanl:2.23, tipo_taxa:'Fixa', deposito_minimo:500, deposito_maximo:100000, mobilizacao_antecipada:'Sem juros', novos_capitais:true, novos_clientes:false },
+];
+
+let allDeposits = [];
+// null = sem filtro | true = só "Sim" | false = só "Não"
+let activeFilters = { novos_capitais: null, novos_clientes: null };
+let sortAsc = false;
+
+async function loadDeposits() {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/Taxas%20DP?select=*&order=TANB.desc`,
+      {
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json'
         }
-      });
-    }, { threshold: 0.1 });
+      }
+    );
+    if (!res.ok) {
+      const err = await res.text();
+      console.error('Supabase erro:', res.status, err);
+      throw new Error(err);
+    }
+    const data = await res.json();
+    console.log('Supabase OK, registos:', data.length);
+    if (data.length > 0) {
+      console.log('=== COLUNAS REAIS (copia isto) ===');
+      console.log(JSON.stringify(data[0], null, 2));
+      console.log('=== CHAVES ===', Object.keys(data[0]));
+    }
+    allDeposits = data;
+    applyFilters();
+  } catch(e) {
+    console.error('Supabase fetch falhou:', e);
+    const container = document.getElementById('dp-list');
+    if (container) container.innerHTML = '<div class="empty-state">❌ Erro ao carregar dados: ' + e.message + '</div>';
+  }
+}
 
-    reveals.forEach(el => observer.observe(el));
+function toggleFilter(key) {
+  // Cycle: null → true (Sim) → false (Não) → null
+  if (activeFilters[key] === null)       activeFilters[key] = true;
+  else if (activeFilters[key] === true)  activeFilters[key] = false;
+  else                                   activeFilters[key] = null;
 
-    // HERO reveal on load
-    setTimeout(() => {
-      document.querySelectorAll('.hero .reveal').forEach((el, i) => {
-        setTimeout(() => el.classList.add('visible'), 1900 + i * 150);
-      });
-    }, 0);
-  </script>
+  const el = document.getElementById('ft-' + key.replace('_','-'));
+  if (el) {
+    el.classList.toggle('active', activeFilters[key] !== null);
+    el.classList.toggle('filter-neg', activeFilters[key] === false);
+    // Update label
+    const base = key === 'novos_capitais' ? 'Novos Capitais' : 'Novos Clientes';
+    if (activeFilters[key] === true)       el.querySelector('.ft-label').textContent = '✓ ' + base;
+    else if (activeFilters[key] === false) el.querySelector('.ft-label').textContent = '✗ ' + base;
+    else                                   el.querySelector('.ft-label').textContent = base;
+  }
+  applyFilters();
+}
 
+function toggleSort() {
+  sortAsc = !sortAsc;
+  const btn = document.getElementById('sort-btn');
+  if (btn) btn.textContent = (sortAsc ? '↑' : '↓') + ' TANB';
+  applyFilters();
+}
+
+function applyFilters() {
+  const fMin = parseFloat(document.getElementById('f-dep-min')?.value) || null;
+  const fMax = parseFloat(document.getElementById('f-dep-max')?.value) || null;
+
+  const normalized = allDeposits.map(normalizeRow);
+
+  let filtered = normalized.filter(d => {
+    if (activeFilters.novos_capitais === true  && !d.novos_capitais) return false;
+    if (activeFilters.novos_capitais === false &&  d.novos_capitais) return false;
+    if (activeFilters.novos_clientes === true  && !d.novos_clientes) return false;
+    if (activeFilters.novos_clientes === false &&  d.novos_clientes) return false;
+    if (fMin !== null && d.deposito_minimo !== null && d.deposito_minimo > fMin) return false;
+    if (fMax !== null && d.deposito_maximo !== null && d.deposito_maximo < fMax) return false;
+    return true;
+  });
+
+  filtered.sort((a, b) => sortAsc ? a.tanb - b.tanb : b.tanb - a.tanb);
+
+  renderDeposits(filtered);
+}
+
+function getBankAbbr(banco) {
+  if (!banco) return '??';
+  const map = {
+    'Activobank': 'ACTV', 'Caixa Geral de Depósitos': 'CGD', 'Caixa Geral Dep.': 'CGD',
+    'Banco BPI': 'BPI', 'BPI': 'BPI', 'Millennium BCP': 'BCP', 'BCP': 'BCP',
+    'Banco Santander': 'SNT', 'Santander': 'SNT', 'Novobanco': 'NVB',
+    'Banco CTT': 'CTT', 'CTT': 'CTT', 'Montepio': 'MTPO', 'Crédito Agrícola': 'CA'
+  };
+  return map[banco] || banco.substring(0,4).toUpperCase();
+}
+
+// Parse Portuguese number format: "5,00" → 5.0 | "3.600" → 3.6 | "1 000" → 1000
+function ptNum(val) {
+  if (val === null || val === undefined || val === '') return null;
+  const s = String(val).trim();
+  // If it has a comma → comma is decimal separator (e.g. "5,00" or "1.234,56")
+  if (s.includes(',')) {
+    return parseFloat(s.replace(/\./g, '').replace(',', '.'));
+  }
+  // If it has a dot → check if it looks like thousands sep (e.g. "3.600" = 3.6%, "50.000" = 50000)
+  // Heuristic: if digits after dot <= 3 AND value > 100 when taken literally → likely thousands sep
+  if (s.includes('.')) {
+    const direct = parseFloat(s.replace(/\s/g, ''));
+    const noThousands = parseFloat(s.replace(/\./g, '').replace(/\s/g, ''));
+    // For tax rates: value should be < 100. If direct parse gives e.g. 3.6 that's fine.
+    // "3.600" direct = 3.6 which is reasonable for a rate
+    // "50.000" direct = 50 which is reasonable for a rate too... 
+    // Better: if decimal part has exactly 3 digits → thousands separator
+    const parts = s.split('.');
+    if (parts.length === 2 && parts[1].replace(/\s/g,'').length === 3) {
+      // e.g. "3.600" → parts = ["3","600"] → 3 digits after dot → thousands sep → 3.6? No wait
+      // "3.600" as thousands = 3600, but as rate means 3.6%
+      // In the context of TANL: "3.600" means 3.600% (3 decimal places)
+      // So we should treat dot as decimal here for small numbers
+      if (direct < 100) return direct; // treat as decimal for rates
+      return noThousands; // treat as thousands for large numbers
+    }
+    return direct;
+  }
+  // No separators — could have spaces as thousands sep: "1 000" → 1000
+  return parseFloat(s.replace(/\s/g, '')) || null;
+}
+
+// Normalize row — maps exact Supabase column names to internal keys
+function normalizeRow(d) {
+  return {
+    id:               d.id || Math.random(),
+    banco:            d['Banco']             || '—',
+    prazo:            d['Prazo']             || '—',
+    unidade:          d['Dias /meses /anos'] || '',
+    nome_deposito:    d['Nome do Depósito']  || '—',
+    tanb:             ptNum(d['TANB'])       || 0,
+    tanl:             ptNum(d['TANL']),
+    tipo_taxa:        d['Tipo de Taxa']      || 'Fixa',
+    deposito_minimo:  ptNum(d['Depósito Mínimo']),
+    deposito_maximo:  ptNum(d['Depósito Máximo']),
+    mobilizacao:      d['Perda de juros com mobilização antecipada'] || '—',
+    novos_capitais:   d['Novos capitais?'] === 'Sim' || d['Novos capitais?'] === true || false,
+    novos_clientes:   d['Novos clientes?'] === 'Sim' || d['Novos clientes?'] === true || false,
+    outras:           d['Outras restrições?'] || '',
+    fin:              d['FIN (use o endereço)'] || '',
+    renovacoes:       d['Permite renovações?'] || '',
+    reforcos:         d['Permite reforços?']   || '',
+    data_conf:        d['Data Confirmação']    || '',
+  };
+}
+
+function renderDeposits(list) {
+  const container = document.getElementById('dp-list');
+  const countEl = document.getElementById('dp-count');
+  if (!container) return;
+
+  if (countEl) countEl.textContent = list.length + ' resultado' + (list.length !== 1 ? 's' : '');
+
+  if (list.length === 0) {
+    container.innerHTML = '<div class="empty-state">😕 Nenhum depósito corresponde aos filtros.</div>';
+    return;
+  }
+
+  // Update hero with best rate
+  const best = list[0];
+  const bestRateEl = document.getElementById('dp-best-rate');
+  const bestSubEl  = document.getElementById('dp-best-sub');
+  if (bestRateEl) bestRateEl.textContent = best.tanb.toFixed(2) + '%';
+  if (bestSubEl)  bestSubEl.textContent  = best.banco + ' · ' + best.prazo + ' ' + best.unidade + ' · líq: ' + (best.tanl || best.tanb * 0.72).toFixed(2) + '%';
+
+  container.innerHTML = list.map(d => {
+    const tanl           = d.tanl || parseFloat((d.tanb * 0.72).toFixed(2));
+    const retencao1k     = ((d.tanb - tanl) * 10).toFixed(2);
+    const jurosLiq1k     = (tanl * 10).toFixed(2);
+    const abbr           = getBankAbbr(d.banco);
+    const prazoStr       = d.prazo + (d.unidade ? ' ' + d.unidade : '');
+    const uid            = String(d.id).replace(/[^a-z0-9]/gi, '_');
+
+    return `<div class="dp-card" id="dp-card-${uid}">
+      <div class="dp-card-header" onclick="toggleDpCard('${uid}')">
+        <div class="dp-card-left">
+          <div class="dp-logo">${abbr}</div>
+          <div>
+            <div class="dp-name">${d.banco}</div>
+            <div class="dp-sub">${d.nome_deposito} · ${prazoStr}</div>
+          </div>
+        </div>
+        <div class="dp-rate-col">
+          <div class="dp-tanb">${d.tanb.toFixed(2)}%</div>
+          <div class="dp-tanl">líq. ${tanl.toFixed(2)}%</div>
+        </div>
+        <div class="dp-expand-icon">▾</div>
+      </div>
+      <div class="dp-details">
+        <div class="dp-detail-row"><span class="dp-dk">TANB (bruta)</span><span class="dp-dv">${d.tanb.toFixed(2)}%</span></div>
+        <div class="dp-detail-row"><span class="dp-dk">TANL (líquida após 28%)</span><span class="dp-dv green">${tanl.toFixed(2)}%</span></div>
+        <div class="dp-detail-row"><span class="dp-dk">Retenção Estado (por €1.000)</span><span class="dp-dv red">${retencao1k} €</span></div>
+        <div class="dp-detail-row"><span class="dp-dk">Juros líquidos (por €1.000)</span><span class="dp-dv">${jurosLiq1k} €</span></div>
+        <div class="dp-detail-row"><span class="dp-dk">Tipo de Taxa</span><span class="dp-dv">${d.tipo_taxa}</span></div>
+        <div class="dp-detail-row"><span class="dp-dk">Depósito Mínimo</span><span class="dp-dv">${d.deposito_minimo ? d.deposito_minimo.toLocaleString('pt-PT') + ' €' : '—'}</span></div>
+        <div class="dp-detail-row"><span class="dp-dk">Depósito Máximo</span><span class="dp-dv">${d.deposito_maximo ? d.deposito_maximo.toLocaleString('pt-PT') + ' €' : 'Sem limite'}</span></div>
+        <div class="dp-detail-row"><span class="dp-dk">Mobilização Antecipada</span><span class="dp-dv amber">${d.mobilizacao}</span></div>
+        <div class="dp-tags">
+          <span class="dp-tag ${d.novos_capitais ? 'green' : 'gray'}">${d.novos_capitais ? '✓' : '✗'} Novos Capitais</span>
+          <span class="dp-tag ${d.novos_clientes ? 'green' : 'gray'}">${d.novos_clientes ? '✓' : '✗'} Novos Clientes</span>
+        </div>
+        ${d.fin ? `<a class="dp-fin-link" href="${d.fin}" target="_blank">📄 Ver Ficha de Informação Normalizada →</a>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleDpCard(id) {
+  const card = document.getElementById('dp-card-' + id);
+  if (card) card.classList.toggle('open');
+}
+
+// Load deposits on first visit - called from showTab
+function maybeLoadDeposits(tabId) {
+  if (tabId === 'dep-prazo' && allDeposits.length === 0) loadDeposits();
+}
+
+</script>
 </body>
 </html>
