@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f1923">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LitFinanceira">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>Literacia Financeira</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -1651,6 +1657,14 @@ function renderEtfs() {
 
 function toggleEtfCard(uid) {
   document.getElementById('etf-card-' + uid)?.classList.toggle('open');
+}
+// ── PWA: registar service worker ─────────────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(reg => console.log('SW registado:', reg.scope))
+      .catch(err => console.warn('SW erro:', err));
+  });
 }
 </script>
 </body>
