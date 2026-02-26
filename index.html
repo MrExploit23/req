@@ -71,6 +71,18 @@
   .input-field:focus { border-color: var(--green); box-shadow: 0 0 0 3px var(--green-light); background: var(--white); }
   .input-unit { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 0.72rem; color: var(--muted); font-weight: 700; }
 
+  /* SELECT styled like input */
+  .select-field { width: 100%; background: var(--bg); border: 1.5px solid var(--border); border-radius: 12px; padding: 11px 14px; color: var(--text); font-family: 'Outfit', sans-serif; font-size: 0.88rem; font-weight: 600; outline: none; transition: border-color 0.2s; appearance: none; -webkit-appearance: none; cursor: pointer; }
+  .select-field:focus { border-color: var(--green); box-shadow: 0 0 0 3px var(--green-light); background: var(--white); }
+
+  /* subsection divider inside card */
+  .card-section-label { font-family: 'Syne', sans-serif; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--green); border-top: 1px solid var(--bg2); padding-top: 12px; margin: 12px 0 10px; }
+
+  /* checkbox */
+  .check-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
+  .check-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--green); cursor: pointer; flex-shrink: 0; border-radius: 4px; }
+  .check-row label { font-size: 0.82rem; color: var(--text); font-weight: 500; cursor: pointer; }
+
   .calc-btn { width: 100%; background: var(--navy); color: #fff; border: none; border-radius: 14px; padding: 14px; font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.2s; margin-top: 4px; letter-spacing: 0.03em; box-shadow: 0 6px 20px rgba(10,22,40,0.2); position: relative; overflow: hidden; }
   .calc-btn::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,200,150,0.5), transparent); }
   .calc-btn:active { transform: scale(0.98); }
@@ -79,31 +91,17 @@
   .result-box { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 11px 14px; }
   .result-box.highlight { background: var(--navy); border-color: var(--navy); }
   .result-box.highlight-red { background: rgba(255,61,107,0.08); border-color: rgba(255,61,107,0.2); }
+  .result-box.highlight-amber { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.2); }
   .result-label { font-size: 0.62rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
   .result-box.highlight .result-label { color: rgba(255,255,255,0.4); }
   .result-box.highlight-red .result-label { color: rgba(255,61,107,0.6); }
+  .result-box.highlight-amber .result-label { color: rgba(245,158,11,0.6); }
   .result-value { font-family: 'Syne', sans-serif; font-size: 0.98rem; font-weight: 800; color: var(--text); }
   .result-box.highlight .result-value { color: var(--green); }
   .result-box.highlight-red .result-value { color: var(--red); }
+  .result-box.highlight-amber .result-value { color: var(--amber); }
 
-  .chip-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
-  .chip { padding: 6px 13px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--bg); font-size: 0.72rem; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.2s; }
-  .chip.active { background: var(--green-light); border-color: var(--green); color: #008c69; }
-
-  .progress-bar { height: 6px; background: var(--bg2); border-radius: 3px; margin-top: 12px; overflow: hidden; }
-  .progress-fill { height: 100%; border-radius: 3px; background: var(--green); transition: width 0.8s cubic-bezier(0.4,0,0.2,1); }
-
-  /* DIVIDER */
-  .divider { height: 1px; background: var(--bg2); margin: 14px 0 10px; }
-
-  /* INFO BOX */
-  .info-box { background: rgba(0,200,150,0.06); border: 1px solid var(--border-green); border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; font-size: 0.75rem; color: #008c69; line-height: 1.5; }
-  .info-box strong { font-weight: 700; }
-
-  /* RETENTION TAG */
-  .retention-tag { display: inline-flex; align-items: center; gap: 4px; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.25); border-radius: 20px; padding: 3px 10px; font-size: 0.65rem; color: var(--amber); font-weight: 700; margin-left: 6px; }
-
-  /* MORTGAGE */
+  /* breakdown dark card */
   .mortgage-breakdown { background: var(--navy); border-radius: 18px; padding: 18px; margin-top: 12px; box-shadow: 0 8px 30px rgba(10,22,40,0.18); }
   .breakdown-title { font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700; color: rgba(255,255,255,0.5); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.08em; }
   .breakdown-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.8rem; }
@@ -114,7 +112,22 @@
   .breakdown-row .val.red { color: var(--red); }
   .breakdown-row .val.amber { color: var(--amber); }
 
-  /* PRODUCT RATE CARD */
+  .chip-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .chip { padding: 6px 13px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--bg); font-size: 0.72rem; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+  .chip.active { background: var(--green-light); border-color: var(--green); color: #008c69; }
+
+  .progress-bar { height: 6px; background: var(--bg2); border-radius: 3px; margin-top: 12px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 3px; background: var(--green); transition: width 0.8s cubic-bezier(0.4,0,0.2,1); }
+
+  .info-box { background: rgba(0,200,150,0.06); border: 1px solid var(--border-green); border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; font-size: 0.75rem; color: #008c69; line-height: 1.5; }
+  .info-box strong { font-weight: 700; }
+
+  .retention-tag { display: inline-flex; align-items: center; gap: 4px; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.25); border-radius: 20px; padding: 3px 10px; font-size: 0.65rem; color: var(--amber); font-weight: 700; margin-left: 6px; }
+
+  /* legal footnote */
+  .legal-note { font-size: 0.7rem; color: var(--muted); line-height: 1.5; margin-top: 12px; padding: 10px 12px; background: var(--bg2); border-radius: 10px; }
+
+  /* PRODUCT / RATE CARDS */
   .product-card { background: var(--white); border: 1px solid var(--border); border-radius: 18px; padding: 16px; margin-bottom: 10px; box-shadow: var(--shadow-sm); }
   .product-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
   .product-left { display: flex; align-items: center; gap: 12px; }
@@ -130,7 +143,6 @@
   .product-detail-row .dv.red { color: var(--red); }
   .product-detail-row .dv.amber { color: var(--amber); }
 
-  /* RATE CARDS (taxas) */
   .rate-card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 14px 16px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-sm); }
   .rate-left { display: flex; align-items: center; gap: 12px; }
   .rate-logo { width: 40px; height: 40px; border-radius: 12px; background: var(--navy); display: flex; align-items: center; justify-content: center; font-size: 0.62rem; font-weight: 800; color: var(--green); }
@@ -152,8 +164,6 @@
   .nav-icon { font-size: 1.05rem; }
   .nav-label { font-size: 0.58rem; font-weight: 700; font-family: 'Outfit', sans-serif; }
 
-
-  /* FILTER BLOCK */
   .filter-block { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 14px; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
   .filter-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
   .filter-toggle { display: flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--bg); font-size: 0.72rem; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.2s; white-space: nowrap; }
@@ -169,7 +179,6 @@
   .fi-unit { font-size: 0.65rem; color: var(--muted); font-weight: 700; }
   .results-count { font-size: 0.68rem; color: var(--muted); margin-top: 8px; text-align: right; }
 
-  /* DP CARD */
   .dp-card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 8px; box-shadow: var(--shadow-sm); overflow: hidden; }
   .dp-card-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; cursor: pointer; }
   .dp-card-left { display: flex; align-items: center; gap: 12px; }
@@ -194,11 +203,50 @@
   .dp-tag { padding: 3px 10px; border-radius: 20px; font-size: 0.62rem; font-weight: 700; }
   .dp-tag.green { background: var(--green-light); color: #008c69; border: 1px solid var(--border-green); }
   .dp-tag.gray { background: var(--bg2); color: var(--muted); border: 1px solid var(--border); }
-
   .dp-fin-link { display: flex; align-items: center; gap: 6px; margin-top: 10px; padding: 9px 14px; background: var(--navy); border-radius: 10px; color: var(--green); font-size: 0.75rem; font-weight: 600; text-decoration: none; }
-  .dp-fin-link:hover { opacity: 0.85; }
   .loading-state { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 0.85rem; }
   .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 0.85rem; }
+
+  .etf-filter-bar { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin-bottom: 10px; padding-bottom: 2px; }
+  .etf-filter-bar::-webkit-scrollbar { display: none; }
+  .etf-cat-btn { flex-shrink: 0; padding: 6px 14px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--white); font-size: 0.7rem; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .etf-cat-btn.active { background: var(--navy); border-color: var(--navy); color: var(--green); }
+
+  .etf-card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 8px; box-shadow: var(--shadow-sm); overflow: hidden; }
+  .etf-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; cursor: pointer; gap: 8px; }
+  .etf-logo { width: 40px; height: 40px; border-radius: 12px; background: var(--navy); display: flex; align-items: center; justify-content: center; font-size: 0.52rem; font-weight: 800; color: var(--green); text-align: center; line-height: 1.2; flex-shrink: 0; }
+  .etf-info { flex: 1; min-width: 0; }
+  .etf-name { font-weight: 700; font-size: 0.82rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .etf-sub  { font-size: 0.65rem; color: var(--muted); margin-top: 1px; }
+  .etf-right { text-align: right; flex-shrink: 0; }
+  .etf-price { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 800; color: var(--text); }
+  .etf-chg { font-size: 0.7rem; font-weight: 700; margin-top: 2px; }
+  .etf-chg.up   { color: var(--green); }
+  .etf-chg.down { color: var(--red); }
+  .etf-chg.flat { color: var(--muted); }
+  .etf-expand-icon { width: 22px; height: 22px; border-radius: 6px; background: var(--bg2); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: var(--muted); flex-shrink: 0; transition: transform 0.2s; }
+  .etf-card.open .etf-expand-icon { transform: rotate(180deg); }
+  .perf-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; padding: 10px 16px; background: var(--bg); border-top: 1px solid var(--bg2); }
+  .perf-box { text-align: center; }
+  .perf-label { font-size: 0.55rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; font-weight: 600; }
+  .perf-val { font-family: 'Syne', sans-serif; font-size: 0.78rem; font-weight: 800; }
+  .perf-val.up   { color: var(--green); }
+  .perf-val.down { color: var(--red); }
+  .perf-val.flat { color: var(--muted); }
+  .etf-details { display: none; border-top: 1px solid var(--bg2); padding: 12px 16px; background: var(--bg); }
+  .etf-card.open .etf-details { display: block; animation: fadeUp 0.2s ease; }
+  .etf-detail-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 0.78rem; }
+  .etf-detail-row:last-child { border-bottom: none; }
+  .etf-dk { color: var(--muted); }
+  .etf-dv { font-weight: 600; color: var(--text); }
+  .etf-dv.green { color: var(--green); }
+  .etf-dv.red   { color: var(--red); }
+  .etf-dv.amber { color: var(--amber); }
+  .etf-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .etf-tag { padding: 3px 10px; border-radius: 20px; font-size: 0.62rem; font-weight: 700; background: var(--bg2); color: var(--muted); border: 1px solid var(--border); }
+  .etf-tag.green { background: var(--green-light); color: #008c69; border-color: var(--border-green); }
+  .etf-tag.amber { background: rgba(245,158,11,0.1); color: var(--amber); border-color: rgba(245,158,11,0.25); }
+
   @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
@@ -220,51 +268,389 @@
 
   <div class="scroll-area">
 
-    <!-- ======== SIMULAR: SALÁRIO ======== -->
+    <!-- ======== SIMULAR: SALÁRIO IRS COMPLETO ======== -->
     <div class="tab-content active" id="tab-salario">
       <div class="hero-card">
         <div class="hero-label">Calculadora Fiscal</div>
         <div class="hero-value"><span class="accent" id="hero-liquido">—</span></div>
-        <div class="hero-sub">Salário líquido estimado mensal</div>
-        <div class="hero-badge">✦ Tabelas IRS 2025</div>
+        <div class="hero-sub" id="hero-sal-sub">Salário líquido estimado mensal</div>
+        <div class="hero-badge">✦ Tabelas IRS 2026 · Art. 99.º-C CIRS</div>
       </div>
+
+      <!-- Pessoal -->
       <div class="sim-card">
-        <div class="sim-card-title"><div class="sim-icon">💶</div>Salário Líquido</div>
-        <div class="input-group"><div class="input-label">Salário Bruto Mensal</div><div class="input-wrapper"><input class="input-field" type="number" id="sal-bruto" placeholder="2000" value="2000"><span class="input-unit">€</span></div></div>
-        <div class="chip-row" id="irs-chips">
-          <div class="chip active" onclick="selectChip(this,'irs-chips')">Solteiro</div>
-          <div class="chip" onclick="selectChip(this,'irs-chips')">Casado 1T</div>
-          <div class="chip" onclick="selectChip(this,'irs-chips')">Casado 2T</div>
+        <div class="sim-card-title"><div class="sim-icon">💶</div>Dados Pessoais e Salariais</div>
+
+        <div class="input-group">
+          <div class="input-label">Localização</div>
+          <select class="select-field" id="irs-localizacao">
+            <option value="continente">Continente</option>
+            <option value="ram">Região Autónoma da Madeira (RAM)</option>
+            <option value="raa">Região Autónoma dos Açores (RAA)</option>
+          </select>
         </div>
-        <div class="input-group"><div class="input-label">Dependentes</div><div class="input-wrapper"><input class="input-field" type="number" id="dependentes" placeholder="0" value="0" min="0"><span class="input-unit">#</span></div></div>
-        <button class="calc-btn" onclick="calcSalario()">Calcular Líquido</button>
-        <div class="result-grid" id="sal-results" style="display:none">
-          <div class="result-box highlight" style="grid-column:1/-1"><div class="result-label">Salário Líquido</div><div class="result-value" id="res-liquido">—</div></div>
-          <div class="result-box"><div class="result-label">Retenção IRS</div><div class="result-value" id="res-irs">—</div></div>
-          <div class="result-box"><div class="result-label">Seg. Social</div><div class="result-value" id="res-ss">—</div></div>
-          <div class="result-box" style="grid-column:1/-1"><div class="result-label">Total Descontos</div><div class="result-value" id="res-desc">—</div></div>
+
+        <div class="input-group">
+          <div class="input-label">Estado Civil</div>
+          <select class="select-field" id="irs-estadoCivil">
+            <option value="nc_c2t">Não Casado / Casado 2 Titulares</option>
+            <option value="c1t">Casado 1 Titular</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">Nº de Dependentes</div>
+          <div class="input-wrapper">
+            <input class="input-field" type="number" id="irs-dependentes" value="0" min="0" max="10">
+            <span class="input-unit">#</span>
+          </div>
+        </div>
+
+        <div class="check-row">
+          <input type="checkbox" id="irs-incapacidade">
+          <label for="irs-incapacidade">Incapacidade ≥ 60% (fator 0.85)</label>
+        </div>
+
+        <div class="card-section-label">Rendimentos Mensais</div>
+
+        <div class="input-group">
+          <div class="input-label">Vencimento Base Bruto</div>
+          <div class="input-wrapper">
+            <input class="input-field" type="number" id="irs-base" value="1500" step="0.01">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">Horas Extra / Retrib. Extraordinária <span class="retention-tag">Ret. Autónoma</span></div>
+          <div class="input-wrapper">
+            <input class="input-field" type="number" id="irs-extras" value="0" step="0.01">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">Outros Rendimentos Sujeitos (Prémios…)</div>
+          <div class="input-wrapper">
+            <input class="input-field" type="number" id="irs-outros" value="0" step="0.01">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">Rendimentos Isentos (Ajudas de custo…)</div>
+          <div class="input-wrapper">
+            <input class="input-field" type="number" id="irs-isentos" value="0" step="0.01">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+
+        <div class="card-section-label">Subsídio de Alimentação</div>
+
+        <div class="input-group">
+          <div class="input-label">Valor por Dia</div>
+          <div class="input-wrapper">
+            <input class="input-field" type="number" id="irs-subAlimValor" value="6.00" step="0.01">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">Dias Trabalhados</div>
+          <div class="input-wrapper">
+            <input class="input-field" type="number" id="irs-subAlimDias" value="22">
+            <span class="input-unit">dias</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">Forma de Pagamento</div>
+          <select class="select-field" id="irs-tipoPagAlim">
+            <option value="cartao">Cartão / Vale (isento até 9,60 €)</option>
+            <option value="dinheiro">Dinheiro (isento até 6,00 €)</option>
+          </select>
+        </div>
+
+        <div class="card-section-label">Subsídios de Férias / Natal</div>
+
+        <div class="input-group">
+          <div class="input-label">Pagamento em Duodécimos <span class="retention-tag">Ret. Autónoma</span></div>
+          <select class="select-field" id="irs-duodecimos">
+            <option value="0">Pagamento por inteiro (0%)</option>
+            <option value="50">50% em Duodécimos</option>
+            <option value="100">100% em Duodécimos</option>
+          </select>
+        </div>
+
+        <div class="card-section-label">Segurança Social</div>
+
+        <div class="input-group">
+          <div class="input-label">Taxa SS Trabalhador</div>
+          <div class="input-wrapper">
+            <input class="input-field" type="number" id="irs-taxaSS" value="11" step="0.1">
+            <span class="input-unit">%</span>
+          </div>
+        </div>
+
+        <button class="calc-btn" onclick="calcSalarioCompleto()">Calcular Salário Líquido</button>
+      </div>
+
+      <!-- RESULTADOS -->
+      <div id="irs-results-block" style="display:none">
+        <p class="section-title">Processamento Salarial</p>
+
+        <!-- Bruto -->
+        <div class="result-grid">
+          <div class="result-box" style="grid-column:1/-1">
+            <div class="result-label">Vencimento Base</div>
+            <div class="result-value" id="rr-base">—</div>
+          </div>
+          <div class="result-box" id="rr-box-extras" style="display:none">
+            <div class="result-label">Horas Extra</div>
+            <div class="result-value" id="rr-extras">—</div>
+          </div>
+          <div class="result-box" id="rr-box-duo" style="display:none">
+            <div class="result-label">Duodécimos</div>
+            <div class="result-value" id="rr-duo">—</div>
+          </div>
+          <div class="result-box">
+            <div class="result-label">Sub. Alimentação</div>
+            <div class="result-value" id="rr-subAlim">—</div>
+          </div>
+          <div class="result-box" id="rr-box-trib" style="display:none">
+            <div class="result-label">↳ Parte Tributável</div>
+            <div class="result-value" style="color:var(--amber)" id="rr-subAlimTrib">—</div>
+          </div>
+        </div>
+
+        <div class="mortgage-breakdown" style="margin-top:10px">
+          <div class="breakdown-title">Resumo Mensal Completo</div>
+          <div class="breakdown-row"><span class="key">Total Bruto</span><span class="val" id="bd-totalBruto">—</span></div>
+          <div class="breakdown-row"><span class="key">Base de Incidência SS</span><span class="val" id="bd-baseSS">—</span></div>
+          <div class="breakdown-row"><span class="key">Segurança Social (<span id="bd-taxaSS-pct">11%</span>)</span><span class="val red" id="bd-ss">—</span></div>
+          <div class="breakdown-row"><span class="key">Base de Escalão IRS</span><span class="val" id="bd-baseIRS">—</span></div>
+          <div class="breakdown-row"><span class="key">Taxa IRS aplicada</span><span class="val amber" id="bd-taxaIRS">—</span></div>
+          <div class="breakdown-row"><span class="key">IRS Base Normal</span><span class="val red" id="bd-irsBase">—</span></div>
+          <div class="breakdown-row" id="bd-row-irsExtras" style="display:none"><span class="key">IRS Horas Extra (Autón.)</span><span class="val red" id="bd-irsExtras">—</span></div>
+          <div class="breakdown-row" id="bd-row-irsDuo" style="display:none"><span class="key">IRS Duodécimos (Autón.)</span><span class="val red" id="bd-irsDuo">—</span></div>
+          <div class="breakdown-row"><span class="key">Total IRS</span><span class="val red" id="bd-totalIRS">—</span></div>
+          <div class="breakdown-row"><span class="key">Total Descontos</span><span class="val red" id="bd-totalDesc">—</span></div>
+          <div class="breakdown-row"><span class="key">Salário Líquido</span><span class="val green" id="bd-liquido">—</span></div>
+          <div class="breakdown-row"><span class="key">Taxa Efectiva Total</span><span class="val amber" id="bd-taxaEfetiva">—</span></div>
+        </div>
+
+        <!-- destaque final -->
+        <div class="result-grid" style="margin-top:10px">
+          <div class="result-box highlight" style="grid-column:1/-1">
+            <div class="result-label">Salário Líquido Estimado</div>
+            <div class="result-value" id="rr-liquido">—</div>
+          </div>
+          <div class="result-box highlight-red">
+            <div class="result-label">Total Descontos</div>
+            <div class="result-value" id="rr-descontos">—</div>
+          </div>
+          <div class="result-box highlight-amber">
+            <div class="result-label">Taxa Efectiva</div>
+            <div class="result-value" id="rr-taxaEfetiva">—</div>
+          </div>
+        </div>
+
+        <div class="legal-note">
+          ⚖️ Fórmula AT: <strong>Remuneração × Taxa − Parcela a abater − (Adicional × Dependentes)</strong><br>
+          Horas extra e duodécimos sujeitos a retenção autónoma (Art. 99.º-C n.º 5 CIRS), à taxa marginal do escalão do rendimento base.
         </div>
       </div>
     </div>
 
-    <!-- ======== SIMULAR: TAXA ESFORÇO ======== -->
+    <!-- ======== SIMULAR: TAXA ESFORÇO / DSTI / LTV ======== -->
     <div class="tab-content" id="tab-esforco">
       <div class="hero-card">
-        <div class="hero-label">Saúde Financeira</div>
+        <div class="hero-label">Análise Bancária de Crédito</div>
         <div class="hero-value"><span class="accent" id="hero-esforco">—</span></div>
-        <div class="hero-sub">Taxa de esforço dos teus créditos</div>
-        <div class="hero-badge">📊 Recomendado ≤ 33%</div>
+        <div class="hero-sub" id="hero-esforco-sub">Taxa de esforço · DSTI · LTV</div>
+        <div class="hero-badge">🏦 Regulação Banco de Portugal</div>
       </div>
+
+      <!-- TITULAR 1 -->
       <div class="sim-card">
-        <div class="sim-card-title"><div class="sim-icon">📊</div>Taxa de Esforço</div>
-        <div class="input-group"><div class="input-label">Rendimento Líquido Mensal</div><div class="input-wrapper"><input class="input-field" type="number" id="esf-rend" placeholder="1500"><span class="input-unit">€</span></div></div>
-        <div class="input-group"><div class="input-label">Total de Prestações de Crédito</div><div class="input-wrapper"><input class="input-field" type="number" id="esf-prest" placeholder="400"><span class="input-unit">€</span></div></div>
-        <button class="calc-btn" onclick="calcEsforco()">Calcular Taxa</button>
-        <div class="result-grid" id="esf-results" style="display:none">
-          <div class="result-box highlight" style="grid-column:1/-1"><div class="result-label">Taxa de Esforço</div><div class="result-value" id="res-esforco">—</div></div>
-          <div class="result-box" style="grid-column:1/-1"><div class="result-label">Avaliação</div><div class="result-value" id="esf-status">—</div></div>
+        <div class="sim-card-title"><div class="sim-icon">👤</div>Titular 1</div>
+
+        <div class="input-group">
+          <div class="input-label">Nome</div>
+          <input class="input-field" type="text" id="esf-nome1" placeholder="Nome do Titular 1" style="padding:11px 14px;">
         </div>
-        <div class="progress-bar" id="esf-bar" style="display:none"><div class="progress-fill" id="esf-fill" style="width:0%"></div></div>
+
+        <div class="input-group">
+          <div class="input-label">Data de Nascimento <span style="font-size:0.65rem;color:var(--amber);font-weight:700;margin-left:4px;">↳ limita prazo máximo</span></div>
+          <input class="input-field" type="date" id="esf-dn1" style="padding:11px 14px;" onchange="esf_atualizarPrazo()">
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">Salário Líquido Mensal</div>
+          <div class="input-wrapper">
+            <input class="input-field" type="number" id="esf-rend1" placeholder="1500" step="100">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">Outras Prestações Mensais (créditos existentes)</div>
+          <div class="input-wrapper">
+            <input class="input-field" type="number" id="esf-op1" value="0" step="10">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">Outros Encargos Mensais</div>
+          <div class="input-wrapper">
+            <input class="input-field" type="number" id="esf-enc1" value="0" step="10">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TITULAR 2 (opcional) -->
+      <div class="sim-card">
+        <div class="sim-card-title"><div class="sim-icon">👤</div>Titular 2 <span style="font-size:0.65rem;color:var(--muted);font-weight:500;margin-left:4px;">(opcional)</span></div>
+
+        <div class="input-group">
+          <div class="input-label">Nome</div>
+          <input class="input-field" type="text" id="esf-nome2" placeholder="Nome do Titular 2 (opcional)" style="padding:11px 14px;">
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">Data de Nascimento</div>
+          <input class="input-field" type="date" id="esf-dn2" style="padding:11px 14px;" onchange="esf_atualizarPrazo()">
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">Salário Líquido Mensal</div>
+          <div class="input-wrapper">
+            <input class="input-field" type="number" id="esf-rend2" value="0" step="100">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">Outras Prestações Mensais</div>
+          <div class="input-wrapper">
+            <input class="input-field" type="number" id="esf-op2" value="0" step="10">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">Encargos Mútuos Mensais <span style="font-size:0.62rem;color:var(--muted)">(não contados 2×)</span></div>
+          <div class="input-wrapper">
+            <input class="input-field" type="number" id="esf-encMutuos" value="0" step="10">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- IMÓVEL E EMPRÉSTIMO -->
+      <div class="sim-card">
+        <div class="sim-card-title"><div class="sim-icon">🏠</div>Imóvel e Empréstimo</div>
+
+        <div class="input-group">
+          <div class="input-label">Valor do Imóvel</div>
+          <div class="input-wrapper">
+            <input class="input-field" type="number" id="esf-vImovel" placeholder="200000" step="1000">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">Montante do Empréstimo</div>
+          <div class="input-wrapper">
+            <input class="input-field" type="number" id="esf-montante" placeholder="160000" step="1000">
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">Taxa de Juro Anual</div>
+          <div class="input-wrapper">
+            <input class="input-field" type="number" id="esf-taxa" placeholder="3.65" step="0.01" value="3.65">
+            <span class="input-unit">%</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">Prazo do Empréstimo</div>
+          <div class="input-wrapper">
+            <input class="input-field" type="number" id="esf-prazo" placeholder="360" step="1" value="360" min="12" max="480">
+            <span class="input-unit">meses</span>
+          </div>
+          <div id="esf-prazo-info" style="font-size:0.7rem;color:var(--green);margin-top:5px;padding:6px 10px;background:var(--green-light);border-radius:8px;display:none;font-weight:600;"></div>
+        </div>
+
+        <button class="calc-btn" onclick="calcEsforco()">Calcular DSTI · Taxa de Esforço · LTV</button>
+      </div>
+
+      <!-- RESULTADOS -->
+      <div id="esf-results-block" style="display:none">
+        <p class="section-title">Resultados da Análise</p>
+
+        <!-- Métricas principais -->
+        <div class="result-grid">
+          <div class="result-box" id="esf-box-te">
+            <div class="result-label">Taxa de Esforço</div>
+            <div class="result-value" id="res-esforco">—</div>
+            <div class="progress-bar" style="margin-top:8px"><div class="progress-fill" id="esf-fill-te" style="width:0%"></div></div>
+            <div style="font-size:0.62rem;color:var(--muted);margin-top:4px;">Limite recomendado: 60%</div>
+          </div>
+          <div class="result-box" id="esf-box-dsti">
+            <div class="result-label">DSTI (c/ stress +1.5%)</div>
+            <div class="result-value" id="res-dsti">—</div>
+            <div class="progress-bar" style="margin-top:8px"><div class="progress-fill" id="esf-fill-dsti" style="width:0%"></div></div>
+            <div style="font-size:0.62rem;color:var(--muted);margin-top:4px;">Limite BdP: 50%</div>
+          </div>
+          <div class="result-box" id="esf-box-ltv" style="grid-column:1/-1">
+            <div class="result-label">LTV — Loan-to-Value</div>
+            <div class="result-value" id="res-ltv">—</div>
+            <div class="progress-bar" style="margin-top:8px"><div class="progress-fill" id="esf-fill-ltv" style="width:0%"></div></div>
+            <div style="font-size:0.62rem;color:var(--muted);margin-top:4px;">Limite BdP: 90% (habitação própria)</div>
+          </div>
+        </div>
+
+        <div class="mortgage-breakdown" style="margin-top:10px">
+          <div class="breakdown-title">Detalhe do Cálculo</div>
+          <div class="breakdown-row"><span class="key">Prestação Mensal</span><span class="val green" id="bd-esf-prest">—</span></div>
+          <div class="breakdown-row"><span class="key">Prestação c/ Stress (+1,5%)</span><span class="val amber" id="bd-esf-prestStress">—</span></div>
+          <div class="breakdown-row"><span class="key">Rendimento Total Mensal</span><span class="val" id="bd-esf-rendTotal">—</span></div>
+          <div class="breakdown-row"><span class="key">Rendimento Ajustado (idade)</span><span class="val" id="bd-esf-rendAjust">—</span></div>
+          <div class="breakdown-row"><span class="key">Prazo Máximo BdP</span><span class="val amber" id="bd-esf-prazoMax">—</span></div>
+          <div class="breakdown-row"><span class="key">Taxa de Esforço</span><span class="val" id="bd-esf-te">—</span></div>
+          <div class="breakdown-row"><span class="key">DSTI</span><span class="val" id="bd-esf-dsti">—</span></div>
+          <div class="breakdown-row"><span class="key">LTV</span><span class="val" id="bd-esf-ltv">—</span></div>
+        </div>
+
+        <!-- Montantes máximos -->
+        <p class="section-title" style="margin-top:14px">Montantes Máximos de Empréstimo</p>
+        <div class="result-grid">
+          <div class="result-box">
+            <div class="result-label">Por Taxa Esforço (60%)</div>
+            <div class="result-value" id="res-maxTE">—</div>
+          </div>
+          <div class="result-box">
+            <div class="result-label">Por DSTI (50%)</div>
+            <div class="result-value" id="res-maxDSTI">—</div>
+          </div>
+          <div class="result-box">
+            <div class="result-label">Por LTV (90%)</div>
+            <div class="result-value" id="res-maxLTV">—</div>
+          </div>
+          <div class="result-box highlight" style="grid-column:1/-1">
+            <div class="result-label">Montante Máximo Recomendado</div>
+            <div class="result-value" id="res-maxRec">—</div>
+          </div>
+        </div>
+
+        <div class="legal-note">
+          ⚖️ DSTI calculado com teste de stress <strong>+1,5%</strong> sobre a taxa actual, conforme Aviso BdP n.º 4/2017. O rendimento é ajustado para a fracção do prazo após os 70 anos do titular mais velho (fator 0,8). Prazo máximo limitado a 75 anos de idade e pelas regras de faixas etárias do BdP.
+        </div>
       </div>
     </div>
 
@@ -292,7 +678,7 @@
       </div>
     </div>
 
-    <!-- ======== SIMULAR: POUPANÇA (simulator) ======== -->
+    <!-- ======== SIMULAR: POUPANÇA ======== -->
     <div class="tab-content" id="tab-sim-poupanca">
       <div class="hero-card">
         <div class="hero-label">Simulador de Poupança</div>
@@ -302,21 +688,11 @@
       </div>
       <div class="sim-card">
         <div class="sim-card-title"><div class="sim-icon">🏦</div>Poupança com Juro Composto</div>
-
-        <div class="info-box">💡 Os juros de poupanças são sujeitos a <strong>retenção na fonte de 28%</strong> em Portugal. A capitalização aplica retenção em cada período.</div>
-
+        <div class="info-box">💡 Os juros de poupanças são sujeitos a <strong>retenção na fonte de 28%</strong> em Portugal.</div>
         <div class="input-group"><div class="input-label">Capital Inicial</div><div class="input-wrapper"><input class="input-field" type="number" id="p-capital" placeholder="5000" value="5000"><span class="input-unit">€</span></div></div>
         <div class="input-group"><div class="input-label">Depósito Mensal Adicional</div><div class="input-wrapper"><input class="input-field" type="number" id="p-mensal" placeholder="200" value="200"><span class="input-unit">€</span></div></div>
         <div class="input-group"><div class="input-label">Taxa de Juro Bruta Anual</div><div class="input-wrapper"><input class="input-field" type="number" id="p-taxa" placeholder="3.5" value="3.5" step="0.1"><span class="input-unit">%</span></div></div>
-
-        <div class="input-group">
-          <div class="input-label">
-            Taxa de Retenção na Fonte
-            <span class="retention-tag">⚠️ Estado fica</span>
-          </div>
-          <div class="input-wrapper"><input class="input-field" type="number" id="p-retencao" placeholder="28" value="28" step="1"><span class="input-unit">%</span></div>
-        </div>
-
+        <div class="input-group"><div class="input-label">Taxa de Retenção na Fonte <span class="retention-tag">⚠️ Estado fica</span></div><div class="input-wrapper"><input class="input-field" type="number" id="p-retencao" placeholder="28" value="28" step="1"><span class="input-unit">%</span></div></div>
         <div class="input-group"><div class="input-label">Capitalização dos Juros</div></div>
         <div class="chip-row" id="p-cap-chips">
           <div class="chip" onclick="selectChip(this,'p-cap-chips')">Mensal</div>
@@ -324,11 +700,8 @@
           <div class="chip active" onclick="selectChip(this,'p-cap-chips')">6 Meses</div>
           <div class="chip" onclick="selectChip(this,'p-cap-chips')">12 Meses</div>
         </div>
-
         <div class="input-group"><div class="input-label">Período Total</div><div class="input-wrapper"><input class="input-field" type="number" id="p-anos" placeholder="5" value="5"><span class="input-unit">anos</span></div></div>
-
         <button class="calc-btn" onclick="calcPoupanca()">Calcular Poupança</button>
-
         <div id="p-results" style="display:none">
           <div class="result-grid">
             <div class="result-box highlight" style="grid-column:1/-1"><div class="result-label">Valor Final Líquido</div><div class="result-value" id="res-p-liquido">—</div></div>
@@ -358,23 +731,13 @@
       </div>
       <div class="sim-card">
         <div class="sim-card-title"><div class="sim-icon">📈</div>Simulador de Investimento</div>
-
-        <div class="info-box">💡 Mais-valias e dividendos de fundos/ações estão sujeitos a <strong>28% de imposto</strong> em Portugal (ou englobamento).</div>
-
+        <div class="info-box">💡 Mais-valias e dividendos sujeitos a <strong>28% de imposto</strong> em Portugal.</div>
         <div class="input-group"><div class="input-label">Capital Investido</div><div class="input-wrapper"><input class="input-field" type="number" id="inv-capital" placeholder="10000" value="10000"><span class="input-unit">€</span></div></div>
         <div class="input-group"><div class="input-label">Reforço Mensal</div><div class="input-wrapper"><input class="input-field" type="number" id="inv-mensal" placeholder="0" value="0"><span class="input-unit">€</span></div></div>
         <div class="input-group"><div class="input-label">Rentabilidade Anual Bruta</div><div class="input-wrapper"><input class="input-field" type="number" id="inv-taxa" placeholder="7" value="7" step="0.5"><span class="input-unit">%</span></div></div>
-        <div class="input-group">
-          <div class="input-label">
-            Taxa de Retenção / Imposto
-            <span class="retention-tag">⚠️ Estado fica</span>
-          </div>
-          <div class="input-wrapper"><input class="input-field" type="number" id="inv-retencao" placeholder="28" value="28" step="1"><span class="input-unit">%</span></div>
-        </div>
+        <div class="input-group"><div class="input-label">Taxa de Retenção / Imposto <span class="retention-tag">⚠️ Estado fica</span></div><div class="input-wrapper"><input class="input-field" type="number" id="inv-retencao" placeholder="28" value="28" step="1"><span class="input-unit">%</span></div></div>
         <div class="input-group"><div class="input-label">Horizonte Temporal</div><div class="input-wrapper"><input class="input-field" type="number" id="inv-anos" placeholder="20" value="20"><span class="input-unit">anos</span></div></div>
-
         <button class="calc-btn" onclick="calcInvestimento()">Simular Investimento</button>
-
         <div id="inv-results" style="display:none">
           <div class="result-grid">
             <div class="result-box highlight" style="grid-column:1/-1"><div class="result-label">Valor Final Líquido</div><div class="result-value" id="res-inv-liq">—</div></div>
@@ -422,9 +785,7 @@
         <div class="hero-sub" id="dp-best-sub">A carregar...</div>
         <div class="hero-badge">⚠️ Retenção 28% sobre juros</div>
       </div>
-
       <div class="info-box">⚠️ Juros sujeitos a <strong>retenção na fonte de 28%</strong>. A TANL é o que efetivamente recebes.</div>
-
       <div class="filter-block">
         <div class="filter-row">
           <div class="filter-toggle" id="ft-novos-capitais" onclick="toggleFilter('novos_capitais')"><div class="ft-dot"></div><span class="ft-label">Novos Capitais</span></div>
@@ -432,71 +793,15 @@
           <div class="sort-btn" onclick="toggleSort()" id="sort-btn">↓ TANB</div>
         </div>
         <div class="filter-row" style="gap:8px;margin-top:8px;">
-          <div class="filter-input-wrap">
-            <span class="fi-label">Dep. Mín. ≤</span>
-            <input class="fi-input" type="number" id="f-dep-min" placeholder="ex: 1000" oninput="applyFilters()">
-            <span class="fi-unit">€</span>
-          </div>
-          <div class="filter-input-wrap">
-            <span class="fi-label">Dep. Máx. ≥</span>
-            <input class="fi-input" type="number" id="f-dep-max" placeholder="ex: 50000" oninput="applyFilters()">
-            <span class="fi-unit">€</span>
-          </div>
+          <div class="filter-input-wrap"><span class="fi-label">Dep. Mín. ≤</span><input class="fi-input" type="number" id="f-dep-min" placeholder="ex: 1000" oninput="applyFilters()"><span class="fi-unit">€</span></div>
+          <div class="filter-input-wrap"><span class="fi-label">Dep. Máx. ≥</span><input class="fi-input" type="number" id="f-dep-max" placeholder="ex: 50000" oninput="applyFilters()"><span class="fi-unit">€</span></div>
         </div>
         <div class="results-count" id="dp-count"></div>
       </div>
-
       <div id="dp-list"><div class="loading-state">⏳ A carregar depósitos...</div></div>
     </div>
 
-    <!-- PLACEHOLDER removed old cards -->
-    <div style="display:none" id="dp-placeholder">
-
-      <div class="product-card">
-        <div class="product-header">
-          <div class="product-left"><div class="product-logo">ACTV</div><div><div class="product-name">Activobank</div><div class="product-type">Poupança Online · 12M</div></div></div>
-          <div><div class="product-rate">3.50%</div><div class="product-rate-label">TANB bruta</div></div>
-        </div>
-        <div class="product-detail-row"><span class="dk">Taxa Líquida (após 28%)</span><span class="dv green">2.52%</span></div>
-        <div class="product-detail-row"><span class="dk">Retenção Estado (por €1.000)</span><span class="dv red">9.80 €</span></div>
-        <div class="product-detail-row"><span class="dk">Juros Líquidos (por €1.000)</span><span class="dv">25.20 €</span></div>
-        <div class="product-detail-row"><span class="dk">Capitalização</span><span class="dv">No vencimento</span></div>
-      </div>
-
-      <div class="product-card">
-        <div class="product-header">
-          <div class="product-left"><div class="product-logo">CGD</div><div><div class="product-name">Caixa Geral Dep.</div><div class="product-type">Depósito a Prazo · 12M</div></div></div>
-          <div><div class="product-rate">3.25%</div><div class="product-rate-label">TANB bruta</div></div>
-        </div>
-        <div class="product-detail-row"><span class="dk">Taxa Líquida (após 28%)</span><span class="dv green">2.34%</span></div>
-        <div class="product-detail-row"><span class="dk">Retenção Estado (por €1.000)</span><span class="dv red">9.10 €</span></div>
-        <div class="product-detail-row"><span class="dk">Juros Líquidos (por €1.000)</span><span class="dv">23.40 €</span></div>
-        <div class="product-detail-row"><span class="dk">Capitalização</span><span class="dv">No vencimento</span></div>
-      </div>
-
-      <div class="product-card">
-        <div class="product-header">
-          <div class="product-left"><div class="product-logo">BPI</div><div><div class="product-name">Banco BPI</div><div class="product-type">Depósito a Prazo · 12M</div></div></div>
-          <div><div class="product-rate">3.00%</div><div class="product-rate-label">TANB bruta</div></div>
-        </div>
-        <div class="product-detail-row"><span class="dk">Taxa Líquida (após 28%)</span><span class="dv green">2.16%</span></div>
-        <div class="product-detail-row"><span class="dk">Retenção Estado (por €1.000)</span><span class="dv red">8.40 €</span></div>
-        <div class="product-detail-row"><span class="dk">Juros Líquidos (por €1.000)</span><span class="dv">21.60 €</span></div>
-        <div class="product-detail-row"><span class="dk">Capitalização</span><span class="dv">No vencimento</span></div>
-      </div>
-
-      <div class="product-card" style="margin-bottom:20px">
-        <div class="product-header">
-          <div class="product-left"><div class="product-logo">BCP</div><div><div class="product-name">Millennium BCP</div><div class="product-type">Depósito a Prazo · 12M</div></div></div>
-          <div><div class="product-rate">2.85%</div><div class="product-rate-label">TANB bruta</div></div>
-        </div>
-        <div class="product-detail-row"><span class="dk">Taxa Líquida (após 28%)</span><span class="dv green">2.05%</span></div>
-        <div class="product-detail-row"><span class="dk">Retenção Estado (por €1.000)</span><span class="dv red">7.98 €</span></div>
-        <div class="product-detail-row"><span class="dk">Juros Líquidos (por €1.000)</span><span class="dv">20.52 €</span></div>
-        <div class="product-detail-row"><span class="dk">Capitalização</span><span class="dv">No vencimento</span></div>
-</div>
-
-    <!-- ======== POUPANÇA: CERTIFICADOS / DÍVIDA PÚBLICA ======== -->
+    <!-- ======== POUPANÇA: CERTIFICADOS ======== -->
     <div class="tab-content" id="tab-certificados">
       <div class="hero-card">
         <div class="hero-label">Dívida Pública Portuguesa</div>
@@ -504,11 +809,8 @@
         <div class="hero-sub">Certificados de Aforro · Série E · líquido: 2.52%</div>
         <div class="hero-badge">🇵🇹 Garantido pelo Estado</div>
       </div>
-
       <div class="info-box">⚠️ Os Certificados de Aforro e do Tesouro também estão sujeitos a <strong>retenção na fonte de 28%</strong> sobre os juros creditados.</div>
-
       <p class="section-title">Certificados de Aforro</p>
-
       <div class="product-card">
         <div class="product-header">
           <div class="product-left"><div class="product-logo">CA</div><div><div class="product-name">Certificados de Aforro</div><div class="product-type">Série E — capitalização anual</div></div></div>
@@ -520,9 +822,7 @@
         <div class="product-detail-row"><span class="dk">Prazo Mínimo</span><span class="dv">3 meses</span></div>
         <div class="product-detail-row"><span class="dk">Garantia</span><span class="dv green">Estado Português</span></div>
       </div>
-
       <p class="section-title">Certificados do Tesouro</p>
-
       <div class="product-card" style="margin-bottom:20px">
         <div class="product-header">
           <div class="product-left"><div class="product-logo">CT</div><div><div class="product-name">Certificados do Tesouro</div><div class="product-type">CTPP — 10 anos</div></div></div>
@@ -537,51 +837,27 @@
       </div>
     </div>
 
-    <!-- ======== POUPANÇA: FUNDOS ======== -->
+    <!-- ======== POUPANÇA: ETFs ======== -->
     <div class="tab-content" id="tab-fundos">
-      <div class="hero-card">
-        <div class="hero-label">Fundos de Investimento</div>
-        <div class="hero-value">Retorno <span class="accent">variável</span></div>
-        <div class="hero-sub">Rentabilidade histórica e tributação</div>
-        <div class="hero-badge">📊 Imposto 28% sobre mais-valias</div>
+      <div class="hero-card" id="etf-hero">
+        <div class="hero-label">ETFs Disponíveis</div>
+        <div class="hero-value"><span class="accent" id="etf-hero-val">—</span></div>
+        <div class="hero-sub" id="etf-hero-sub">A carregar...</div>
+        <div class="hero-badge">⚠️ 28% imposto sobre mais-valias</div>
       </div>
-
-      <div class="info-box">⚠️ As mais-valias e dividendos de fundos estão sujeitos a <strong>28% de imposto</strong> em Portugal. ETFs domiciliados na Irlanda/Luxemburgo podem ter retenção adicional na fonte.</div>
-
-      <p class="section-title">Fundos / ETFs Populares em Portugal</p>
-
-      <div class="product-card">
-        <div class="product-header">
-          <div class="product-left"><div class="product-logo" style="font-size:0.5rem">VWCE</div><div><div class="product-name">Vanguard FTSE All-World</div><div class="product-type">ETF Acumulação · IE</div></div></div>
-          <div><div class="product-rate">~9%</div><div class="product-rate-label">retorno médio</div></div>
-        </div>
-        <div class="product-detail-row"><span class="dk">Retenção dividendos (IE→PT)</span><span class="dv amber">15% + 28%</span></div>
-        <div class="product-detail-row"><span class="dk">Imposto Mais-valias</span><span class="dv red">28%</span></div>
-        <div class="product-detail-row"><span class="dk">TER (custo anual)</span><span class="dv">0.22%</span></div>
-        <div class="product-detail-row"><span class="dk">Distribuição</span><span class="dv">Acumulação</span></div>
+      <div class="info-box">⚠️ Mais-valias e dividendos sujeitos a <strong>28% de imposto</strong>. ETFs domiciliados na Irlanda têm retenção adicional na fonte.</div>
+      <div class="etf-filter-bar" id="etf-cat-bar">
+        <button class="etf-cat-btn active" onclick="filterEtfCat('Todos', this)">Todos</button>
+        <button class="etf-cat-btn" onclick="filterEtfCat('Global', this)">Global</button>
+        <button class="etf-cat-btn" onclick="filterEtfCat('EUA', this)">EUA</button>
+        <button class="etf-cat-btn" onclick="filterEtfCat('Europa', this)">Europa</button>
+        <button class="etf-cat-btn" onclick="filterEtfCat('Emergentes', this)">Emergentes</button>
+        <button class="etf-cat-btn" onclick="filterEtfCat('Obrigações', this)">Obrigações</button>
+        <button class="etf-cat-btn" onclick="filterEtfCat('Dividendos', this)">Dividendos</button>
+        <button class="etf-cat-btn" onclick="filterEtfCat('Factor', this)">Factor</button>
+        <button class="etf-cat-btn" onclick="filterEtfCat('Temático', this)">Temático</button>
       </div>
-
-      <div class="product-card">
-        <div class="product-header">
-          <div class="product-left"><div class="product-logo" style="font-size:0.5rem">IWDA</div><div><div class="product-name">iShares Core MSCI World</div><div class="product-type">ETF Acumulação · IE</div></div></div>
-          <div><div class="product-rate">~10%</div><div class="product-rate-label">retorno médio</div></div>
-        </div>
-        <div class="product-detail-row"><span class="dk">Imposto Mais-valias</span><span class="dv red">28%</span></div>
-        <div class="product-detail-row"><span class="dk">TER (custo anual)</span><span class="dv">0.20%</span></div>
-        <div class="product-detail-row"><span class="dk">Distribuição</span><span class="dv">Acumulação</span></div>
-      </div>
-
-      <div class="product-card">
-        <div class="product-header">
-          <div class="product-left"><div class="product-logo" style="font-size:0.5rem">PPR</div><div><div class="product-name">PPR — Plano Poupança Reform.</div><div class="product-type">Benefício fiscal dedução IRS</div></div></div>
-          <div><div class="product-rate">variável</div><div class="product-rate-label">depende do fundo</div></div>
-        </div>
-        <div class="product-detail-row"><span class="dk">Retenção se resgate antes 5 anos</span><span class="dv red">21.5%</span></div>
-        <div class="product-detail-row"><span class="dk">Retenção após 5 anos</span><span class="dv green">8%</span></div>
-        <div class="product-detail-row"><span class="dk">Dedução IRS (até 400€)</span><span class="dv green">20% de benefício</span></div>
-        <div class="product-detail-row"><span class="dk">Vantagem fiscal</span><span class="dv green">Alta se longo prazo</span></div>
-      </div>
-
+      <div id="etf-list"><div class="loading-state">⏳ A carregar ETFs...</div></div>
     </div>
 
     <!-- ======== CRÉDITO HABITAÇÃO ======== -->
@@ -620,17 +896,18 @@
     <!-- ======== TAXAS: EURIBOR ======== -->
     <div class="tab-content" id="tab-euribor">
       <div class="hero-card">
-        <div class="hero-label">Euribor 12M · Fevereiro 2025</div>
-        <div class="hero-value"><span class="accent">2.65%</span></div>
-        <div class="hero-sub">Actualizado mensalmente pela equipa</div>
-        <div class="hero-badge down">▼ −0.08% vs mês anterior</div>
+        <div class="hero-label" id="eur-hero-label">Euribor 12M</div>
+        <div class="hero-value"><span class="accent" id="eur-hero-val">—</span></div>
+        <div class="hero-sub" id="eur-hero-sub">A carregar...</div>
+        <div class="hero-badge" id="eur-hero-badge">📡 ECB · Actualização diária</div>
       </div>
       <p class="section-title">Euribor por Prazo</p>
-      <div class="euribor-strip">
-        <div class="euribor-box"><div class="euribor-label">3 Meses</div><div class="euribor-val">2.41%</div><div class="euribor-change down">▼ −0.05%</div></div>
-        <div class="euribor-box"><div class="euribor-label">6 Meses</div><div class="euribor-val">2.52%</div><div class="euribor-change down">▼ −0.06%</div></div>
-        <div class="euribor-box"><div class="euribor-label">12 Meses</div><div class="euribor-val">2.65%</div><div class="euribor-change down">▼ −0.08%</div></div>
+      <div class="euribor-strip" id="eur-strip">
+        <div class="euribor-box"><div class="euribor-label">3 Meses</div><div class="euribor-val" id="eur-3m">—</div><div class="euribor-change" id="eur-3m-chg">—</div></div>
+        <div class="euribor-box"><div class="euribor-label">6 Meses</div><div class="euribor-val" id="eur-6m">—</div><div class="euribor-change" id="eur-6m-chg">—</div></div>
+        <div class="euribor-box"><div class="euribor-label">12 Meses</div><div class="euribor-val" id="eur-12m">—</div><div class="euribor-change" id="eur-12m-chg">—</div></div>
       </div>
+      <div id="eur-updated" style="text-align:center;font-size:0.65rem;color:var(--muted);margin-top:6px;"></div>
     </div>
 
     <!-- ======== TAXAS: SPREADS ======== -->
@@ -651,23 +928,18 @@
   </div><!-- end scroll -->
 
   <div class="bottom-nav">
-    <button class="nav-btn active" onclick="switchSection('simular', this)">
-      <div class="nav-icon">🧮</div><div class="nav-label">Simular</div>
-    </button>
-    <button class="nav-btn" onclick="switchSection('poupanca', this)">
-      <div class="nav-icon">🏦</div><div class="nav-label">Poupança</div>
-    </button>
-    <button class="nav-btn" onclick="switchSection('credito', this)">
-      <div class="nav-icon">🏠</div><div class="nav-label">Crédito</div>
-    </button>
-    <button class="nav-btn" onclick="switchSection('taxas', this)">
-      <div class="nav-icon">📈</div><div class="nav-label">Taxas</div>
-    </button>
+    <button class="nav-btn active" onclick="switchSection('simular', this)"><div class="nav-icon">🧮</div><div class="nav-label">Simular</div></button>
+    <button class="nav-btn" onclick="switchSection('poupanca', this)"><div class="nav-icon">🏦</div><div class="nav-label">Poupança</div></button>
+    <button class="nav-btn" onclick="switchSection('credito', this)"><div class="nav-icon">🏠</div><div class="nav-label">Crédito</div></button>
+    <button class="nav-btn" onclick="switchSection('taxas', this)"><div class="nav-icon">📈</div><div class="nav-label">Taxas</div></button>
   </div>
 
 </div>
 
 <script>
+// ============================================================
+// NAV & TAB SYSTEM
+// ============================================================
 const sections = {
   simular: {
     tabs: [
@@ -688,10 +960,7 @@ const sections = {
     ],
     default: 'dep-prazo'
   },
-  credito: {
-    tabs: [{ label: 'Crédito Habitação', id: 'credito' }],
-    default: 'credito'
-  },
+  credito: { tabs: [{ label: 'Crédito Habitação', id: 'credito' }], default: 'credito' },
   taxas: {
     tabs: [
       { label: 'Euribor', id: 'euribor' },
@@ -729,237 +998,408 @@ function showTab(tabId) {
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   const el = document.getElementById('tab-' + tabId);
   if (el) el.classList.add('active');
-  maybeLoadDeposits(tabId);
+  if (tabId === 'dep-prazo' && allDeposits.length === 0) loadDeposits();
+  if (tabId === 'fundos'    && allEtfs.length    === 0) loadEtfs();
 }
 
 renderSubTabs('simular', 'salario');
+
+// ── Carregar Euribor dinamicamente ───────────────────────────
+async function loadEuribor() {
+  try {
+    const data = await chamarAPI('euribor', {});
+    if (!Array.isArray(data) || data.length === 0) return;
+
+    const byPrazo = Object.fromEntries(data.map(d => [d.prazo, d]));
+
+    function renderBox(id, chgId, prazo) {
+      const d = byPrazo[prazo];
+      if (!d) return;
+      document.getElementById(id).textContent = d.taxa.toFixed(3) + '%';
+      const chgEl = document.getElementById(chgId);
+      if (d.variacao !== null) {
+        const sign = d.variacao > 0 ? '▲ +' : d.variacao < 0 ? '▼ ' : '= ';
+        chgEl.textContent = sign + d.variacao.toFixed(3) + '%';
+        chgEl.className   = 'euribor-change ' + (d.variacao > 0 ? 'up' : d.variacao < 0 ? 'down' : 'flat');
+      } else {
+        chgEl.textContent = '—';
+      }
+    }
+
+    renderBox('eur-3m',  'eur-3m-chg',  '3M');
+    renderBox('eur-6m',  'eur-6m-chg',  '6M');
+    renderBox('eur-12m', 'eur-12m-chg', '12M');
+
+    // Hero com 12M
+    const e12 = byPrazo['12M'];
+    if (e12) {
+      document.getElementById('eur-hero-val').textContent  = e12.taxa.toFixed(3) + '%';
+      document.getElementById('eur-hero-label').textContent= `Euribor 12M · ${new Date(e12.data_obs).toLocaleDateString('pt-PT', { month: 'long', year: 'numeric' })}`;
+      if (e12.variacao !== null) {
+        const sign = e12.variacao > 0 ? '▲ +' : e12.variacao < 0 ? '▼ ' : '= ';
+        const badge = document.getElementById('eur-hero-badge');
+        badge.textContent = sign + e12.variacao.toFixed(3) + '% vs dia anterior';
+        badge.className   = 'hero-badge ' + (e12.variacao > 0 ? 'up' : e12.variacao < 0 ? 'down' : '');
+      }
+    }
+
+    // Data actualização
+    const latest = data.reduce((a, b) => a.updated_at > b.updated_at ? a : b);
+    const dtStr  = new Date(latest.updated_at).toLocaleString('pt-PT', { dateStyle: 'short', timeStyle: 'short' });
+    document.getElementById('eur-updated').textContent = `Fonte: ECB · Última actualização: ${dtStr}`;
+    document.getElementById('eur-hero-sub').textContent = 'Fonte BCE · Actualização diária automática';
+
+  } catch (e) {
+    console.warn('Euribor não disponível:', e.message);
+  }
+}
+
+loadEuribor();
 
 function selectChip(el, group) {
   document.querySelectorAll('#' + group + ' .chip').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
 }
 
-const fmt = v => v.toLocaleString('pt-PT', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+const fmt    = v => v.toLocaleString('pt-PT', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
 const fmtPct = v => v.toFixed(2) + '%';
 
-// SALÁRIO
-function calcSalario() {
-  const bruto = parseFloat(document.getElementById('sal-bruto').value) || 0;
-  const ss = bruto * 0.11;
-  const base_irs = bruto - ss;
-  let irs = 0;
-  if (base_irs <= 792) irs = 0;
-  else if (base_irs <= 10700) irs = base_irs * 0.1325 - 102.64;
-  else if (base_irs <= 15216) irs = base_irs * 0.18 - 710.77;
-  else if (base_irs <= 19696) irs = base_irs * 0.23 - 1472.37;
-  else if (base_irs <= 25076) irs = base_irs * 0.26 - 2063.29;
-  else if (base_irs <= 36757) irs = base_irs * 0.3275 - 4006.36;
-  else if (base_irs <= 48033) irs = base_irs * 0.37 - 5563.82;
-  else if (base_irs <= 75009) irs = base_irs * 0.435 - 8682.49;
-  else irs = base_irs * 0.48 - 12439.74;
-  irs = Math.max(0, irs / 12);
-  const liquido = bruto - ss - irs;
-  document.getElementById('res-liquido').textContent = fmt(liquido);
-  document.getElementById('res-irs').textContent = fmt(irs);
-  document.getElementById('res-ss').textContent = fmt(ss);
-  document.getElementById('res-desc').textContent = fmt(ss + irs);
-  document.getElementById('sal-results').style.display = 'grid';
-  document.getElementById('hero-liquido').textContent = fmt(liquido);
+// ============================================================
+// EDGE FUNCTION — toda a lógica de cálculo corre no servidor
+// Utilizadores externos não têm acesso às fórmulas nem tabelas
+// ============================================================
+const EDGE_URL = 'https://zdjfscurtpbmdzybjaqf.supabase.co/functions/v1/calcular';
+const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpkamZzY3VydHBibWR6eWJqYXFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5NTY0MDUsImV4cCI6MjA4NzUzMjQwNX0.ZqSqKwGcy8GzOsk7Ui500vatlMKhn-g6EK7lHrfkU-w';
+
+async function chamarAPI(acao, params) {
+  const res = await fetch(EDGE_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${ANON_KEY}`,
+      'apikey': ANON_KEY,
+    },
+    body: JSON.stringify({ acao, params }),
+  });
+  const data = await res.json();
+  if (!data.ok) throw new Error(data.erro ?? 'Erro desconhecido');
+  return data.resultado;
 }
 
-// ESFORÇO
-function calcEsforco() {
-  const rend = parseFloat(document.getElementById('esf-rend').value) || 0;
-  const prest = parseFloat(document.getElementById('esf-prest').value) || 0;
-  if (!rend) return;
-  const taxa = (prest / rend) * 100;
-  document.getElementById('res-esforco').textContent = fmtPct(taxa);
-  document.getElementById('hero-esforco').textContent = fmtPct(taxa);
-  let status, color;
-  if (taxa <= 33) { status = '✅ Saudável (≤33%)'; color = 'var(--green)'; }
-  else if (taxa <= 40) { status = '⚠️ Atenção (33–40%)'; color = 'var(--amber)'; }
-  else { status = '❌ Elevada (>40%)'; color = 'var(--red)'; }
-  document.getElementById('esf-status').textContent = status;
-  document.getElementById('esf-status').style.color = color;
-  document.getElementById('esf-results').style.display = 'grid';
-  document.getElementById('esf-bar').style.display = 'block';
-  setTimeout(() => {
-    document.getElementById('esf-fill').style.width = Math.min(taxa, 100) + '%';
-    document.getElementById('esf-fill').style.background = color;
-  }, 50);
-}
-
-// IMT
-function calcIMT() {
-  const valor = parseFloat(document.getElementById('imt-valor').value) || 0;
-  const tipo = document.querySelector('#imt-chips .chip.active')?.textContent || '';
-  let imt = 0;
-  if (tipo.includes('Própria')) {
-    if (valor <= 97064) imt = 0;
-    else if (valor <= 132774) imt = valor * 0.02 - 1941.28;
-    else if (valor <= 181034) imt = valor * 0.05 - 5924.54;
-    else if (valor <= 301688) imt = valor * 0.07 - 9545.22;
-    else if (valor <= 603289) imt = valor * 0.08 - 12562.10;
-    else imt = valor * 0.06;
-  } else { imt = valor * 0.065; }
-  const selo = valor * 0.008;
-  document.getElementById('res-imt').textContent = fmt(imt);
-  document.getElementById('res-selo').textContent = fmt(selo);
-  document.getElementById('res-imt-total').textContent = fmt(imt + selo);
-  document.getElementById('hero-imt').textContent = fmt(imt + selo);
-  document.getElementById('imt-results').style.display = 'grid';
-}
-
-// POUPANÇA com capitalização e retenção
-function calcPoupanca() {
-  const capital = parseFloat(document.getElementById('p-capital').value) || 0;
-  const mensal = parseFloat(document.getElementById('p-mensal').value) || 0;
-  const taxaBruta = parseFloat(document.getElementById('p-taxa').value) / 100 || 0;
-  const retencao = parseFloat(document.getElementById('p-retencao').value) / 100 || 0.28;
-  const anos = parseFloat(document.getElementById('p-anos').value) || 0;
-
-  // capitalização: mensal=1, 3m=3, 6m=6, 12m=12
-  const capLabel = document.querySelector('#p-cap-chips .chip.active')?.textContent || '6 Meses';
-  const capMap = { 'Mensal': 1, '3 Meses': 3, '6 Meses': 6, '12 Meses': 12 };
-  const capMeses = capMap[capLabel.trim()] || 6;
-  const periodsPerYear = 12 / capMeses;
-  const totalPeriods = anos * periodsPerYear;
-
-  // taxa bruta por período
-  const taxaBrutaPeriod = taxaBruta / periodsPerYear;
-  // taxa líquida por período (retenção aplicada em cada capitalização)
-  const taxaLiqPeriod = taxaBrutaPeriod * (1 - retencao);
-  const taxaLiqAnual = Math.pow(1 + taxaLiqPeriod, periodsPerYear) - 1;
-
-  // calcular valor final com capitalização líquida
-  // contribuições mensais convertidas para por período
-  const contribuicaoPeriod = mensal * capMeses;
-
-  let saldo = capital;
-  let totalDepositado = capital;
-  let jurosBrutos = 0;
-  let retencaoTotal = 0;
-
-  for (let i = 0; i < totalPeriods; i++) {
-    const juroBruto = saldo * taxaBrutaPeriod;
-    const retencaoP = juroBruto * retencao;
-    const juroLiq = juroBruto - retencaoP;
-    jurosBrutos += juroBruto;
-    retencaoTotal += retencaoP;
-    saldo += juroLiq + contribuicaoPeriod;
-    totalDepositado += contribuicaoPeriod;
+// Helper: mostra estado de loading no botão
+function setLoading(btn, loading) {
+  if (!btn) return;
+  if (loading) {
+    btn.dataset.original = btn.textContent;
+    btn.textContent = '⏳ A calcular...';
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+  } else {
+    btn.textContent = btn.dataset.original || btn.textContent;
+    btn.disabled = false;
+    btn.style.opacity = '';
   }
-
-  const jurosLiquidos = saldo - totalDepositado;
-  const rentabTotal = ((saldo / capital) - 1) * 100;
-
-  document.getElementById('res-p-liquido').textContent = fmt(saldo);
-  document.getElementById('res-p-depositado').textContent = fmt(totalDepositado);
-  document.getElementById('res-p-juros-brutos').textContent = fmt(jurosBrutos);
-  document.getElementById('res-p-retencao').textContent = fmt(retencaoTotal);
-  document.getElementById('res-p-juros-liq').textContent = fmt(jurosLiquidos);
-  document.getElementById('bd-p-taxa-liq').textContent = fmtPct(taxaLiqAnual * 100);
-  document.getElementById('bd-p-cap').textContent = capLabel;
-  document.getElementById('bd-p-periodos').textContent = Math.round(totalPeriods) + ' períodos';
-  document.getElementById('bd-p-rentab').textContent = fmtPct(rentabTotal) + ' total';
-  document.getElementById('p-results').style.display = 'block';
-  document.getElementById('hero-poup').textContent = fmt(saldo);
 }
 
-// INVESTIMENTO
-function calcInvestimento() {
-  const capital = parseFloat(document.getElementById('inv-capital').value) || 0;
-  const mensal = parseFloat(document.getElementById('inv-mensal').value) || 0;
-  const taxaBruta = parseFloat(document.getElementById('inv-taxa').value) / 100 || 0;
-  const retencao = parseFloat(document.getElementById('inv-retencao').value) / 100 || 0.28;
-  const anos = parseFloat(document.getElementById('inv-anos').value) || 0;
+// ── 1. SALÁRIO LÍQUIDO ───────────────────────────────────────
+async function calcSalarioCompleto() {
+  const btn = document.querySelector('#tab-salario .calc-btn');
+  setLoading(btn, true);
+  try {
+    const r = await chamarAPI('salario', {
+      base:        parseFloat(document.getElementById('irs-base').value)        || 0,
+      extras:      parseFloat(document.getElementById('irs-extras').value)      || 0,
+      outros:      parseFloat(document.getElementById('irs-outros').value)      || 0,
+      isentos:     parseFloat(document.getElementById('irs-isentos').value)     || 0,
+      nDep:        parseInt(document.getElementById('irs-dependentes').value)   || 0,
+      subV:        parseFloat(document.getElementById('irs-subAlimValor').value)|| 0,
+      subD:        parseInt(document.getElementById('irs-subAlimDias').value)   || 0,
+      tipoPag:     document.getElementById('irs-tipoPagAlim').value,
+      percDuo:     parseFloat(document.getElementById('irs-duodecimos').value)  || 0,
+      taxaSS:      parseFloat(document.getElementById('irs-taxaSS').value)      || 11,
+      estadoCivil: document.getElementById('irs-estadoCivil').value,
+      incap:       document.getElementById('irs-incapacidade').checked,
+    });
 
-  // For investments, tax typically applied at end (capital gains)
-  const taxaLiq = taxaBruta; // grows at full rate
-  const n = anos * 12;
-  const r = taxaBruta / 12;
+    // Hero
+    document.getElementById('hero-liquido').textContent  = fmt(r.liquido);
+    document.getElementById('hero-sal-sub').textContent  =
+      'Líquido · IRS ' + fmtPct(r.taxaMarginal * 100) + ' marginal · SS ' + fmtPct(r.taxaSSDecimal * 100);
 
-  let finalBruto = capital * Math.pow(1 + r, n);
-  if (r > 0) finalBruto += mensal * (Math.pow(1 + r, n) - 1) / r;
-  else finalBruto += mensal * n;
+    // Grid superior
+    document.getElementById('rr-base').textContent    = fmt(r.base);
+    document.getElementById('rr-subAlim').textContent = fmt(r.subAlimTotal);
 
-  const totalInvestido = capital + mensal * n;
-  const ganhoBruto = finalBruto - totalInvestido;
-  const imposto = ganhoBruto * retencao;
-  const finalLiq = finalBruto - imposto;
-  const ganhoLiq = finalLiq - totalInvestido;
-  const taxaLiqEfetiva = (Math.pow(finalLiq / capital, 1 / anos) - 1) * 100;
+    const showExtras = r.extras > 0;
+    const showDuo    = r.duoBruto > 0;
+    const showTrib   = r.subAlimTrib > 0;
+    document.getElementById('rr-box-extras').style.display = showExtras ? '' : 'none';
+    if (showExtras) document.getElementById('rr-extras').textContent = fmt(r.extras);
+    document.getElementById('rr-box-duo').style.display = showDuo ? '' : 'none';
+    if (showDuo) document.getElementById('rr-duo').textContent = fmt(r.duoBruto);
+    document.getElementById('rr-box-trib').style.display = showTrib ? '' : 'none';
+    if (showTrib) document.getElementById('rr-subAlimTrib').textContent = fmt(r.subAlimTrib);
 
-  document.getElementById('res-inv-liq').textContent = fmt(finalLiq);
-  document.getElementById('res-inv-dep').textContent = fmt(totalInvestido);
-  document.getElementById('res-inv-bruto').textContent = fmt(ganhoBruto);
-  document.getElementById('res-inv-imposto').textContent = fmt(imposto);
-  document.getElementById('res-inv-liquido').textContent = fmt(ganhoLiq);
-  document.getElementById('bd-inv-taxa-liq').textContent = fmtPct(taxaLiqEfetiva);
-  document.getElementById('bd-inv-mult').textContent = 'x' + (finalLiq / capital).toFixed(2);
-  document.getElementById('bd-inv-rentab').textContent = fmtPct((ganhoLiq / totalInvestido) * 100);
-  document.getElementById('inv-results').style.display = 'block';
-  document.getElementById('hero-inv').textContent = fmt(finalLiq);
+    // Breakdown
+    document.getElementById('bd-taxaSS-pct').textContent  = fmtPct(r.taxaSSDecimal * 100);
+    document.getElementById('bd-totalBruto').textContent  = fmt(r.totalBruto);
+    document.getElementById('bd-baseSS').textContent      = fmt(r.baseSS);
+    document.getElementById('bd-ss').textContent          = fmt(r.valorSS);
+    document.getElementById('bd-baseIRS').textContent     = fmt(r.baseEscalao);
+    document.getElementById('bd-taxaIRS').textContent     = fmtPct(r.taxaMarginal * 100) + ' marginal';
+    document.getElementById('bd-irsBase').textContent     = fmt(r.irsBase);
+    document.getElementById('bd-totalIRS').textContent    = fmt(r.totalIRS);
+    document.getElementById('bd-totalDesc').textContent   = fmt(r.totalDesc);
+    document.getElementById('bd-liquido').textContent     = fmt(r.liquido);
+    document.getElementById('bd-taxaEfetiva').textContent = fmtPct(r.taxaEfetiva);
+
+    document.getElementById('bd-row-irsExtras').style.display = showExtras ? '' : 'none';
+    if (showExtras) document.getElementById('bd-irsExtras').textContent = fmt(r.irsExtras);
+    document.getElementById('bd-row-irsDuo').style.display = showDuo ? '' : 'none';
+    if (showDuo) document.getElementById('bd-irsDuo').textContent = fmt(r.irsDuo);
+
+    // Destaque final
+    document.getElementById('rr-liquido').textContent     = fmt(r.liquido);
+    document.getElementById('rr-descontos').textContent   = fmt(r.totalDesc);
+    document.getElementById('rr-taxaEfetiva').textContent = fmtPct(r.taxaEfetiva);
+
+    document.getElementById('irs-results-block').style.display = 'block';
+    document.querySelector('.scroll-area').scrollTo({ top: 500, behavior: 'smooth' });
+  } catch (e) {
+    alert('Erro ao calcular: ' + e.message);
+  } finally {
+    setLoading(btn, false);
+  }
 }
 
-// INFLAÇÃO
-function calcInflacao() {
-  const valor = parseFloat(document.getElementById('inf-valor').value) || 0;
-  const taxa = parseFloat(document.getElementById('inf-taxa').value) / 100 || 0;
-  const anos = parseFloat(document.getElementById('inf-anos').value) || 0;
-  const futuro = valor / Math.pow(1 + taxa, anos);
-  document.getElementById('res-inf-futuro').textContent = fmt(futuro);
-  document.getElementById('res-inf-perda').textContent = fmt(valor - futuro);
-  document.getElementById('hero-inf').textContent = fmt(futuro);
-  document.getElementById('inf-results').style.display = 'grid';
+// ── 2. DSTI / TAXA DE ESFORÇO / LTV ─────────────────────────
+// Prazo máximo só para mostrar info no campo (chamada leve)
+async function esf_atualizarPrazo() {
+  const dn1 = document.getElementById('esf-dn1').value;
+  if (!dn1) { document.getElementById('esf-prazo-info').style.display = 'none'; return; }
+  try {
+    const r = await chamarAPI('prazo_max', {
+      dn1, dn2: document.getElementById('esf-dn2').value || undefined,
+    });
+    const infoEl    = document.getElementById('esf-prazo-info');
+    const prazoInput= document.getElementById('esf-prazo');
+    prazoInput.max  = r.prazoMax;
+    if (parseInt(prazoInput.value) > r.prazoMax) prazoInput.value = r.prazoMax;
+    const anos  = Math.floor(r.prazoMax / 12);
+    const meses = r.prazoMax % 12;
+    infoEl.style.display = 'block';
+    infoEl.textContent   = `Prazo máximo BdP: ${meses > 0 ? anos + 'a ' + meses + 'm' : anos + ' anos'} (titular mais velho: ${r.idade} anos)`;
+    prazoInput.value = r.prazoMax;
+  } catch (_) { /* silencioso */ }
 }
 
-// CRÉDITO
-function calcCredito() {
-  const imovel = parseFloat(document.getElementById('cred-imovel').value) || 0;
-  const entrada = parseFloat(document.getElementById('cred-entrada').value) || 0;
-  const euribor = parseFloat(document.getElementById('cred-euribor').value) / 100 || 0;
-  const spread = parseFloat(document.getElementById('cred-spread').value) / 100 || 0;
-  const prazo = parseFloat(document.getElementById('cred-prazo').value) || 30;
-  const capital = imovel - entrada;
-  const tan = euribor + spread;
-  const r = tan / 12;
-  const n = prazo * 12;
-  const prestacao = capital * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
-  const totalPagar = prestacao * n;
-  document.getElementById('cred-hero').textContent = fmt(prestacao);
-  document.getElementById('bd-prestacao').textContent = fmt(prestacao);
-  document.getElementById('bd-capital').textContent = fmt(capital);
-  document.getElementById('bd-tan').textContent = fmtPct(tan * 100);
-  document.getElementById('bd-total').textContent = fmt(totalPagar);
-  document.getElementById('bd-juros').textContent = fmt(totalPagar - capital);
-  document.getElementById('bd-ltv').textContent = ((capital / imovel) * 100).toFixed(1) + '%';
-  document.getElementById('cred-breakdown').style.display = 'block';
+async function calcEsforco() {
+  const btn = document.querySelector('#tab-esforco .calc-btn');
+  setLoading(btn, true);
+  try {
+    const r = await chamarAPI('dsti', {
+      rend1:    parseFloat(document.getElementById('esf-rend1').value)    || 0,
+      rend2:    parseFloat(document.getElementById('esf-rend2').value)    || 0,
+      op1:      parseFloat(document.getElementById('esf-op1').value)      || 0,
+      enc1:     parseFloat(document.getElementById('esf-enc1').value)     || 0,
+      op2:      parseFloat(document.getElementById('esf-op2').value)      || 0,
+      encMut:   parseFloat(document.getElementById('esf-encMutuos').value)|| 0,
+      vImovel:  parseFloat(document.getElementById('esf-vImovel').value)  || 0,
+      montante: parseFloat(document.getElementById('esf-montante').value) || 0,
+      taxa:     parseFloat(document.getElementById('esf-taxa').value)     || 0,
+      prazo:    parseInt(document.getElementById('esf-prazo').value)      || 0,
+      dn1:      document.getElementById('esf-dn1').value,
+      dn2:      document.getElementById('esf-dn2').value || undefined,
+    });
+
+    document.getElementById('hero-esforco').textContent      = fmtPct(r.te);
+    document.getElementById('hero-esforco-sub').textContent  = `DSTI ${fmtPct(r.dsti)} · LTV ${fmtPct(r.ltv)}`;
+    document.getElementById('res-esforco').textContent       = fmtPct(r.te);
+    document.getElementById('res-dsti').textContent          = fmtPct(r.dsti);
+    document.getElementById('res-ltv').textContent           = fmtPct(r.ltv);
+    document.getElementById('bd-esf-prest').textContent      = fmt(r.prest);
+    document.getElementById('bd-esf-prestStress').textContent= fmt(r.prestStress);
+    document.getElementById('bd-esf-rendTotal').textContent  = fmt(r.rendTotalMens);
+    document.getElementById('bd-esf-rendAjust').textContent  = fmt(r.rendTotalAjust);
+    const prazoMaxStr = r.prazoMaxMeses > 0
+      ? `${r.prazoMaxAnos}a ${r.prazoMaxMeses}m` : `${r.prazoMaxAnos} anos`;
+    document.getElementById('bd-esf-prazoMax').textContent   = prazoMaxStr;
+    document.getElementById('bd-esf-te').textContent         = fmtPct(r.te);
+    document.getElementById('bd-esf-dsti').textContent       = fmtPct(r.dsti);
+    document.getElementById('bd-esf-ltv').textContent        = fmtPct(r.ltv);
+    document.getElementById('res-maxTE').textContent         = fmt(r.valMaxTE);
+    document.getElementById('res-maxDSTI').textContent       = fmt(r.valMaxDSTI);
+    document.getElementById('res-maxLTV').textContent        = fmt(r.valMaxLTV);
+    document.getElementById('res-maxRec').textContent        = fmt(r.valMaxRec);
+
+    esf_setBar('esf-fill-te',   'esf-box-te',   r.te,   60);
+    esf_setBar('esf-fill-dsti', 'esf-box-dsti', r.dsti, 50);
+    esf_setBar('esf-fill-ltv',  'esf-box-ltv',  r.ltv,  90);
+
+    document.getElementById('esf-results-block').style.display = 'block';
+    document.querySelector('.scroll-area').scrollTo({ top: 600, behavior: 'smooth' });
+  } catch (e) {
+    alert('Erro ao calcular: ' + e.message);
+  } finally {
+    setLoading(btn, false);
+  }
 }
 
+// Barras de progresso (só UI, sem lógica de negócio)
+function esf_barColor(pct) {
+  return pct < 70 ? 'var(--green)' : pct < 90 ? 'var(--amber)' : 'var(--red)';
+}
+function esf_setBar(fillId, boxId, valor, limite) {
+  const pct   = Math.min((valor / limite) * 100, 100);
+  const color = esf_barColor(pct);
+  const fill  = document.getElementById(fillId);
+  const box   = document.getElementById(boxId);
+  setTimeout(() => { fill.style.width = pct + '%'; fill.style.background = color; }, 60);
+  box.style.borderColor = color;
+  box.style.background  = pct < 70
+    ? 'rgba(0,200,150,0.05)'
+    : pct < 90 ? 'rgba(245,158,11,0.06)' : 'rgba(255,61,107,0.07)';
+}
+
+// ── 3. IMT ───────────────────────────────────────────────────
+async function calcIMT() {
+  const btn = document.querySelector('#tab-imt .calc-btn');
+  setLoading(btn, true);
+  try {
+    const r = await chamarAPI('imt', {
+      valor: parseFloat(document.getElementById('imt-valor').value) || 0,
+      tipo:  document.querySelector('#imt-chips .chip.active')?.textContent.includes('Própria')
+             ? 'propria' : 'secundaria',
+    });
+    document.getElementById('res-imt').textContent       = fmt(r.imt);
+    document.getElementById('res-selo').textContent      = fmt(r.selo);
+    document.getElementById('res-imt-total').textContent = fmt(r.total);
+    document.getElementById('hero-imt').textContent      = fmt(r.total);
+    document.getElementById('imt-results').style.display = 'grid';
+  } catch (e) {
+    alert('Erro ao calcular: ' + e.message);
+  } finally {
+    setLoading(btn, false);
+  }
+}
+
+// ── 4. POUPANÇA ──────────────────────────────────────────────
+async function calcPoupanca() {
+  const btn = document.querySelector('#tab-sim-poupanca .calc-btn');
+  setLoading(btn, true);
+  try {
+    const capLabel = document.querySelector('#p-cap-chips .chip.active')?.textContent || '6 Meses';
+    const capMap   = { 'Mensal': 1, '3 Meses': 3, '6 Meses': 6, '12 Meses': 12 };
+    const r = await chamarAPI('poupanca', {
+      capital:  parseFloat(document.getElementById('p-capital').value)  || 0,
+      mensal:   parseFloat(document.getElementById('p-mensal').value)   || 0,
+      taxa:     parseFloat(document.getElementById('p-taxa').value)     || 0,
+      retencao: parseFloat(document.getElementById('p-retencao').value) || 28,
+      anos:     parseFloat(document.getElementById('p-anos').value)     || 0,
+      capMeses: capMap[capLabel.trim()] || 6,
+    });
+    document.getElementById('res-p-liquido').textContent      = fmt(r.saldo);
+    document.getElementById('res-p-depositado').textContent   = fmt(r.totalDep);
+    document.getElementById('res-p-juros-brutos').textContent = fmt(r.jurosBrutos);
+    document.getElementById('res-p-retencao').textContent     = fmt(r.retTotal);
+    document.getElementById('res-p-juros-liq').textContent    = fmt(r.jurosLiquidos);
+    document.getElementById('bd-p-taxa-liq').textContent      = fmtPct(r.taxaLiqAnualPct);
+    document.getElementById('bd-p-cap').textContent           = capLabel;
+    document.getElementById('bd-p-periodos').textContent      = r.totalPeriods + ' períodos';
+    document.getElementById('bd-p-rentab').textContent        = fmtPct(r.rentabTotal) + ' total';
+    document.getElementById('p-results').style.display        = 'block';
+    document.getElementById('hero-poup').textContent          = fmt(r.saldo);
+  } catch (e) {
+    alert('Erro ao calcular: ' + e.message);
+  } finally {
+    setLoading(btn, false);
+  }
+}
+
+// ── 5. INVESTIMENTO ──────────────────────────────────────────
+async function calcInvestimento() {
+  const btn = document.querySelector('#tab-investimento .calc-btn');
+  setLoading(btn, true);
+  try {
+    const r = await chamarAPI('investimento', {
+      capital:  parseFloat(document.getElementById('inv-capital').value)  || 0,
+      mensal:   parseFloat(document.getElementById('inv-mensal').value)   || 0,
+      taxa:     parseFloat(document.getElementById('inv-taxa').value)     || 0,
+      retencao: parseFloat(document.getElementById('inv-retencao').value) || 28,
+      anos:     parseFloat(document.getElementById('inv-anos').value)     || 0,
+    });
+    document.getElementById('res-inv-liq').textContent     = fmt(r.finalLiq);
+    document.getElementById('res-inv-dep').textContent     = fmt(r.totalInv);
+    document.getElementById('res-inv-bruto').textContent   = fmt(r.ganhoBruto);
+    document.getElementById('res-inv-imposto').textContent = fmt(r.imposto);
+    document.getElementById('res-inv-liquido').textContent = fmt(r.ganhoLiq);
+    document.getElementById('bd-inv-taxa-liq').textContent = fmtPct(r.taxaLiqEf);
+    document.getElementById('bd-inv-mult').textContent     = 'x' + r.multiplicador.toFixed(2);
+    document.getElementById('bd-inv-rentab').textContent   = fmtPct(r.rentabLiq);
+    document.getElementById('inv-results').style.display   = 'block';
+    document.getElementById('hero-inv').textContent        = fmt(r.finalLiq);
+  } catch (e) {
+    alert('Erro ao calcular: ' + e.message);
+  } finally {
+    setLoading(btn, false);
+  }
+}
+
+// ── 6. INFLAÇÃO ──────────────────────────────────────────────
+async function calcInflacao() {
+  const btn = document.querySelector('#tab-inflacao .calc-btn');
+  setLoading(btn, true);
+  try {
+    const r = await chamarAPI('inflacao', {
+      valor: parseFloat(document.getElementById('inf-valor').value) || 0,
+      taxa:  parseFloat(document.getElementById('inf-taxa').value)  || 0,
+      anos:  parseFloat(document.getElementById('inf-anos').value)  || 0,
+    });
+    document.getElementById('res-inf-futuro').textContent = fmt(r.futuro);
+    document.getElementById('res-inf-perda').textContent  = fmt(r.perda);
+    document.getElementById('hero-inf').textContent       = fmt(r.futuro);
+    document.getElementById('inf-results').style.display  = 'grid';
+  } catch (e) {
+    alert('Erro ao calcular: ' + e.message);
+  } finally {
+    setLoading(btn, false);
+  }
+}
+
+// ── 7. CRÉDITO HABITAÇÃO ─────────────────────────────────────
+async function calcCredito() {
+  const btn = document.querySelector('#tab-credito .calc-btn');
+  setLoading(btn, true);
+  try {
+    const r = await chamarAPI('credito', {
+      imovel:  parseFloat(document.getElementById('cred-imovel').value)  || 0,
+      entrada: parseFloat(document.getElementById('cred-entrada').value) || 0,
+      euribor: parseFloat(document.getElementById('cred-euribor').value) || 0,
+      spread:  parseFloat(document.getElementById('cred-spread').value)  || 0,
+      prazo:   parseFloat(document.getElementById('cred-prazo').value)   || 30,
+    });
+    document.getElementById('cred-hero').textContent        = fmt(r.prestacao);
+    document.getElementById('bd-prestacao').textContent     = fmt(r.prestacao);
+    document.getElementById('bd-capital').textContent       = fmt(r.capital);
+    document.getElementById('bd-tan').textContent           = fmtPct(r.tan);
+    document.getElementById('bd-total').textContent         = fmt(r.total);
+    document.getElementById('bd-juros').textContent         = fmt(r.juros);
+    document.getElementById('bd-ltv').textContent           = r.ltv.toFixed(1) + '%';
+    document.getElementById('cred-breakdown').style.display = 'block';
+  } catch (e) {
+    alert('Erro ao calcular: ' + e.message);
+  } finally {
+    setLoading(btn, false);
+  }
+}
 
 // ============================================================
-// DEPOSITS — Supabase integration + fallback demo data
+// DEPOSITS — Supabase
 // ============================================================
-
-// ---- CONFIG: replace with your Supabase credentials ----
-const SUPABASE_URL = 'https://zdjfscurtpbmdzybjaqf.supabase.co'; // e.g. https://abcde.supabase.co
+const SUPABASE_URL = 'https://zdjfscurtpbmdzybjaqf.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpkamZzY3VydHBibWR6eWJqYXFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5NTY0MDUsImV4cCI6MjA4NzUzMjQwNX0.ZqSqKwGcy8GzOsk7Ui500vatlMKhn-g6EK7lHrfkU-w';
-// --------------------------------------------------------
-
-// Demo data — used when Supabase is not configured
-const DEMO_DEPOSITS = [
-  { id:1, banco:'Activobank', nome_deposito:'Poupança Online', prazo:12, unidade:'meses', tanb:3.50, tanl:2.52, tipo_taxa:'Fixa', deposito_minimo:500, deposito_maximo:null, mobilizacao_antecipada:'Perda total de juros', novos_capitais:false, novos_clientes:false },
-  { id:2, banco:'Caixa Geral Dep.', nome_deposito:'Depósito a Prazo', prazo:12, unidade:'meses', tanb:3.25, tanl:2.34, tipo_taxa:'Fixa', deposito_minimo:1000, deposito_maximo:null, mobilizacao_antecipada:'Perda de 50% dos juros', novos_capitais:true, novos_clientes:false },
-  { id:3, banco:'Banco BPI', nome_deposito:'Depósito a Prazo 12M', prazo:12, unidade:'meses', tanb:3.00, tanl:2.16, tipo_taxa:'Fixa', deposito_minimo:2500, deposito_maximo:500000, mobilizacao_antecipada:'Sem juros', novos_capitais:true, novos_clientes:true },
-  { id:4, banco:'Millennium BCP', nome_deposito:'Depósito BCP', prazo:12, unidade:'meses', tanb:2.85, tanl:2.05, tipo_taxa:'Fixa', deposito_minimo:1000, deposito_maximo:null, mobilizacao_antecipada:'Perda total de juros', novos_capitais:false, novos_clientes:true },
-  { id:5, banco:'Banco Santander', nome_deposito:'Depósito Santander Plus', prazo:6, unidade:'meses', tanb:2.70, tanl:1.94, tipo_taxa:'Fixa', deposito_minimo:5000, deposito_maximo:250000, mobilizacao_antecipada:'Perda total de juros', novos_capitais:true, novos_clientes:true },
-  { id:6, banco:'Novobanco', nome_deposito:'Depósito NB Online', prazo:6, unidade:'meses', tanb:2.60, tanl:1.87, tipo_taxa:'Fixa', deposito_minimo:1000, deposito_maximo:null, mobilizacao_antecipada:'50% dos juros', novos_capitais:false, novos_clientes:false },
-  { id:7, banco:'Banco CTT', nome_deposito:'Depósito CTT 12M', prazo:12, unidade:'meses', tanb:3.10, tanl:2.23, tipo_taxa:'Fixa', deposito_minimo:500, deposito_maximo:100000, mobilizacao_antecipada:'Sem juros', novos_capitais:true, novos_clientes:false },
-];
 
 let allDeposits = [];
-// null = sem filtro | true = só "Sim" | false = só "Não"
 let activeFilters = { novos_capitais: null, novos_clientes: null };
 let sortAsc = false;
 
@@ -967,46 +1407,24 @@ async function loadDeposits() {
   try {
     const res = await fetch(
       `${SUPABASE_URL}/rest/v1/Taxas%20DP?select=*&order=TANB.desc`,
-      {
-        headers: {
-          'apikey': SUPABASE_KEY,
-          'Authorization': `Bearer ${SUPABASE_KEY}`,
-          'Content-Type': 'application/json'
-        }
-      }
+      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' } }
     );
-    if (!res.ok) {
-      const err = await res.text();
-      console.error('Supabase erro:', res.status, err);
-      throw new Error(err);
-    }
-    const data = await res.json();
-    console.log('Supabase OK, registos:', data.length);
-    if (data.length > 0) {
-      console.log('=== COLUNAS REAIS (copia isto) ===');
-      console.log(JSON.stringify(data[0], null, 2));
-      console.log('=== CHAVES ===', Object.keys(data[0]));
-    }
-    allDeposits = data;
+    if (!res.ok) throw new Error(await res.text());
+    allDeposits = await res.json();
     applyFilters();
   } catch(e) {
-    console.error('Supabase fetch falhou:', e);
-    const container = document.getElementById('dp-list');
-    if (container) container.innerHTML = '<div class="empty-state">❌ Erro ao carregar dados: ' + e.message + '</div>';
+    document.getElementById('dp-list').innerHTML = '<div class="empty-state">❌ Erro ao carregar dados: ' + e.message + '</div>';
   }
 }
 
 function toggleFilter(key) {
-  // Cycle: null → true (Sim) → false (Não) → null
-  if (activeFilters[key] === null)       activeFilters[key] = true;
-  else if (activeFilters[key] === true)  activeFilters[key] = false;
-  else                                   activeFilters[key] = null;
-
+  if (activeFilters[key] === null)      activeFilters[key] = true;
+  else if (activeFilters[key] === true) activeFilters[key] = false;
+  else                                  activeFilters[key] = null;
   const el = document.getElementById('ft-' + key.replace('_','-'));
   if (el) {
     el.classList.toggle('active', activeFilters[key] !== null);
     el.classList.toggle('filter-neg', activeFilters[key] === false);
-    // Update label
     const base = key === 'novos_capitais' ? 'Novos Capitais' : 'Novos Clientes';
     if (activeFilters[key] === true)       el.querySelector('.ft-label').textContent = '✓ ' + base;
     else if (activeFilters[key] === false) el.querySelector('.ft-label').textContent = '✗ ' + base;
@@ -1025,9 +1443,7 @@ function toggleSort() {
 function applyFilters() {
   const fMin = parseFloat(document.getElementById('f-dep-min')?.value) || null;
   const fMax = parseFloat(document.getElementById('f-dep-max')?.value) || null;
-
   const normalized = allDeposits.map(normalizeRow);
-
   let filtered = normalized.filter(d => {
     if (activeFilters.novos_capitais === true  && !d.novos_capitais) return false;
     if (activeFilters.novos_capitais === false &&  d.novos_capitais) return false;
@@ -1037,9 +1453,7 @@ function applyFilters() {
     if (fMax !== null && d.deposito_maximo !== null && d.deposito_maximo < fMax) return false;
     return true;
   });
-
   filtered.sort((a, b) => sortAsc ? a.tanb - b.tanb : b.tanb - a.tanb);
-
   renderDeposits(filtered);
 }
 
@@ -1054,109 +1468,77 @@ function getBankAbbr(banco) {
   return map[banco] || banco.substring(0,4).toUpperCase();
 }
 
-// Parse Portuguese number format: "5,00" → 5.0 | "3.600" → 3.6 | "1 000" → 1000
 function ptNum(val) {
   if (val === null || val === undefined || val === '') return null;
   const s = String(val).trim();
-  // If it has a comma → comma is decimal separator (e.g. "5,00" or "1.234,56")
-  if (s.includes(',')) {
-    return parseFloat(s.replace(/\./g, '').replace(',', '.'));
-  }
-  // If it has a dot → check if it looks like thousands sep (e.g. "3.600" = 3.6%, "50.000" = 50000)
-  // Heuristic: if digits after dot <= 3 AND value > 100 when taken literally → likely thousands sep
+  if (s.includes(',')) return parseFloat(s.replace(/\./g, '').replace(',', '.'));
   if (s.includes('.')) {
     const direct = parseFloat(s.replace(/\s/g, ''));
     const noThousands = parseFloat(s.replace(/\./g, '').replace(/\s/g, ''));
-    // For tax rates: value should be < 100. If direct parse gives e.g. 3.6 that's fine.
-    // "3.600" direct = 3.6 which is reasonable for a rate
-    // "50.000" direct = 50 which is reasonable for a rate too... 
-    // Better: if decimal part has exactly 3 digits → thousands separator
     const parts = s.split('.');
     if (parts.length === 2 && parts[1].replace(/\s/g,'').length === 3) {
-      // e.g. "3.600" → parts = ["3","600"] → 3 digits after dot → thousands sep → 3.6? No wait
-      // "3.600" as thousands = 3600, but as rate means 3.6%
-      // In the context of TANL: "3.600" means 3.600% (3 decimal places)
-      // So we should treat dot as decimal here for small numbers
-      if (direct < 100) return direct; // treat as decimal for rates
-      return noThousands; // treat as thousands for large numbers
+      if (direct < 100) return direct;
+      return noThousands;
     }
     return direct;
   }
-  // No separators — could have spaces as thousands sep: "1 000" → 1000
   return parseFloat(s.replace(/\s/g, '')) || null;
 }
 
-// Normalize row — maps exact Supabase column names to internal keys
 function normalizeRow(d) {
   return {
-    id:               d.id || Math.random(),
-    banco:            d['Banco']             || '—',
-    prazo:            d['Prazo']             || '—',
-    unidade:          d['Dias /meses /anos'] || '',
-    nome_deposito:    d['Nome do Depósito']  || '—',
-    tanb:             ptNum(d['TANB'])       || 0,
-    tanl:             ptNum(d['TANL']),
-    tipo_taxa:        d['Tipo de Taxa']      || 'Fixa',
-    deposito_minimo:  ptNum(d['Depósito Mínimo']),
-    deposito_maximo:  ptNum(d['Depósito Máximo']),
-    mobilizacao:      d['Perda de juros com mobilização antecipada'] || '—',
-    novos_capitais:   d['Novos capitais?'] === 'Sim' || d['Novos capitais?'] === true || false,
-    novos_clientes:   d['Novos clientes?'] === 'Sim' || d['Novos clientes?'] === true || false,
-    outras:           d['Outras restrições?'] || '',
-    fin:              d['FIN (use o endereço)'] || '',
-    renovacoes:       d['Permite renovações?'] || '',
-    reforcos:         d['Permite reforços?']   || '',
-    data_conf:        d['Data Confirmação']    || '',
+    id:              d.id || Math.random(),
+    banco:           d['Banco']             || '—',
+    prazo:           d['Prazo']             || '—',
+    unidade:         d['Dias /meses /anos'] || '',
+    nome_deposito:   d['Nome do Depósito']  || '—',
+    tanb:            ptNum(d['TANB'])       || 0,
+    tanl:            ptNum(d['TANL']),
+    tipo_taxa:       d['Tipo de Taxa']      || 'Fixa',
+    deposito_minimo: ptNum(d['Depósito Mínimo']),
+    deposito_maximo: ptNum(d['Depósito Máximo']),
+    mobilizacao:     d['Perda de juros com mobilização antecipada'] || '—',
+    novos_capitais:  d['Novos capitais?'] === 'Sim' || d['Novos capitais?'] === true || false,
+    novos_clientes:  d['Novos clientes?'] === 'Sim' || d['Novos clientes?'] === true || false,
+    outras:          d['Outras restrições?'] || '',
+    fin:             d['FIN (use o endereço)'] || '',
+    renovacoes:      d['Permite renovações?'] || '',
+    reforcos:        d['Permite reforços?']   || '',
   };
 }
 
 function renderDeposits(list) {
   const container = document.getElementById('dp-list');
-  const countEl = document.getElementById('dp-count');
+  const countEl   = document.getElementById('dp-count');
   if (!container) return;
-
   if (countEl) countEl.textContent = list.length + ' resultado' + (list.length !== 1 ? 's' : '');
-
-  if (list.length === 0) {
-    container.innerHTML = '<div class="empty-state">😕 Nenhum depósito corresponde aos filtros.</div>';
-    return;
-  }
-
-  // Update hero with best rate
+  if (list.length === 0) { container.innerHTML = '<div class="empty-state">😕 Nenhum depósito corresponde aos filtros.</div>'; return; }
   const best = list[0];
   const bestRateEl = document.getElementById('dp-best-rate');
   const bestSubEl  = document.getElementById('dp-best-sub');
   if (bestRateEl) bestRateEl.textContent = best.tanb.toFixed(2) + '%';
   if (bestSubEl)  bestSubEl.textContent  = best.banco + ' · ' + best.prazo + ' ' + best.unidade + ' · líq: ' + (best.tanl || best.tanb * 0.72).toFixed(2) + '%';
-
   container.innerHTML = list.map(d => {
-    const tanl           = d.tanl || parseFloat((d.tanb * 0.72).toFixed(2));
-    const retencao1k     = ((d.tanb - tanl) * 10).toFixed(2);
-    const jurosLiq1k     = (tanl * 10).toFixed(2);
-    const abbr           = getBankAbbr(d.banco);
-    const prazoStr       = d.prazo + (d.unidade ? ' ' + d.unidade : '');
-    const uid            = String(d.id).replace(/[^a-z0-9]/gi, '_');
-
+    const tanl       = d.tanl || parseFloat((d.tanb * 0.72).toFixed(2));
+    const ret1k      = ((d.tanb - tanl) * 10).toFixed(2);
+    const juros1k    = (tanl * 10).toFixed(2);
+    const abbr       = getBankAbbr(d.banco);
+    const prazoStr   = d.prazo + (d.unidade ? ' ' + d.unidade : '');
+    const uid        = String(d.id).replace(/[^a-z0-9]/gi, '_');
     return `<div class="dp-card" id="dp-card-${uid}">
       <div class="dp-card-header" onclick="toggleDpCard('${uid}')">
         <div class="dp-card-left">
           <div class="dp-logo">${abbr}</div>
-          <div>
-            <div class="dp-name">${d.banco}</div>
-            <div class="dp-sub">${d.nome_deposito} · ${prazoStr}</div>
-          </div>
+          <div><div class="dp-name">${d.banco}</div><div class="dp-sub">${d.nome_deposito} · ${prazoStr}</div></div>
         </div>
-        <div class="dp-rate-col">
-          <div class="dp-tanb">${d.tanb.toFixed(2)}%</div>
-          <div class="dp-tanl">líq. ${tanl.toFixed(2)}%</div>
-        </div>
+        <div class="dp-rate-col"><div class="dp-tanb">${d.tanb.toFixed(2)}%</div><div class="dp-tanl">líq. ${tanl.toFixed(2)}%</div></div>
         <div class="dp-expand-icon">▾</div>
       </div>
       <div class="dp-details">
         <div class="dp-detail-row"><span class="dp-dk">TANB (bruta)</span><span class="dp-dv">${d.tanb.toFixed(2)}%</span></div>
         <div class="dp-detail-row"><span class="dp-dk">TANL (líquida após 28%)</span><span class="dp-dv green">${tanl.toFixed(2)}%</span></div>
-        <div class="dp-detail-row"><span class="dp-dk">Retenção Estado (por €1.000)</span><span class="dp-dv red">${retencao1k} €</span></div>
-        <div class="dp-detail-row"><span class="dp-dk">Juros líquidos (por €1.000)</span><span class="dp-dv">${jurosLiq1k} €</span></div>
+        <div class="dp-detail-row"><span class="dp-dk">Retenção Estado (por €1.000)</span><span class="dp-dv red">${ret1k} €</span></div>
+        <div class="dp-detail-row"><span class="dp-dk">Juros líquidos (por €1.000)</span><span class="dp-dv">${juros1k} €</span></div>
         <div class="dp-detail-row"><span class="dp-dk">Tipo de Taxa</span><span class="dp-dv">${d.tipo_taxa}</span></div>
         <div class="dp-detail-row"><span class="dp-dk">Depósito Mínimo</span><span class="dp-dv">${d.deposito_minimo ? d.deposito_minimo.toLocaleString('pt-PT') + ' €' : '—'}</span></div>
         <div class="dp-detail-row"><span class="dp-dk">Depósito Máximo</span><span class="dp-dv">${d.deposito_maximo ? d.deposito_maximo.toLocaleString('pt-PT') + ' €' : 'Sem limite'}</span></div>
@@ -1172,15 +1554,104 @@ function renderDeposits(list) {
 }
 
 function toggleDpCard(id) {
-  const card = document.getElementById('dp-card-' + id);
-  if (card) card.classList.toggle('open');
+  document.getElementById('dp-card-' + id)?.classList.toggle('open');
 }
 
-// Load deposits on first visit - called from showTab
-function maybeLoadDeposits(tabId) {
-  if (tabId === 'dep-prazo' && allDeposits.length === 0) loadDeposits();
+// ============================================================
+// ETFs — Supabase
+// ============================================================
+let allEtfs = [];
+let etfCatFilter = 'Todos';
+
+async function loadEtfs() {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/etfs?select=*&order=ticker.asc`,
+      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+    );
+    if (!res.ok) throw new Error(await res.text());
+    allEtfs = await res.json();
+    renderEtfs();
+  } catch(e) {
+    document.getElementById('etf-list').innerHTML = '<div class="empty-state">❌ Erro ao carregar ETFs</div>';
+  }
 }
 
+function filterEtfCat(cat, btn) {
+  etfCatFilter = cat;
+  document.querySelectorAll('.etf-cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderEtfs();
+}
+
+function perfClass(v) { if (v == null) return 'flat'; return v > 0 ? 'up' : v < 0 ? 'down' : 'flat'; }
+function perfStr(v)   { if (v == null) return '—'; return (v > 0 ? '+' : '') + parseFloat(v).toFixed(2) + '%'; }
+
+function renderEtfs() {
+  const list = etfCatFilter === 'Todos' ? allEtfs : allEtfs.filter(e => e.categoria === etfCatFilter || (etfCatFilter === 'EUA' && e.categoria?.startsWith('EUA')));
+  const heroEl  = document.getElementById('etf-hero-val');
+  const heroSub = document.getElementById('etf-hero-sub');
+  const container = document.getElementById('etf-list');
+  if (!container) return;
+  if (heroEl)  heroEl.textContent  = list.length + ' ETFs';
+  if (heroSub) heroSub.textContent = list.filter(e => e.preco != null).length + ' com cotação actualizada · 28% imposto';
+  if (list.length === 0) { container.innerHTML = '<div class="empty-state">Nenhum ETF nesta categoria.</div>'; return; }
+  try {
+    container.innerHTML = list.map(e => {
+      const ticker   = e.ticker || '—';
+      const abbr     = ticker.split('.')[0];
+      const chgVal   = parseFloat(e.variacao_dia) || null;
+      const chgCls   = perfClass(chgVal);
+      const chgStr   = chgVal != null ? (chgVal > 0 ? '▲ ' : '▼ ') + Math.abs(chgVal).toFixed(2) + '%' : '—';
+      const uid      = ticker.replace(/[^a-z0-9]/gi, '_');
+      const preco    = e.preco != null ? parseFloat(e.preco) : null;
+      const priceStr = preco != null ? preco.toFixed(2) + ' €' : '—';
+      const ret7d    = e.ret_7d  != null ? parseFloat(e.ret_7d)  : null;
+      const ret1m    = e.ret_1m  != null ? parseFloat(e.ret_1m)  : null;
+      const ret6m    = e.ret_6m  != null ? parseFloat(e.ret_6m)  : null;
+      const ret1a    = e.ret_1a  != null ? parseFloat(e.ret_1a)  : null;
+      return '<div class="etf-card" id="etf-card-' + uid + '">'
+        + '<div class="etf-header" onclick="toggleEtfCard(\'' + uid + '\')">'
+          + '<div class="etf-logo">' + abbr + '</div>'
+          + '<div class="etf-info"><div class="etf-name">' + (e.nome || ticker) + '</div><div class="etf-sub">' + ticker + ' · ' + (e.categoria || '') + ' · TER ' + (e.ter ? e.ter + '%' : '—') + '</div></div>'
+          + '<div class="etf-right"><div class="etf-price">' + priceStr + '</div><div class="etf-chg ' + chgCls + '">' + chgStr + '</div></div>'
+          + '<div class="etf-expand-icon">▾</div>'
+        + '</div>'
+        + '<div class="perf-strip">'
+          + '<div class="perf-box"><div class="perf-label">1D</div><div class="perf-val ' + perfClass(chgVal) + '">' + perfStr(chgVal) + '</div></div>'
+          + '<div class="perf-box"><div class="perf-label">7D</div><div class="perf-val ' + perfClass(ret7d)  + '">' + perfStr(ret7d)  + '</div></div>'
+          + '<div class="perf-box"><div class="perf-label">1M</div><div class="perf-val ' + perfClass(ret1m)  + '">' + perfStr(ret1m)  + '</div></div>'
+          + '<div class="perf-box"><div class="perf-label">6M</div><div class="perf-val ' + perfClass(ret6m)  + '">' + perfStr(ret6m)  + '</div></div>'
+          + '<div class="perf-box"><div class="perf-label">1A</div><div class="perf-val ' + perfClass(ret1a)  + '">' + perfStr(ret1a)  + '</div></div>'
+        + '</div>'
+        + '<div class="etf-details">'
+          + '<div class="etf-detail-row"><span class="etf-dk">Ticker</span><span class="etf-dv">' + ticker + '</span></div>'
+          + '<div class="etf-detail-row"><span class="etf-dk">Cotação Actual</span><span class="etf-dv">' + priceStr + '</span></div>'
+          + '<div class="etf-detail-row"><span class="etf-dk">Variação Hoje</span><span class="etf-dv ' + chgCls + '">' + chgStr + '</span></div>'
+          + '<div class="etf-detail-row"><span class="etf-dk">Rent. 7 Dias</span><span class="etf-dv ' + perfClass(ret7d) + '">' + perfStr(ret7d) + '</span></div>'
+          + '<div class="etf-detail-row"><span class="etf-dk">Rent. 1 Mês</span><span class="etf-dv ' + perfClass(ret1m) + '">' + perfStr(ret1m) + '</span></div>'
+          + '<div class="etf-detail-row"><span class="etf-dk">Rent. 6 Meses</span><span class="etf-dv ' + perfClass(ret6m) + '">' + perfStr(ret6m) + '</span></div>'
+          + '<div class="etf-detail-row"><span class="etf-dk">Rent. 1 Ano</span><span class="etf-dv ' + perfClass(ret1a) + '">' + perfStr(ret1a) + '</span></div>'
+          + '<div class="etf-detail-row"><span class="etf-dk">TER</span><span class="etf-dv">' + (e.ter ? e.ter + '%' : '—') + '</span></div>'
+          + '<div class="etf-detail-row"><span class="etf-dk">Domicílio</span><span class="etf-dv">' + (e.domicilio || '—') + '</span></div>'
+          + '<div class="etf-detail-row"><span class="etf-dk">Distribuição</span><span class="etf-dv">' + (e.distribucao || '—') + '</span></div>'
+          + '<div class="etf-detail-row"><span class="etf-dk">Imposto PT</span><span class="etf-dv red">28% mais-valias</span></div>'
+          + '<div class="etf-tags">'
+            + '<span class="etf-tag">' + (e.categoria || '—') + '</span>'
+            + '<span class="etf-tag ' + (e.distribucao === 'Acumulação' ? 'green' : 'amber') + '">' + (e.distribucao || '—') + '</span>'
+            + '<span class="etf-tag">' + (e.domicilio || '—') + '</span>'
+          + '</div>'
+        + '</div>'
+      + '</div>';
+    }).join('');
+  } catch(err) {
+    container.innerHTML = '<div class="empty-state">❌ Erro ao renderizar: ' + err.message + '</div>';
+  }
+}
+
+function toggleEtfCard(uid) {
+  document.getElementById('etf-card-' + uid)?.classList.toggle('open');
+}
 </script>
 </body>
 </html>
