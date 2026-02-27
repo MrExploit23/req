@@ -285,9 +285,119 @@
   .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 8px 4px; border-radius: 14px; background: transparent; border: none; cursor: pointer; transition: all 0.2s; color: var(--muted); }
   .nav-btn.active { background: var(--navy); color: var(--green); }
   .nav-icon { font-size: 1.05rem; }
-  .nav-label { font-size: 0.58rem; font-weight: 700; font-family: 'Outfit', sans-serif; }
+  .nav-label { font-size: 0.52rem; font-weight: 700; font-family: 'Outfit', sans-serif; }
 
+
+  .etf-filter-bar { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin-bottom: 10px; padding-bottom: 2px; }
+  .etf-filter-bar::-webkit-scrollbar { display: none; }
+  .etf-cat-btn { flex-shrink: 0; padding: 6px 14px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--white); font-size: 0.7rem; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .etf-cat-btn.active { background: var(--navy); border-color: var(--navy); color: var(--green); }
+  .etf-card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 8px; box-shadow: var(--shadow-sm); overflow: hidden; }
+  .etf-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; cursor: pointer; gap: 8px; }
+  .etf-logo { width: 40px; height: 40px; border-radius: 12px; background: var(--navy); display: flex; align-items: center; justify-content: center; font-size: 0.52rem; font-weight: 800; color: var(--green); text-align: center; line-height: 1.2; flex-shrink: 0; }
+  .etf-info { flex: 1; min-width: 0; }
+  .etf-name { font-weight: 700; font-size: 0.82rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .etf-sub  { font-size: 0.65rem; color: var(--muted); margin-top: 1px; }
+  .etf-right { text-align: right; flex-shrink: 0; }
+  .etf-price { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 800; color: var(--text); }
+  .etf-chg { font-size: 0.7rem; font-weight: 700; margin-top: 2px; }
+  .etf-chg.up { color: var(--green); } .etf-chg.down { color: var(--red); } .etf-chg.flat { color: var(--muted); }
+  .etf-expand-icon { width: 22px; height: 22px; border-radius: 6px; background: var(--bg2); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: var(--muted); flex-shrink: 0; transition: transform 0.2s; }
+  .etf-card.open .etf-expand-icon { transform: rotate(180deg); }
+
+  .etf-details { display: none; border-top: 1px solid var(--bg2); padding: 12px 16px; background: var(--bg); }
+  .etf-card.open .etf-details { display: block; animation: fadeUp 0.2s ease; }
+  .etf-detail-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 0.78rem; }
+  .etf-detail-row:last-child { border-bottom: none; }
+  .etf-dk { color: var(--muted); } .etf-dv { font-weight: 600; color: var(--text); }
+  .etf-dv.green { color: var(--green); } .etf-dv.red { color: var(--red); } .etf-dv.amber { color: var(--amber); }
+  .etf-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .etf-tag { padding: 3px 10px; border-radius: 20px; font-size: 0.62rem; font-weight: 700; background: var(--bg2); color: var(--muted); border: 1px solid var(--border); }
+  .etf-tag.green { background: var(--green-light); color: #008c69; border-color: var(--border-green); }
+  .etf-tag.amber { background: rgba(245,158,11,0.1); color: var(--amber); border-color: rgba(245,158,11,0.25); }
+
+  .login-prompt { background: var(--navy); border-radius: 18px; padding: 20px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .login-prompt-text { font-size: 0.8rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
+  .login-prompt-text strong { color: #fff; display: block; font-size: 0.88rem; margin-bottom: 3px; }
+  .login-prompt-btn { flex-shrink: 0; background: var(--green); color: var(--navy); border: none; border-radius: 12px; padding: 10px 18px; font-family: 'Syne', sans-serif; font-size: 0.78rem; font-weight: 800; cursor: pointer; white-space: nowrap; }
+
+  .disclaimer-modal { position: fixed; inset: 0; background: var(--bg); z-index: 200; display: none; flex-direction: column; overflow: hidden; }
+  .disclaimer-modal.open { display: flex; }
+  .disclaimer-header { background: var(--navy); padding: 20px 20px 16px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+  .disclaimer-title { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 800; color: #fff; }
+  .disclaimer-close { width: 34px; height: 34px; border-radius: 10px; background: rgba(255,255,255,0.1); border: none; color: rgba(255,255,255,0.7); font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .disclaimer-body { flex: 1; overflow-y: auto; padding: 20px; scrollbar-width: none; }
+  .disclaimer-body::-webkit-scrollbar { display: none; }
+  .disclaimer-section { margin-bottom: 20px; }
+  .disclaimer-num { font-family: 'Syne', sans-serif; font-size: 0.7rem; font-weight: 800; color: var(--green); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+  .disclaimer-heading { font-family: 'Syne', sans-serif; font-size: 0.92rem; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+  .disclaimer-text { font-size: 0.8rem; color: #4a5568; line-height: 1.7; }
+  .disclaimer-note { background: rgba(0,200,150,0.06); border: 1px solid var(--border-green); border-radius: 12px; padding: 12px 14px; font-size: 0.75rem; color: #008c69; line-height: 1.6; margin-bottom: 16px; display: flex; gap: 10px; align-items: flex-start; cursor: pointer; }
+  .disclaimer-note-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+  .disclaimer-note-text { flex: 1; }
+  .disclaimer-note-link { font-weight: 700; text-decoration: underline; text-underline-offset: 2px; white-space: nowrap; flex-shrink: 0; font-size: 0.7rem; margin-top: 2px; }
+
+  .guia-hero { background: var(--navy); border-radius: 22px; padding: 22px; margin-bottom: 16px; position: relative; overflow: hidden; box-shadow: 0 12px 40px rgba(10,22,40,0.22); }
+  .guia-hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(0,200,150,0.18), transparent 70%); }
+  .guia-hero-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.4); margin-bottom: 6px; position: relative; z-index: 1; }
+  .guia-hero-title { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800; color: #fff; line-height: 1.15; margin-bottom: 8px; position: relative; z-index: 1; }
+  .guia-hero-title span { color: var(--green); }
+  .guia-hero-sub { font-size: 0.75rem; color: rgba(255,255,255,0.45); position: relative; z-index: 1; line-height: 1.5; }
+  .guia-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px; position: relative; z-index: 1; }
+  .guia-badge { display: inline-flex; align-items: center; gap: 5px; background: rgba(0,200,150,0.15); border: 1px solid rgba(0,200,150,0.25); border-radius: 20px; padding: 4px 12px; font-size: 0.66rem; color: var(--green); font-weight: 600; }
+  .guia-part-header { background: var(--navy); border-radius: 16px; padding: 16px 18px; margin-bottom: 12px; margin-top: 8px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
+  .guia-part-header.open { border-radius: 16px 16px 0 0; }
+  .guia-part-num { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--green); font-weight: 700; margin-bottom: 4px; }
+  .guia-part-title { font-family: 'Syne', sans-serif; font-size: 0.92rem; font-weight: 800; color: #fff; line-height: 1.2; }
+  .guia-part-arrow { font-size: 0.9rem; color: var(--green); transition: transform 0.25s; flex-shrink: 0; margin-left: 10px; }
+  .guia-part-header.open .guia-part-arrow { transform: rotate(180deg); }
+  .guia-part-body { 
+    display: none; 
+    background: var(--white); 
+    border: 1px solid var(--border); 
+    border-top: none; 
+    border-radius: 0 0 16px 16px; 
+    padding: 0 16px 16px; 
+    margin-bottom: 12px; 
+  }
+  .guia-part-body.open { display: block; animation: guiaSlide 0.28s cubic-bezier(0.4,0,0.2,1) both; }
+  .guia-section { margin-top: 16px; }
+  .guia-section-num { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--green); font-weight: 700; margin-bottom: 3px; }
+  .guia-section-title { font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 800; color: var(--text); margin-bottom: 8px; padding-bottom: 6px; border-bottom: 2px solid var(--green-light); }
+  .guia-text { font-size: 0.79rem; color: #4a5568; line-height: 1.75; margin-bottom: 10px; }
+  .guia-table { width: 100%; border-collapse: collapse; margin: 10px 0; border-radius: 12px; overflow: hidden; }
+  .guia-table th { background: var(--navy); color: var(--green); font-family: 'Syne', sans-serif; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 9px 12px; text-align: left; }
+  .guia-table td { padding: 9px 12px; font-size: 0.77rem; border-bottom: 1px solid var(--bg2); color: var(--text); }
+  .guia-table tr:last-child td { border-bottom: none; }
+  .guia-table tr:nth-child(even) td { background: var(--bg); }
+  .guia-table .td-green { color: var(--green); font-weight: 700; }
+  .guia-table .td-amber { color: var(--amber); font-weight: 700; }
+  .guia-table .td-red { color: var(--red); font-weight: 700; }
+  .guia-highlight { background: rgba(0,200,150,0.06); border-left: 3px solid var(--green); border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 10px 0; font-size: 0.78rem; color: #008c69; line-height: 1.65; }
+  .guia-warning { background: rgba(245,158,11,0.07); border-left: 3px solid var(--amber); border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 10px 0; font-size: 0.78rem; color: #92400e; line-height: 1.65; }
+  .guia-list { margin: 8px 0; padding-left: 0; list-style: none; }
+  .guia-list li { font-size: 0.79rem; color: #4a5568; line-height: 1.7; padding: 4px 0 4px 18px; position: relative; }
+  .guia-list li::before { content: '▸'; position: absolute; left: 0; color: var(--green); font-size: 0.7rem; top: 6px; }
+  .faq-item { border: 1px solid var(--border); border-radius: 14px; margin-bottom: 8px; overflow: hidden; }
+  .faq-q { padding: 13px 16px; cursor: pointer; display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; background: var(--white); }
+  .faq-q-text { font-size: 0.8rem; font-weight: 600; color: var(--text); line-height: 1.45; flex: 1; }
+  .faq-arrow { font-size: 0.75rem; color: var(--muted); flex-shrink: 0; margin-top: 2px; transition: transform 0.2s; }
+  .faq-item.open .faq-arrow { transform: rotate(180deg); }
+  .faq-a { display: none; padding: 0 16px 14px; font-size: 0.78rem; color: #4a5568; line-height: 1.7; background: var(--bg); border-top: 1px solid var(--bg2); padding-top: 12px; }
+  .faq-item.open .faq-a { display: block; animation: fadeUp 0.15s ease; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes guiaSlide { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── GUIA SMOOTH ENHANCEMENTS ── */
+  .guia-part-header { transition: background 0.2s ease, border-radius 0.2s ease; }
+  .guia-part-header:active { opacity: 0.85; }
+  .guia-part-arrow { transition: transform 0.28s cubic-bezier(0.4,0,0.2,1); }
+  .faq-item { transition: box-shadow 0.2s ease; }
+  .faq-item.open { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .faq-arrow { transition: transform 0.25s cubic-bezier(0.4,0,0.2,1); }
+  .faq-a { animation: guiaSlide 0.22s cubic-bezier(0.4,0,0.2,1) both; }
+  .tab-content.active { animation: fadeUp 0.22s cubic-bezier(0.4,0,0.2,1) both; }
+  .scroll-area { scroll-behavior: smooth; }
 </style>
 </head>
 <body>
@@ -295,8 +405,7 @@
 
   <!-- ══ AUTH SCREEN ══ -->
   <div class="auth-screen" id="auth-screen">
-    <div class="auth-logo">LF</div>
-    <div class="auth-title">Literacia Financeira</div>
+    <div style="margin-bottom:24px;text-align:center;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3NjUgMjAwIj4KPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwtNjAwKSI+CjxwYXRoIGQ9Ik0gMTE1LjQ2IDcyNi43NSBDMTE0Ljg5LDcyOC41NiA2Ni4xNSw3MjguNTYgNjUuNDYsNzI2Ljc1IEM2NS4xOSw3MjYuMDYgNjUuMDksNzA3LjA1IDY1LjI0LDY4NC41MCBMIDY1LjUwIDY0My41MCBMIDg0LjAwIDY0Mi45MiBMIDg0LjAwIDcxMS4wMCBMIDExNi43MyA3MTEuMDAgTCAxMTYuMjkgNzE4LjI1IEMxMTYuMDUsNzIyLjI0IDExNS42Nyw3MjYuMDYgMTE1LjQ2LDcyNi43NSBaTSAxODQuNjggNzI2Ljc1IEMxODMuOTcsNzI3LjQ2IDE4MC40OSw3MjguMjQgMTc2Ljk0LDcyOC40OCBDMTY2Ljg3LDcyOS4xNyAxNjEuOTAsNzI3LjM1IDE1Ny4yOSw3MjEuMzIgTCAxNTQuNTAgNzE3LjY2IEwgMTU0LjE2IDY5OC44OCBMIDE1My44MSA2ODAuMTEgTCAxNDkuNjYgNjc5LjgwIEwgMTQ1LjUwIDY3OS41MCBMIDE0NS4yMCA2NzIuNzUgQzE0NC45Miw2NjYuMjkgMTQ1LjAxLDY2Ni4wMCAxNDcuMjAsNjY1Ljk5IEMxNTMuNTksNjY1Ljk1IDE1NC4wMCw2NjUuNDAgMTU0LjAwLDY1Ni44OCBMIDE1NC4wMCA2NDkuMDAgTCAxNzEuMDAgNjQ5LjAwIEwgMTcxLjAwIDY2NC45MCBMIDE4My41MCA2NjUuNTAgTCAxODMuODAgNjcyLjI1IEwgMTg0LjA5IDY3OS4wMCBMIDE3MS4wMiA2NzkuMDAgTCAxNzEuMjYgNjk0LjU5IEMxNzEuNDksNzA5Ljc2IDE3MS41Nyw3MTAuMjMgMTczLjkzLDcxMi4xNSBDMTc1Ljc4LDcxMy42NCAxNzcuMjMsNzEzLjk3IDE3OS45OSw3MTMuNTAgTCAxODMuNjMgNzEyLjg5IEwgMTg0LjgwIDcxOS4xOCBDMTg1LjczLDcyNC4yMCAxODUuNzEsNzI1LjcyIDE4NC42OCw3MjYuNzUgWk0gMTQwLjAwIDY2NC45MiBMIDE0MC4wMCA3MjguMDAgTCAxMzEuNDcgNzI4LjAwIEMxMjUuNTMsNzI4LjAwIDEyMi43OSw3MjcuNjIgMTIyLjQ1LDcyNi43NCBDMTIyLjE5LDcyNi4wNSAxMjIuMDksNzExLjk4IDEyMi4yMyw2OTUuNDkgTCAxMjIuNTAgNjY1LjUwIFpNIDE0MC4wMCA2NDMuMDAgTCAxNDAuMDAgNjU4LjAwIEwgMTMxLjY3IDY1OC4wMCBDMTI3LjA4LDY1OC4wMCAxMjMuMDMsNjU3LjcwIDEyMi42Nyw2NTcuMzMgQzEyMi4zMCw2NTYuOTcgMTIyLjAwLDY1My41OSAxMjIuMDAsNjQ5LjgzIEwgMTIyLjAwIDY0My4wMCBaIiBmaWxsPSJyZ2IoMjU1LDI1NSwyNTUpIi8+CjxwYXRoIGQ9Ik0gMjEwLjAwIDcxMS42MiBMIDIxMC4wMCA3MjcuMDAgTCAxOTIuMDAgNzI3LjAwIEwgMTkyLjAwIDY0NC4yNSBMIDE5NS4xMiA2NDMuNjIgQzE5Ni44NCw2NDMuMjggMjQ4LjU4LDY0My4wMCAzMTAuMDksNjQzLjAwIEM0MjEuNDMsNjQzLjAwIDQyMS45NSw2NDIuOTkgNDI3LjcxLDY0MC44OSBDNDMyLjg5LDYzOS4wMCA0MzUuMjcsNjM2Ljk4IDQ1MC4xNSw2MjEuODEgQzQ1OS4zMSw2MTIuNDcgNDY3LjAyLDYwNC4wMiA0NjcuMjksNjAzLjAyIEM0NjcuNjEsNjAxLjc3IDQ2Ni4wNSw1OTkuNTEgNDYyLjM4LDU5NS44OCBDNDU5LjQyLDU5Mi45NiA0NTcuMDAsNTkwLjI1IDQ1Ny4wMCw1ODkuODYgQzQ1Ny4wMCw1ODguNzIgNDkzLjgyLDU3Ny42OSA1MDIuMDEsNTc2LjM4IEM1MDIuNDksNTc2LjMxIDUwMi45Miw1NzYuMjEgNTAzLjMwLDU3Ni4xMyBDNTA0LjE4LDU3NS45NCA1MDQuNzgsNTc1LjgxIDUwNS4xNCw1NzYuMDUgQzUwNS45Niw1NzYuNjAgNTA1LjQ5LDU3OS4wOCA1MDMuOTQsNTg3LjIwIEM1MDMuNjQsNTg4Ljc1IDUwMy4zMSw1OTAuNTEgNTAyLjk0LDU5Mi41MCBDNDk5LjYxLDYxMC4yOCA0OTYuODEsNjIzLjQwIDQ5Ni4wNCw2MjQuODQgQzQ5NS41MSw2MjUuODIgNDkzLjU2LDYyNC42OCA0ODguNzMsNjIwLjU5IEM0ODUuMTEsNjE3LjUxIDQ4MS41NSw2MTUuMDAgNDgwLjgzLDYxNS4wMCBDNDgwLjEwLDYxNS4wMCA0NzEuNDEsNjIzLjI1IDQ2MS41MSw2MzMuMzQgQzQ0NS45OSw2NDkuMTUgNDQyLjU0LDY1Mi4xNSA0MzYuNTUsNjU1LjA5IEwgNDI5LjYxIDY1OC41MCBMIDMyMC44OSA2NTkuMDAgQzI2MS4wOSw2NTkuMjggMjExLjgyLDY1OS44NSAyMTEuMzksNjYwLjI3IEMyMTAuMTcsNjYxLjUwIDIxMC4zNyw2NzUuNzUgMjExLjYzLDY3Ny4wMiBDMjEyLjMwLDY3Ny43MCAyMTguMzIsNjc4LjM5IDIyNi40Miw2NzguNzMgTCAyNDAuMDggNjc5LjMwIEwgMjM5Ljc5IDY4Ni40MCBMIDIzOS41MCA2OTMuNTAgTCAyMjYuMDcgNjkzLjc4IEMyMTguMjUsNjkzLjk0IDIxMi4wOCw2OTQuNTIgMjExLjMyLDY5NS4xNSBDMjEwLjMzLDY5NS45NyAyMTAuMDAsNzAwLjEzIDIxMC4wMCw3MTEuNjIgWk0gNTYyLjYyIDcyNS40MyBDNTU4LjM2LDcyOC4wNyA1NTYuNzIsNzI4LjQ2IDU0OC42NSw3MjguNzcgQzU0MC4yMCw3MjkuMDkgNTM5LjA0LDcyOC44OSA1MzMuNTAsNzI2LjIwIEM1MjYuMzEsNzIyLjcwIDUyNC45Miw3MjEuMjUgNTIxLjM1LDcxMy40NyBDNTE1LjkwLDcwMS42MCA1MTcuNTMsNjgxLjQ2IDUyNC42NCw2NzMuMDIgQzUyOC45NSw2NjcuOTAgNTM2LjM0LDY2NC43NCA1NDUuMjcsNjY0LjIxIEM1NjIuMjUsNjYzLjE5IDU3MS4xMyw2NzEuMDkgNTc0LjA0LDY4OS44MSBDNTc0LjA5LDY5MC4xNCA1NzQuMTQsNjkwLjQ3IDU3NC4xOSw2OTAuNzkgQzU3NC44NCw2OTQuODkgNTc1LjIyLDY5Ny4zNSA1NzQuMTksNjk4LjgyIEM1NzIuNjYsNzAxLjAxIDU2Ny45OSw3MDEuMDEgNTU2LjM0LDcwMS4wMCBDNTU1LjczLDcwMS4wMCA1NTUuMTEsNzAxLjAwIDU1NC40Niw3MDEuMDAgTCA1MzYuMDAgNzAxLjAwIEwgNTM2LjAwIDcwMy41NSBDNTM2LjAwLDcwOS43NSA1NDEuMDksNzE1LjAwIDU0Ny4xMSw3MTUuMDAgQzU1MC4xMSw3MTUuMDAgNTUxLjQyLDcxNC4yOCA1NTQuNDIsNzEwLjk2IEwgNTU4LjA3IDcwNi45MiBMIDU2NS43OCA3MDcuMjEgTCA1NzMuNTAgNzA3LjUwIEwgNTczLjI5IDcxMC40MiBDNTcyLjk1LDcxNS4wOSA1NjcuOTQsNzIyLjE0IDU2Mi42Miw3MjUuNDMgWk0gNjc2LjAwIDcyNy4xNSBDNjc0LjYyLDcyNy43OCA2NzAuODAsNzI4LjQ4IDY2Ny41MCw3MjguNjkgQzY1OC45NCw3MjkuMjYgNjUyLjEzLDcyNS45NiA2NDkuMTQsNzE5LjgwIEM2NDYuNDAsNzE0LjEyIDY0Ni4yNCw3MDQuOTIgNjQ4LjgxLDY5OS45OCBDNjUxLjQ5LDY5NC44MyA2NTkuNjYsNjkxLjA0IDY3MS4zMiw2ODkuNTUgQzY4MS45NCw2ODguMTkgNjgzLjAwLDY4Ny43NCA2ODMuMDAsNjg0LjYyIEM2ODMuMDAsNjgwLjgzIDY3OS4wMyw2NzguMDAgNjczLjcyLDY3OC4wMCBDNjY5LjcwLDY3OC4wMCA2NjguNzUsNjc4LjQxIDY2Ni44NCw2ODEuMDAgQzY2NC44MCw2ODMuNzYgNjY0LjE1LDY4NC4wMCA2NTguNTYsNjgzLjk4IEM2NTAuNjQsNjgzLjk2IDY0OS41NCw2ODMuMjIgNjUwLjMzLDY3OC4zNyBDNjUxLjE4LDY3My4xMCA2NTMuNzUsNjY5Ljk0IDY1OS41Niw2NjcuMDAgQzY2My45MCw2NjQuODEgNjY1Ljc4LDY2NC41MCA2NzUuMDAsNjY0LjUwIEM2ODYuNTgsNjY0LjUwIDY5MC4xNiw2NjUuODMgNjk1LjQzLDY3Mi4xMCBDNjk5LjUwLDY3Ni45MyA3MDAuMDYsNjgxLjIwIDY5OS43Nyw3MDUuMTggTCA2OTkuNTAgNzI3LjUwIEwgNjkyLjU0IDcyNy44MCBDNjg2LjI3LDcyOC4wNyA2ODUuNDEsNzI3Ljg3IDY4My44Myw3MjUuODAgQzY4Mi4zNSw3MjMuODUgNjgxLjgxLDcyMy42OSA2ODAuMjksNzI0Ljc1IEM2NzkuMzEsNzI1LjQ0IDY3Ny4zOCw3MjYuNTIgNjc2LjAwLDcyNy4xNSBaTSAzNjMuMDYgNzI2Ljg5IEMzNTcuMTYsNzI5LjY5IDM1MS41NCw3MjkuNTggMzQ1LjQ1LDcyNi41MiBDMzM4LjE4LDcyMi44NyAzMzYuMDAsNzE5LjA3IDMzNi4wMCw3MTAuMDYgQzMzNi4wMCw3MDEuMjcgMzM4LjA0LDY5Ny4yMiAzNDQuMzQsNjkzLjU1IEMzNDguNDEsNjkxLjE4IDM1Ny4wNCw2ODkuMjcgMzY2LjAwLDY4OC43NiBDMzcwLjQwLDY4OC41MSAzNzAuNTEsNjg4LjQyIDM3MC44MCw2ODQuODYgQzM3MS4wNSw2ODEuOTEgMzcwLjYwLDY4MC44MyAzNjguNDIsNjc5LjExIEMzNjQuNDMsNjc1Ljk4IDM1OS41Miw2NzYuMzMgMzU1Ljg1LDY4MC4wMCBDMzUzLjEwLDY4Mi43NSAzNTIuMjgsNjgzLjAwIDM0NS45OCw2ODMuMDAgQzM0Mi4yMSw2ODMuMDAgMzM4Ljg5LDY4Mi42MiAzMzguNjAsNjgyLjE2IEMzMzcuNTcsNjgwLjUwIDM0MC41Myw2NzMuNTQgMzQzLjU1LDY3MC41MSBDMzUxLjY1LDY2Mi40MiAzNzEuMzksNjYxLjc1IDM4MC41MSw2NjkuMjcgQzM4Ny40Miw2NzQuOTYgMzg3Ljk1LDY3Ny40NCAzODcuOTgsNzAzLjc1IEwgMzg4LjAwIDcyNy4wMCBMIDM3My4yNSA3MjcuMDAgTCAzNzEuOTggNzIwLjY3IEwgMzY5Ljc0IDcyMi43MiBDMzY4LjUxLDcyMy44NSAzNjUuNTAsNzI1LjczIDM2My4wNiw3MjYuODkgWk0gMjk0LjAwIDcwNi4zMyBMIDI5My41MCA3MjcuNTAgTCAyODUuNDUgNzI3Ljc5IEMyODEuMDMsNzI3Ljk1IDI3Ny4wOSw3MjcuNzYgMjc2LjcwLDcyNy4zNyBDMjc2LjMyLDcyNi45OCAyNzYuMDAsNzEzLjA2IDI3Ni4wMCw2OTYuNDQgQzI3Ni4wMCw2OTQuMDcgMjc2LjAwLDY5MS44OCAyNzUuOTksNjg5Ljg2IEMyNzUuOTcsNjcyLjA0IDI3NS45Niw2NjYuOTEgMjc4LjI2LDY2NS40OCBDMjc5LjE5LDY2NC45MSAyODAuNDksNjY0Ljk0IDI4Mi4zMiw2NjQuOTggQzI4Mi44NCw2NjQuOTkgMjgzLjQwLDY2NS4wMCAyODQuMDAsNjY1LjAwIEMyOTAuMzgsNjY1LjAwIDI5Mi4wMCw2NjUuNzMgMjkyLjAwLDY2OC42MSBDMjkyLjAwLDY3MS42MiAyOTIuOTcsNjcxLjYyIDI5Ni41MCw2NjguNTkgQzMwMS45Nyw2NjMuODkgMzEyLjU0LDY2Mi43NSAzMTkuNTMsNjY2LjExIEMzMjIuNzcsNjY3LjY3IDMyNi43OCw2NzMuMDUgMzI3LjU5LDY3Ni45NCBDMzI3Ljg4LDY3OC4zNSAzMjguNTQsNjgwLjI4IDMyOS4wNiw2ODEuMjQgQzMyOS41OCw2ODIuMTkgMzMwLjAwLDY5Mi42MCAzMzAuMDAsNzA0LjM2IEMzMzAuMDAsNzIxLjUzIDMyOS43Miw3MjUuOTkgMzI4LjU5LDcyNi45MiBDMzI3LjcyLDcyNy42NSAzMjQuMzksNzI3Ljk4IDMxOS44NCw3MjcuODAgTCAzMTIuNTAgNzI3LjUwIEwgMzEyLjAwIDcwNS44NSBDMzExLjU1LDY4Ni4zOCAzMTEuMzEsNjgzLjk5IDMwOS42MCw2ODIuMTAgQzMwNi43NCw2NzguOTUgMzAwLjEwLDY3OS4yMCAyOTYuOTIsNjgyLjU4IEMyOTQuNTUsNjg1LjEwIDI5NC40OSw2ODUuNjIgMjk0LjAwLDcwNi4zMyBaTSA0MTUuMDAgNzA2LjcyIEwgNDE1LjAwIDcyNy4wMCBMIDM5OC4wMCA3MjcuMDAgTCAzOTguMDAgNjY2LjI3IEwgNDA0Ljc1IDY2NS43MyBDNDEyLjIwLDY2NS4xMyA0MTQuMDAsNjY1LjkwIDQxNC4wMCw2NjkuNzMgTCA0MTQuMDAgNjcyLjIxIEwgNDE3LjQ3IDY2OS4xNiBDNDI1LjM4LDY2Mi4yMSA0MzguODcsNjYyLjQwIDQ0NS42MCw2NjkuNTQgQzQ1MC4yNyw2NzQuNDkgNDUxLjAwLDY3OS4yMiA0NTEuMDAsNzA0LjQ0IEwgNDUxLjAwIDcyNy4wMCBMIDQzNC4wMCA3MjcuMDAgTCA0MzQuMDAgNzA1LjYzIEM0MzQuMDAsNjg1LjUzIDQzMy44OCw2ODQuMTEgNDMxLjkzLDY4MS42MyBDNDMwLjI3LDY3OS41MyA0MjkuMDAsNjc5LjAwIDQyNS42Miw2NzkuMDAgQzQyMS4xMSw2NzkuMDAgNDE5LjI4LDY4MC4wMSA0MTYuNjUsNjgzLjk3IEM0MTUuMjUsNjg2LjA2IDQxNS4wMCw2ODkuNTcgNDE1LjAwLDcwNi43MiBaTSA1MDAuNTAgNzI2LjI2IEM0OTUuMzcsNzI4LjkzIDQ4Mi4yNiw3MjkuNjggNDc2LjcyLDcyNy42MiBDNDcwLjIxLDcyNS4yMCA0NjYuMTQsNzIxLjcyIDQ2My4xNCw3MTYuMDAgQzQ1OS40Miw3MDguOTEgNDU4Ljk0LDcwNi42NyA0NTguOTAsNjk2LjI5IEM0NTguODIsNjc0LjgxIDQ2OS43Nyw2NjMuMzQgNDg5LjU4LDY2NC4xNiBDNTAwLjM0LDY2NC42MSA1MDYuMjAsNjY3Ljk1IDUxMC4yNSw2NzUuOTMgQzUxNS4xNyw2ODUuNjUgNTEzLjU3LDY4OC4wMCA1MDIuMDEsNjg4LjAwIEM0OTYuMjAsNjg4LjAwIDQ5Ni4xNSw2ODcuOTcgNDk1LjAwLDY4NC40OSBDNDkzLjY1LDY4MC40MCA0OTEuNTAsNjc5LjAwIDQ4Ni41Nyw2NzkuMDAgQzQ4Mi4yMyw2NzkuMDAgNDc5LjUzLDY4MS40NSA0NzguMDcsNjg2LjY5IEM0NzYuNzQsNjkxLjQ3IDQ3Ni42OSw3MDEuNDQgNDc3Ljk4LDcwNS45MiBDNDgwLjk5LDcxNi40MiA0OTIuMDUsNzE2Ljk0IDQ5NS45MSw3MDYuNzUgQzQ5Ni45Myw3MDQuMDUgNDk3LjA5LDcwNC4wMCA1MDUuNDgsNzA0LjAwIEM1MTMuNzgsNzA0LjAwIDUxNC4wMCw3MDQuMDYgNTE0LjAwLDcwNi4zNyBDNTE0LjAwLDcxMy42NSA1MDguMTQsNzIyLjI4IDUwMC41MCw3MjYuMjYgWk0gNjI2LjAwIDcwNy44MiBMIDYyNS41MCA3MjcuNTAgTCA2MTcuMzcgNzI3Ljc5IEM2MTAuNjMsNzI4LjAzIDYwOS4xNCw3MjcuODAgNjA4LjYyLDcyNi40NiBDNjA4LjI4LDcyNS41NyA2MDguMDAsNzExLjYwIDYwOC4wMCw2OTUuNDIgTCA2MDguMDAgNjY2LjAwIEwgNjE2LjUwIDY2Ni4wMCBDNjIzLjM5LDY2Ni4wMCA2MjUuMDAsNjY2LjI4IDYyNS4wMCw2NjcuNTAgQzYyNS4wMCw2NjkuNTAgNjI2LjI4LDY2OS4zOSA2MzAuNzQsNjY3LjAwIEM2MzMuMjMsNjY1LjY2IDYzNi4zOCw2NjUuMDAgNjQwLjI0LDY2NS4wMCBMIDY0Ni4wMCA2NjUuMDAgTCA2NDYuMDAgNjcxLjU3IEM2NDYuMDAsNjgwLjE3IDY0NC44NCw2ODIuMzcgNjQwLjY2LDY4MS42MyBDNjM1LjcyLDY4MC43NiA2MzAuOTEsNjgyLjI0IDYyOC41OSw2ODUuMzQgQzYyNi42OCw2ODcuOTAgNjI2LjQ2LDY4OS44NSA2MjYuMDAsNzA3LjgyIFpNIDU5OC41MCA2NjUuNTAgTCA1OTguNTAgNzI3LjUwIEwgNTkwLjQ1IDcyNy43OSBDNTg2LjAzLDcyNy45NSA1ODIuMDksNzI3Ljc2IDU4MS43MCw3MjcuMzcgQzU4MS4zMiw3MjYuOTggNTgxLjAwLDcxMy4wMyA1ODEuMDAsNjk2LjM1IEwgNTgxLjAwIDY2Ni4wNCBMIDU4My4yOCA2NjUuNDcgQzU4NC41NCw2NjUuMTUgNTg4LjQ3LDY2NS4wMyA1OTIuMDMsNjY1LjIwIFpNIDI2NS43NiA2OTYuMjUgTCAyNjYuMDMgNzI3LjAwIEwgMjQ4Ljk3IDcyNy4wMCBMIDI0OS41MCA2NjUuNTAgTCAyNjUuNTAgNjY1LjUwIFpNIDU5Ny4wNyA2NTcuOTYgQzU5NC43Myw2NTkuMjIgNTg2LjM2LDY1OS4yMiA1ODMuMjUsNjU3Ljk3IEM1ODEuMjIsNjU3LjE1IDU4MS4wMCw2NTYuMzkgNTgxLjAwLDY1MC4xNSBDNTgxLjAwLDY0My44MiA1ODEuMTksNjQzLjE4IDU4My4yNSw2NDIuNjMgQzU4Ni4xOSw2NDEuODQgNTkxLjk1LDY0MS44NCA1OTUuODgsNjQyLjYyIEwgNTk5LjAwIDY0My4yNSBMIDU5OS4wMCA2NTAuMDkgQzU5OS4wMCw2NTUuODMgNTk4LjY5LDY1Ny4xMCA1OTcuMDcsNjU3Ljk2IFpNIDM1NS40NSA3MTMuNTUgQzM1OC44OSw3MTYuOTkgMzYzLjA2LDcxNi43NiAzNjcuNDcsNzEyLjkwIEMzNzAuNDksNzEwLjI0IDM3MS4wMCw3MDkuMTcgMzcxLjAwLDcwNS40NiBDMzcxLjAwLDcwMy4wNyAzNzAuNTQsNzAwLjg0IDM2OS45OCw3MDAuNDkgQzM2OS40Miw3MDAuMTQgMzY2LjUxLDcwMC4xNyAzNjMuNTEsNzAwLjU0IEMzNTQuMDMsNzAxLjczIDM1MC4wNSw3MDguMTQgMzU1LjQ1LDcxMy41NSBaTSA2NjYuOTQgNzE0LjE2IEM2NjkuOTgsNzE2LjYxIDY3Mi45OSw3MTYuNDggNjc3LjA5LDcxMy43MiBDNjgyLjgyLDcwOS44NiA2ODUuMjAsNzAxLjgzIDY4MS4wMSw3MDAuNTAgQzY3Ny43MCw2OTkuNDUgNjY5Ljk4LDcwMS4xMiA2NjcuMjQsNzAzLjQ3IEM2NjMuODYsNzA2LjM4IDY2My43MSw3MTEuNTQgNjY2Ljk0LDcxNC4xNiBaTSA1MzcuNjIgNjg4LjcxIEM1NDAuMzcsNjkwLjcyIDU1Mi4yOSw2OTAuMzkgNTU0Ljk1LDY4OC4yNCBDNTU2Ljc4LDY4Ni43NiA1NTYuOTcsNjg2LjA1IDU1Ni4xMyw2ODMuODQgQzU1NC43MSw2ODAuMTAgNTUxLjIyLDY3OC4wMCA1NDYuNDEsNjc4LjAwIEM1NDEuNTIsNjc4LjAwIDUzNy41NCw2ODAuNzAgNTM2LjU0LDY4NC43MCBDNTM2LjA0LDY4Ni43MCA1MzYuMzIsNjg3Ljc2IDUzNy42Miw2ODguNzEgWiIgZmlsbD0icmdiKDM3LDI0NCwxNzApIi8+CjwvZz4KPC9zdmc+Cg==" style="height:52px;object-fit:contain;margin-bottom:0;" alt="LitFinanceira"></div>
     <div class="auth-sub">Gere as tuas finanças pessoais,<br>simula créditos e acompanha taxas.</div>
     <div class="auth-card">
       <div class="auth-tabs">
@@ -323,14 +432,16 @@
         <p>Email enviado para<br><strong id="magic-email-display"></strong><br><br>Clica no link para entrar.</p>
       </div>
       <div class="auth-error" id="auth-error"></div>
+      <button onclick="continuarSemRegisto()" style="width:100%;margin-top:16px;background:transparent;border:none;color:rgba(255,255,255,0.3);font-family:'Outfit',sans-serif;font-size:0.8rem;cursor:pointer;padding:8px;text-decoration:underline;text-underline-offset:3px;">
+        Continuar sem conta →
+      </button>
     </div>
   </div>
 
   <!-- ══ APP ══ -->
   <div class="header">
     <div class="logo-mark">
-      <div class="logo-icon">LF</div>
-      <div class="logo-text">Literacia <span>Financeira</span></div>
+      <div style="display:flex;align-items:center;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3NjUgMjAwIj4KPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwtNjAwKSI+CjxwYXRoIGQ9Ik0gMTE1LjQ2IDcyNi43NSBDMTE0Ljg5LDcyOC41NiA2Ni4xNSw3MjguNTYgNjUuNDYsNzI2Ljc1IEM2NS4xOSw3MjYuMDYgNjUuMDksNzA3LjA1IDY1LjI0LDY4NC41MCBMIDY1LjUwIDY0My41MCBMIDg0LjAwIDY0Mi45MiBMIDg0LjAwIDcxMS4wMCBMIDExNi43MyA3MTEuMDAgTCAxMTYuMjkgNzE4LjI1IEMxMTYuMDUsNzIyLjI0IDExNS42Nyw3MjYuMDYgMTE1LjQ2LDcyNi43NSBaTSAxODQuNjggNzI2Ljc1IEMxODMuOTcsNzI3LjQ2IDE4MC40OSw3MjguMjQgMTc2Ljk0LDcyOC40OCBDMTY2Ljg3LDcyOS4xNyAxNjEuOTAsNzI3LjM1IDE1Ny4yOSw3MjEuMzIgTCAxNTQuNTAgNzE3LjY2IEwgMTU0LjE2IDY5OC44OCBMIDE1My44MSA2ODAuMTEgTCAxNDkuNjYgNjc5LjgwIEwgMTQ1LjUwIDY3OS41MCBMIDE0NS4yMCA2NzIuNzUgQzE0NC45Miw2NjYuMjkgMTQ1LjAxLDY2Ni4wMCAxNDcuMjAsNjY1Ljk5IEMxNTMuNTksNjY1Ljk1IDE1NC4wMCw2NjUuNDAgMTU0LjAwLDY1Ni44OCBMIDE1NC4wMCA2NDkuMDAgTCAxNzEuMDAgNjQ5LjAwIEwgMTcxLjAwIDY2NC45MCBMIDE4My41MCA2NjUuNTAgTCAxODMuODAgNjcyLjI1IEwgMTg0LjA5IDY3OS4wMCBMIDE3MS4wMiA2NzkuMDAgTCAxNzEuMjYgNjk0LjU5IEMxNzEuNDksNzA5Ljc2IDE3MS41Nyw3MTAuMjMgMTczLjkzLDcxMi4xNSBDMTc1Ljc4LDcxMy42NCAxNzcuMjMsNzEzLjk3IDE3OS45OSw3MTMuNTAgTCAxODMuNjMgNzEyLjg5IEwgMTg0LjgwIDcxOS4xOCBDMTg1LjczLDcyNC4yMCAxODUuNzEsNzI1LjcyIDE4NC42OCw3MjYuNzUgWk0gMTQwLjAwIDY2NC45MiBMIDE0MC4wMCA3MjguMDAgTCAxMzEuNDcgNzI4LjAwIEMxMjUuNTMsNzI4LjAwIDEyMi43OSw3MjcuNjIgMTIyLjQ1LDcyNi43NCBDMTIyLjE5LDcyNi4wNSAxMjIuMDksNzExLjk4IDEyMi4yMyw2OTUuNDkgTCAxMjIuNTAgNjY1LjUwIFpNIDE0MC4wMCA2NDMuMDAgTCAxNDAuMDAgNjU4LjAwIEwgMTMxLjY3IDY1OC4wMCBDMTI3LjA4LDY1OC4wMCAxMjMuMDMsNjU3LjcwIDEyMi42Nyw2NTcuMzMgQzEyMi4zMCw2NTYuOTcgMTIyLjAwLDY1My41OSAxMjIuMDAsNjQ5LjgzIEwgMTIyLjAwIDY0My4wMCBaIiBmaWxsPSJyZ2IoMjU1LDI1NSwyNTUpIi8+CjxwYXRoIGQ9Ik0gMjEwLjAwIDcxMS42MiBMIDIxMC4wMCA3MjcuMDAgTCAxOTIuMDAgNzI3LjAwIEwgMTkyLjAwIDY0NC4yNSBMIDE5NS4xMiA2NDMuNjIgQzE5Ni44NCw2NDMuMjggMjQ4LjU4LDY0My4wMCAzMTAuMDksNjQzLjAwIEM0MjEuNDMsNjQzLjAwIDQyMS45NSw2NDIuOTkgNDI3LjcxLDY0MC44OSBDNDMyLjg5LDYzOS4wMCA0MzUuMjcsNjM2Ljk4IDQ1MC4xNSw2MjEuODEgQzQ1OS4zMSw2MTIuNDcgNDY3LjAyLDYwNC4wMiA0NjcuMjksNjAzLjAyIEM0NjcuNjEsNjAxLjc3IDQ2Ni4wNSw1OTkuNTEgNDYyLjM4LDU5NS44OCBDNDU5LjQyLDU5Mi45NiA0NTcuMDAsNTkwLjI1IDQ1Ny4wMCw1ODkuODYgQzQ1Ny4wMCw1ODguNzIgNDkzLjgyLDU3Ny42OSA1MDIuMDEsNTc2LjM4IEM1MDIuNDksNTc2LjMxIDUwMi45Miw1NzYuMjEgNTAzLjMwLDU3Ni4xMyBDNTA0LjE4LDU3NS45NCA1MDQuNzgsNTc1LjgxIDUwNS4xNCw1NzYuMDUgQzUwNS45Niw1NzYuNjAgNTA1LjQ5LDU3OS4wOCA1MDMuOTQsNTg3LjIwIEM1MDMuNjQsNTg4Ljc1IDUwMy4zMSw1OTAuNTEgNTAyLjk0LDU5Mi41MCBDNDk5LjYxLDYxMC4yOCA0OTYuODEsNjIzLjQwIDQ5Ni4wNCw2MjQuODQgQzQ5NS41MSw2MjUuODIgNDkzLjU2LDYyNC42OCA0ODguNzMsNjIwLjU5IEM0ODUuMTEsNjE3LjUxIDQ4MS41NSw2MTUuMDAgNDgwLjgzLDYxNS4wMCBDNDgwLjEwLDYxNS4wMCA0NzEuNDEsNjIzLjI1IDQ2MS41MSw2MzMuMzQgQzQ0NS45OSw2NDkuMTUgNDQyLjU0LDY1Mi4xNSA0MzYuNTUsNjU1LjA5IEwgNDI5LjYxIDY1OC41MCBMIDMyMC44OSA2NTkuMDAgQzI2MS4wOSw2NTkuMjggMjExLjgyLDY1OS44NSAyMTEuMzksNjYwLjI3IEMyMTAuMTcsNjYxLjUwIDIxMC4zNyw2NzUuNzUgMjExLjYzLDY3Ny4wMiBDMjEyLjMwLDY3Ny43MCAyMTguMzIsNjc4LjM5IDIyNi40Miw2NzguNzMgTCAyNDAuMDggNjc5LjMwIEwgMjM5Ljc5IDY4Ni40MCBMIDIzOS41MCA2OTMuNTAgTCAyMjYuMDcgNjkzLjc4IEMyMTguMjUsNjkzLjk0IDIxMi4wOCw2OTQuNTIgMjExLjMyLDY5NS4xNSBDMjEwLjMzLDY5NS45NyAyMTAuMDAsNzAwLjEzIDIxMC4wMCw3MTEuNjIgWk0gNTYyLjYyIDcyNS40MyBDNTU4LjM2LDcyOC4wNyA1NTYuNzIsNzI4LjQ2IDU0OC42NSw3MjguNzcgQzU0MC4yMCw3MjkuMDkgNTM5LjA0LDcyOC44OSA1MzMuNTAsNzI2LjIwIEM1MjYuMzEsNzIyLjcwIDUyNC45Miw3MjEuMjUgNTIxLjM1LDcxMy40NyBDNTE1LjkwLDcwMS42MCA1MTcuNTMsNjgxLjQ2IDUyNC42NCw2NzMuMDIgQzUyOC45NSw2NjcuOTAgNTM2LjM0LDY2NC43NCA1NDUuMjcsNjY0LjIxIEM1NjIuMjUsNjYzLjE5IDU3MS4xMyw2NzEuMDkgNTc0LjA0LDY4OS44MSBDNTc0LjA5LDY5MC4xNCA1NzQuMTQsNjkwLjQ3IDU3NC4xOSw2OTAuNzkgQzU3NC44NCw2OTQuODkgNTc1LjIyLDY5Ny4zNSA1NzQuMTksNjk4LjgyIEM1NzIuNjYsNzAxLjAxIDU2Ny45OSw3MDEuMDEgNTU2LjM0LDcwMS4wMCBDNTU1LjczLDcwMS4wMCA1NTUuMTEsNzAxLjAwIDU1NC40Niw3MDEuMDAgTCA1MzYuMDAgNzAxLjAwIEwgNTM2LjAwIDcwMy41NSBDNTM2LjAwLDcwOS43NSA1NDEuMDksNzE1LjAwIDU0Ny4xMSw3MTUuMDAgQzU1MC4xMSw3MTUuMDAgNTUxLjQyLDcxNC4yOCA1NTQuNDIsNzEwLjk2IEwgNTU4LjA3IDcwNi45MiBMIDU2NS43OCA3MDcuMjEgTCA1NzMuNTAgNzA3LjUwIEwgNTczLjI5IDcxMC40MiBDNTcyLjk1LDcxNS4wOSA1NjcuOTQsNzIyLjE0IDU2Mi42Miw3MjUuNDMgWk0gNjc2LjAwIDcyNy4xNSBDNjc0LjYyLDcyNy43OCA2NzAuODAsNzI4LjQ4IDY2Ny41MCw3MjguNjkgQzY1OC45NCw3MjkuMjYgNjUyLjEzLDcyNS45NiA2NDkuMTQsNzE5LjgwIEM2NDYuNDAsNzE0LjEyIDY0Ni4yNCw3MDQuOTIgNjQ4LjgxLDY5OS45OCBDNjUxLjQ5LDY5NC44MyA2NTkuNjYsNjkxLjA0IDY3MS4zMiw2ODkuNTUgQzY4MS45NCw2ODguMTkgNjgzLjAwLDY4Ny43NCA2ODMuMDAsNjg0LjYyIEM2ODMuMDAsNjgwLjgzIDY3OS4wMyw2NzguMDAgNjczLjcyLDY3OC4wMCBDNjY5LjcwLDY3OC4wMCA2NjguNzUsNjc4LjQxIDY2Ni44NCw2ODEuMDAgQzY2NC44MCw2ODMuNzYgNjY0LjE1LDY4NC4wMCA2NTguNTYsNjgzLjk4IEM2NTAuNjQsNjgzLjk2IDY0OS41NCw2ODMuMjIgNjUwLjMzLDY3OC4zNyBDNjUxLjE4LDY3My4xMCA2NTMuNzUsNjY5Ljk0IDY1OS41Niw2NjcuMDAgQzY2My45MCw2NjQuODEgNjY1Ljc4LDY2NC41MCA2NzUuMDAsNjY0LjUwIEM2ODYuNTgsNjY0LjUwIDY5MC4xNiw2NjUuODMgNjk1LjQzLDY3Mi4xMCBDNjk5LjUwLDY3Ni45MyA3MDAuMDYsNjgxLjIwIDY5OS43Nyw3MDUuMTggTCA2OTkuNTAgNzI3LjUwIEwgNjkyLjU0IDcyNy44MCBDNjg2LjI3LDcyOC4wNyA2ODUuNDEsNzI3Ljg3IDY4My44Myw3MjUuODAgQzY4Mi4zNSw3MjMuODUgNjgxLjgxLDcyMy42OSA2ODAuMjksNzI0Ljc1IEM2NzkuMzEsNzI1LjQ0IDY3Ny4zOCw3MjYuNTIgNjc2LjAwLDcyNy4xNSBaTSAzNjMuMDYgNzI2Ljg5IEMzNTcuMTYsNzI5LjY5IDM1MS41NCw3MjkuNTggMzQ1LjQ1LDcyNi41MiBDMzM4LjE4LDcyMi44NyAzMzYuMDAsNzE5LjA3IDMzNi4wMCw3MTAuMDYgQzMzNi4wMCw3MDEuMjcgMzM4LjA0LDY5Ny4yMiAzNDQuMzQsNjkzLjU1IEMzNDguNDEsNjkxLjE4IDM1Ny4wNCw2ODkuMjcgMzY2LjAwLDY4OC43NiBDMzcwLjQwLDY4OC41MSAzNzAuNTEsNjg4LjQyIDM3MC44MCw2ODQuODYgQzM3MS4wNSw2ODEuOTEgMzcwLjYwLDY4MC44MyAzNjguNDIsNjc5LjExIEMzNjQuNDMsNjc1Ljk4IDM1OS41Miw2NzYuMzMgMzU1Ljg1LDY4MC4wMCBDMzUzLjEwLDY4Mi43NSAzNTIuMjgsNjgzLjAwIDM0NS45OCw2ODMuMDAgQzM0Mi4yMSw2ODMuMDAgMzM4Ljg5LDY4Mi42MiAzMzguNjAsNjgyLjE2IEMzMzcuNTcsNjgwLjUwIDM0MC41Myw2NzMuNTQgMzQzLjU1LDY3MC41MSBDMzUxLjY1LDY2Mi40MiAzNzEuMzksNjYxLjc1IDM4MC41MSw2NjkuMjcgQzM4Ny40Miw2NzQuOTYgMzg3Ljk1LDY3Ny40NCAzODcuOTgsNzAzLjc1IEwgMzg4LjAwIDcyNy4wMCBMIDM3My4yNSA3MjcuMDAgTCAzNzEuOTggNzIwLjY3IEwgMzY5Ljc0IDcyMi43MiBDMzY4LjUxLDcyMy44NSAzNjUuNTAsNzI1LjczIDM2My4wNiw3MjYuODkgWk0gMjk0LjAwIDcwNi4zMyBMIDI5My41MCA3MjcuNTAgTCAyODUuNDUgNzI3Ljc5IEMyODEuMDMsNzI3Ljk1IDI3Ny4wOSw3MjcuNzYgMjc2LjcwLDcyNy4zNyBDMjc2LjMyLDcyNi45OCAyNzYuMDAsNzEzLjA2IDI3Ni4wMCw2OTYuNDQgQzI3Ni4wMCw2OTQuMDcgMjc2LjAwLDY5MS44OCAyNzUuOTksNjg5Ljg2IEMyNzUuOTcsNjcyLjA0IDI3NS45Niw2NjYuOTEgMjc4LjI2LDY2NS40OCBDMjc5LjE5LDY2NC45MSAyODAuNDksNjY0Ljk0IDI4Mi4zMiw2NjQuOTggQzI4Mi44NCw2NjQuOTkgMjgzLjQwLDY2NS4wMCAyODQuMDAsNjY1LjAwIEMyOTAuMzgsNjY1LjAwIDI5Mi4wMCw2NjUuNzMgMjkyLjAwLDY2OC42MSBDMjkyLjAwLDY3MS42MiAyOTIuOTcsNjcxLjYyIDI5Ni41MCw2NjguNTkgQzMwMS45Nyw2NjMuODkgMzEyLjU0LDY2Mi43NSAzMTkuNTMsNjY2LjExIEMzMjIuNzcsNjY3LjY3IDMyNi43OCw2NzMuMDUgMzI3LjU5LDY3Ni45NCBDMzI3Ljg4LDY3OC4zNSAzMjguNTQsNjgwLjI4IDMyOS4wNiw2ODEuMjQgQzMyOS41OCw2ODIuMTkgMzMwLjAwLDY5Mi42MCAzMzAuMDAsNzA0LjM2IEMzMzAuMDAsNzIxLjUzIDMyOS43Miw3MjUuOTkgMzI4LjU5LDcyNi45MiBDMzI3LjcyLDcyNy42NSAzMjQuMzksNzI3Ljk4IDMxOS44NCw3MjcuODAgTCAzMTIuNTAgNzI3LjUwIEwgMzEyLjAwIDcwNS44NSBDMzExLjU1LDY4Ni4zOCAzMTEuMzEsNjgzLjk5IDMwOS42MCw2ODIuMTAgQzMwNi43NCw2NzguOTUgMzAwLjEwLDY3OS4yMCAyOTYuOTIsNjgyLjU4IEMyOTQuNTUsNjg1LjEwIDI5NC40OSw2ODUuNjIgMjk0LjAwLDcwNi4zMyBaTSA0MTUuMDAgNzA2LjcyIEwgNDE1LjAwIDcyNy4wMCBMIDM5OC4wMCA3MjcuMDAgTCAzOTguMDAgNjY2LjI3IEwgNDA0Ljc1IDY2NS43MyBDNDEyLjIwLDY2NS4xMyA0MTQuMDAsNjY1LjkwIDQxNC4wMCw2NjkuNzMgTCA0MTQuMDAgNjcyLjIxIEwgNDE3LjQ3IDY2OS4xNiBDNDI1LjM4LDY2Mi4yMSA0MzguODcsNjYyLjQwIDQ0NS42MCw2NjkuNTQgQzQ1MC4yNyw2NzQuNDkgNDUxLjAwLDY3OS4yMiA0NTEuMDAsNzA0LjQ0IEwgNDUxLjAwIDcyNy4wMCBMIDQzNC4wMCA3MjcuMDAgTCA0MzQuMDAgNzA1LjYzIEM0MzQuMDAsNjg1LjUzIDQzMy44OCw2ODQuMTEgNDMxLjkzLDY4MS42MyBDNDMwLjI3LDY3OS41MyA0MjkuMDAsNjc5LjAwIDQyNS42Miw2NzkuMDAgQzQyMS4xMSw2NzkuMDAgNDE5LjI4LDY4MC4wMSA0MTYuNjUsNjgzLjk3IEM0MTUuMjUsNjg2LjA2IDQxNS4wMCw2ODkuNTcgNDE1LjAwLDcwNi43MiBaTSA1MDAuNTAgNzI2LjI2IEM0OTUuMzcsNzI4LjkzIDQ4Mi4yNiw3MjkuNjggNDc2LjcyLDcyNy42MiBDNDcwLjIxLDcyNS4yMCA0NjYuMTQsNzIxLjcyIDQ2My4xNCw3MTYuMDAgQzQ1OS40Miw3MDguOTEgNDU4Ljk0LDcwNi42NyA0NTguOTAsNjk2LjI5IEM0NTguODIsNjc0LjgxIDQ2OS43Nyw2NjMuMzQgNDg5LjU4LDY2NC4xNiBDNTAwLjM0LDY2NC42MSA1MDYuMjAsNjY3Ljk1IDUxMC4yNSw2NzUuOTMgQzUxNS4xNyw2ODUuNjUgNTEzLjU3LDY4OC4wMCA1MDIuMDEsNjg4LjAwIEM0OTYuMjAsNjg4LjAwIDQ5Ni4xNSw2ODcuOTcgNDk1LjAwLDY4NC40OSBDNDkzLjY1LDY4MC40MCA0OTEuNTAsNjc5LjAwIDQ4Ni41Nyw2NzkuMDAgQzQ4Mi4yMyw2NzkuMDAgNDc5LjUzLDY4MS40NSA0NzguMDcsNjg2LjY5IEM0NzYuNzQsNjkxLjQ3IDQ3Ni42OSw3MDEuNDQgNDc3Ljk4LDcwNS45MiBDNDgwLjk5LDcxNi40MiA0OTIuMDUsNzE2Ljk0IDQ5NS45MSw3MDYuNzUgQzQ5Ni45Myw3MDQuMDUgNDk3LjA5LDcwNC4wMCA1MDUuNDgsNzA0LjAwIEM1MTMuNzgsNzA0LjAwIDUxNC4wMCw3MDQuMDYgNTE0LjAwLDcwNi4zNyBDNTE0LjAwLDcxMy42NSA1MDguMTQsNzIyLjI4IDUwMC41MCw3MjYuMjYgWk0gNjI2LjAwIDcwNy44MiBMIDYyNS41MCA3MjcuNTAgTCA2MTcuMzcgNzI3Ljc5IEM2MTAuNjMsNzI4LjAzIDYwOS4xNCw3MjcuODAgNjA4LjYyLDcyNi40NiBDNjA4LjI4LDcyNS41NyA2MDguMDAsNzExLjYwIDYwOC4wMCw2OTUuNDIgTCA2MDguMDAgNjY2LjAwIEwgNjE2LjUwIDY2Ni4wMCBDNjIzLjM5LDY2Ni4wMCA2MjUuMDAsNjY2LjI4IDYyNS4wMCw2NjcuNTAgQzYyNS4wMCw2NjkuNTAgNjI2LjI4LDY2OS4zOSA2MzAuNzQsNjY3LjAwIEM2MzMuMjMsNjY1LjY2IDYzNi4zOCw2NjUuMDAgNjQwLjI0LDY2NS4wMCBMIDY0Ni4wMCA2NjUuMDAgTCA2NDYuMDAgNjcxLjU3IEM2NDYuMDAsNjgwLjE3IDY0NC44NCw2ODIuMzcgNjQwLjY2LDY4MS42MyBDNjM1LjcyLDY4MC43NiA2MzAuOTEsNjgyLjI0IDYyOC41OSw2ODUuMzQgQzYyNi42OCw2ODcuOTAgNjI2LjQ2LDY4OS44NSA2MjYuMDAsNzA3LjgyIFpNIDU5OC41MCA2NjUuNTAgTCA1OTguNTAgNzI3LjUwIEwgNTkwLjQ1IDcyNy43OSBDNTg2LjAzLDcyNy45NSA1ODIuMDksNzI3Ljc2IDU4MS43MCw3MjcuMzcgQzU4MS4zMiw3MjYuOTggNTgxLjAwLDcxMy4wMyA1ODEuMDAsNjk2LjM1IEwgNTgxLjAwIDY2Ni4wNCBMIDU4My4yOCA2NjUuNDcgQzU4NC41NCw2NjUuMTUgNTg4LjQ3LDY2NS4wMyA1OTIuMDMsNjY1LjIwIFpNIDI2NS43NiA2OTYuMjUgTCAyNjYuMDMgNzI3LjAwIEwgMjQ4Ljk3IDcyNy4wMCBMIDI0OS41MCA2NjUuNTAgTCAyNjUuNTAgNjY1LjUwIFpNIDU5Ny4wNyA2NTcuOTYgQzU5NC43Myw2NTkuMjIgNTg2LjM2LDY1OS4yMiA1ODMuMjUsNjU3Ljk3IEM1ODEuMjIsNjU3LjE1IDU4MS4wMCw2NTYuMzkgNTgxLjAwLDY1MC4xNSBDNTgxLjAwLDY0My44MiA1ODEuMTksNjQzLjE4IDU4My4yNSw2NDIuNjMgQzU4Ni4xOSw2NDEuODQgNTkxLjk1LDY0MS44NCA1OTUuODgsNjQyLjYyIEwgNTk5LjAwIDY0My4yNSBMIDU5OS4wMCA2NTAuMDkgQzU5OS4wMCw2NTUuODMgNTk4LjY5LDY1Ny4xMCA1OTcuMDcsNjU3Ljk2IFpNIDM1NS40NSA3MTMuNTUgQzM1OC44OSw3MTYuOTkgMzYzLjA2LDcxNi43NiAzNjcuNDcsNzEyLjkwIEMzNzAuNDksNzEwLjI0IDM3MS4wMCw3MDkuMTcgMzcxLjAwLDcwNS40NiBDMzcxLjAwLDcwMy4wNyAzNzAuNTQsNzAwLjg0IDM2OS45OCw3MDAuNDkgQzM2OS40Miw3MDAuMTQgMzY2LjUxLDcwMC4xNyAzNjMuNTEsNzAwLjU0IEMzNTQuMDMsNzAxLjczIDM1MC4wNSw3MDguMTQgMzU1LjQ1LDcxMy41NSBaTSA2NjYuOTQgNzE0LjE2IEM2NjkuOTgsNzE2LjYxIDY3Mi45OSw3MTYuNDggNjc3LjA5LDcxMy43MiBDNjgyLjgyLDcwOS44NiA2ODUuMjAsNzAxLjgzIDY4MS4wMSw3MDAuNTAgQzY3Ny43MCw2OTkuNDUgNjY5Ljk4LDcwMS4xMiA2NjcuMjQsNzAzLjQ3IEM2NjMuODYsNzA2LjM4IDY2My43MSw3MTEuNTQgNjY2Ljk0LDcxNC4xNiBaTSA1MzcuNjIgNjg4LjcxIEM1NDAuMzcsNjkwLjcyIDU1Mi4yOSw2OTAuMzkgNTU0Ljk1LDY4OC4yNCBDNTU2Ljc4LDY4Ni43NiA1NTYuOTcsNjg2LjA1IDU1Ni4xMyw2ODMuODQgQzU1NC43MSw2ODAuMTAgNTUxLjIyLDY3OC4wMCA1NDYuNDEsNjc4LjAwIEM1NDEuNTIsNjc4LjAwIDUzNy41NCw2ODAuNzAgNTM2LjU0LDY4NC43MCBDNTM2LjA0LDY4Ni43MCA1MzYuMzIsNjg3Ljc2IDUzNy42Miw2ODguNzEgWiIgZmlsbD0icmdiKDM3LDI0NCwxNzApIi8+CjwvZz4KPC9zdmc+Cg==" style="height:26px;object-fit:contain;" alt="LitFinanceira"></div>
     </div>
     <div class="header-right">
       <button class="avatar-btn" id="avatar-btn" onclick="switchSection('perfil', document.querySelector('.nav-btn:first-child'))">?</button>
@@ -342,6 +453,12 @@
 
     <!-- ══ PERFIL: DASHBOARD ══ -->
     <div class="tab-content" id="tab-dashboard">
+      <!-- Login prompt for guests -->
+      <div class="login-prompt" id="guest-prompt-dashboard" style="display:none">
+        <div class="login-prompt-text"><strong>Cria uma conta grátis</strong>Regista rendimentos, despesas e acompanha o teu saldo mensal.</div>
+        <button class="login-prompt-btn" onclick="mostrarLogin()">Entrar</button>
+      </div>
+      <div id="logged-dashboard">
       <div class="profile-hero">
         <div class="profile-avatar" id="dash-avatar">?</div>
         <div class="profile-name" id="dash-nome">—</div>
@@ -388,6 +505,7 @@
       </div>
     </div>
 
+      </div><!-- end logged-dashboard -->
     <!-- ══ PERFIL: REGISTAR ══ -->
     <div class="tab-content" id="tab-registar">
       <div class="hero-card">
@@ -451,6 +569,25 @@
 
     <!-- ══ PERFIL: DEFINIÇÕES ══ -->
     <div class="tab-content" id="tab-definicoes">
+      <!-- Guest state -->
+      <div id="guest-definicoes" style="display:none">
+        <div class="hero-card">
+          <div class="hero-label">A tua conta</div>
+          <div class="hero-value"><span class="accent">Entrar</span></div>
+          <div class="hero-sub">Cria uma conta para guardar os teus dados</div>
+          <div class="hero-badge">🔐 Grátis e seguro</div>
+        </div>
+        <div class="sim-card">
+          <div class="sim-card-title"><div class="sim-icon">👤</div>Acesso à conta</div>
+          <p style="font-size:0.83rem;color:var(--muted);line-height:1.6;margin-bottom:16px;">Com uma conta podes guardar o teu perfil, registar movimentos financeiros e acompanhar o teu saldo mês a mês.</p>
+          <button class="calc-btn" onclick="mostrarLogin()">🔐 Entrar / Criar conta</button>
+          <div style="text-align:center;margin-top:14px;">
+            <span onclick="document.getElementById('disclaimer-modal').classList.add('open')" style="font-size:0.72rem;color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:3px;">⚖️ Aviso Legal e Exoneração de Responsabilidade</span>
+          </div>
+        </div>
+      </div>
+      <!-- Logged state -->
+      <div id="logged-definicoes">
       <div class="hero-card">
         <div class="hero-label">Conta</div>
         <div class="hero-value" style="font-size:1.4rem"><span class="accent" id="def-nome-hero">—</span></div>
@@ -485,6 +622,10 @@
         <div id="perfil-feedback" style="text-align:center;font-size:0.8rem;margin-top:10px;min-height:20px;color:var(--green);"></div>
       </div>
       <button class="logout-btn" onclick="doLogout()">🚪 Terminar Sessão</button>
+      <div style="text-align:center;margin-top:14px;">
+        <span onclick="document.getElementById('disclaimer-modal').classList.add('open')" style="font-size:0.72rem;color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:3px;">⚖️ Aviso Legal e Exoneração de Responsabilidade</span>
+      </div>
+      </div><!-- end logged-definicoes -->
     </div>
 
     <!-- ══ SIMULAR: SALÁRIO ══ -->
@@ -703,6 +844,11 @@
     <div class="tab-content" id="tab-dep-prazo">
       <div class="hero-card" id="dp-hero"><div class="hero-label">Melhor Depósito a Prazo</div><div class="hero-value"><span class="accent" id="dp-best-rate">—</span></div><div class="hero-sub" id="dp-best-sub">A carregar...</div><div class="hero-badge">⚠️ Retenção 28% sobre juros</div></div>
       <div class="info-box">⚠️ Juros sujeitos a <strong>retenção na fonte de 28%</strong>. A TANL é o que efetivamente recebes.</div>
+      <div class="disclaimer-note" onclick="document.getElementById('disclaimer-modal').classList.add('open')">
+        <div class="disclaimer-note-icon">⚖️</div>
+        <div class="disclaimer-note-text">Conteúdo estritamente informativo e sem aconselhamento financeiro. Pode conter links de afiliado.</div>
+        <div class="disclaimer-note-link">Ver aviso legal →</div>
+      </div>
       <div class="filter-block">
         <div class="filter-row">
           <div class="filter-toggle" id="ft-novos-capitais" onclick="toggleFilter('novos_capitais')"><div class="ft-dot"></div><span class="ft-label">Novos Capitais</span></div>
@@ -740,6 +886,34 @@
       </div>
     </div>
 
+
+    <!-- ══ POUPANÇA: ETFs ══ -->
+    <div class="tab-content" id="tab-fundos">
+      <div class="hero-card" id="etf-hero">
+        <div class="hero-label">ETFs Disponíveis</div>
+        <div class="hero-value"><span class="accent" id="etf-hero-val">—</span></div>
+        <div class="hero-sub" id="etf-hero-sub">A carregar...</div>
+        <div class="hero-badge">⚠️ 28% imposto sobre mais-valias</div>
+      </div>
+      <div class="disclaimer-note" onclick="document.getElementById('disclaimer-modal').classList.add('open')">
+        <div class="disclaimer-note-icon">⚠️</div>
+        <div class="disclaimer-note-text">Conteúdo estritamente informativo e sem aconselhamento financeiro. O capital investido em ETFs e Fundos apresenta risco de perda. Pode conter links de afiliado.</div>
+        <div class="disclaimer-note-link">Ver aviso legal →</div>
+      </div>
+      <div class="etf-filter-bar" id="etf-cat-bar">
+        <button class="etf-cat-btn active" onclick="filterEtfCat('Todos', this)">Todos</button>
+        <button class="etf-cat-btn" onclick="filterEtfCat('Global', this)">Global</button>
+        <button class="etf-cat-btn" onclick="filterEtfCat('EUA', this)">EUA</button>
+        <button class="etf-cat-btn" onclick="filterEtfCat('Europa', this)">Europa</button>
+        <button class="etf-cat-btn" onclick="filterEtfCat('Emergentes', this)">Emergentes</button>
+        <button class="etf-cat-btn" onclick="filterEtfCat('Obrigações', this)">Obrigações</button>
+        <button class="etf-cat-btn" onclick="filterEtfCat('Dividendos', this)">Dividendos</button>
+        <button class="etf-cat-btn" onclick="filterEtfCat('Factor', this)">Factor</button>
+        <button class="etf-cat-btn" onclick="filterEtfCat('Temático', this)">Temático</button>
+      </div>
+      <div id="etf-list"><div class="loading-state">⏳ A carregar ETFs...</div></div>
+    </div>
+
     <!-- ══ TAXAS: EURIBOR ══ -->
     <div class="tab-content" id="tab-euribor">
       <div class="hero-card">
@@ -767,6 +941,194 @@
       <div class="rate-card" style="margin-bottom:20px"><div class="rate-left"><div class="rate-logo">NVB</div><div><div class="rate-name">Novobanco</div><div class="rate-type">Crédito Habitação</div></div></div><div><div class="rate-value">1.10%</div><div class="rate-period">spread</div></div></div>
     </div>
 
+    <!-- ══ GUIA: IRS JOVEM ══ -->
+    <div class="tab-content" id="tab-irs-jovem">
+      <div class="guia-hero">
+        <div class="guia-hero-label">Benefícios Fiscais</div>
+        <div class="guia-hero-title">IRS Jovem <span>2025</span></div>
+        <div class="guia-hero-sub">Regime fiscal para jovens até 35 anos. Isenção até 100% durante 10 anos.</div>
+        <div class="guia-badges">
+          <div class="guia-badge">📅 OE 2025</div>
+          <div class="guia-badge">👤 Até 35 anos</div>
+          <div class="guia-badge">⏱ 10 anos</div>
+          <div class="guia-badge">💶 Art. 12.º-B CIRS</div>
+        </div>
+      </div>
+
+      <!-- Elegibilidade -->
+      <div class="guia-part-header" onclick="toggleGuia('g-irs-1',this)">
+        <div><div class="guia-part-num">Secção 1</div><div class="guia-part-title">Condições de Elegibilidade</div></div>
+        <div class="guia-part-arrow">▾</div>
+      </div>
+      <div class="guia-part-body" id="g-irs-1">
+        <div class="guia-section">
+          <div class="guia-text">Para beneficiar do novo IRS Jovem, o contribuinte deve cumprir <strong>cumulativamente</strong> as seguintes condições:</div>
+          <ul class="guia-list">
+            <li><strong>Idade:</strong> igual ou inferior a 35 anos a 31 de dezembro do ano fiscal.</li>
+            <li><strong>Habilitações:</strong> irrelevantes — qualquer grau de escolaridade é aceite.</li>
+            <li><strong>Rendimentos:</strong> exclusivamente Categoria A (trabalho dependente) ou Categoria B (recibos verdes).</li>
+            <li><strong>Autonomia fiscal:</strong> declaração de IRS entregue como sujeito passivo autónomo (não dependente dos pais).</li>
+          </ul>
+          <div class="guia-warning">⚠️ Excluídos: beneficiários do Regime de Residente Não Habitual (RNH), Programa Regressar, incentivos à investigação, ou com dívidas às Finanças.</div>
+        </div>
+      </div>
+
+      <!-- Isenções -->
+      <div class="guia-part-header" onclick="toggleGuia('g-irs-2',this)">
+        <div><div class="guia-part-num">Secção 2</div><div class="guia-part-title">Escada de Isenção — 10 Anos</div></div>
+        <div class="guia-part-arrow">▾</div>
+      </div>
+      <div class="guia-part-body" id="g-irs-2">
+        <div class="guia-section">
+          <div class="guia-highlight">💡 Em 2025 o IAS é 522,50€. O limite máximo de rendimento isento é <strong>28.737,50€</strong> (55 × IAS).</div>
+          <table class="guia-table">
+            <thead><tr><th>Ano(s)</th><th>Isenção</th><th>Limite isento</th></tr></thead>
+            <tbody>
+              <tr><td>1.º Ano</td><td class="td-green">100%</td><td>28.737,50 €</td></tr>
+              <tr><td>2.º, 3.º e 4.º Anos</td><td class="td-green">75%</td><td>28.737,50 €</td></tr>
+              <tr><td>5.º, 6.º e 7.º Anos</td><td class="td-amber">50%</td><td>28.737,50 €</td></tr>
+              <tr><td>8.º, 9.º e 10.º Anos</td><td class="td-amber">25%</td><td>28.737,50 €</td></tr>
+            </tbody>
+          </table>
+          <div class="guia-text">Rendimento acima do limite de 28.737,50€ é tributado normalmente nos escalões de IRS. A isenção opera com <strong>progressividade</strong>: a parte isenta é englobada para determinar a taxa aplicável ao restante.</div>
+        </div>
+      </div>
+
+      <!-- Retenção na fonte -->
+      <div class="guia-part-header" onclick="toggleGuia('g-irs-3',this)">
+        <div><div class="guia-part-num">Secção 3</div><div class="guia-part-title">Retenção na Fonte Mensal</div></div>
+        <div class="guia-part-arrow">▾</div>
+      </div>
+      <div class="guia-part-body" id="g-irs-3">
+        <div class="guia-section">
+          <div class="guia-text"><strong>Categoria A (salário):</strong> Comunica por escrito à entidade patronal o ano de gozo do benefício. A retenção é aplicada apenas sobre a parte tributável do salário — o efeito é imediato no salário mensal.</div>
+          <div class="guia-text"><strong>Categoria B (recibos verdes):</strong> Não há redução automática da retenção. O benefício é devolvido na liquidação final aquando da entrega da Modelo 3.</div>
+          <div class="guia-highlight">💡 Regras de Transição: A contagem inicia-se no 1.º ano de rendimentos como sujeito passivo autónomo. Exemplo: início em 2020 → 6.º ano em 2025 → 50% de isenção.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ GUIA: HABITAÇÃO ══ -->
+    <div class="tab-content" id="tab-habitacao">
+      <div class="guia-hero">
+        <div class="guia-hero-label">Apoios à Habitação</div>
+        <div class="guia-hero-title">Crédito Habitação <span>Jovem</span></div>
+        <div class="guia-hero-sub">Garantia do Estado, IMT Jovem e regras de financiamento bancário.</div>
+        <div class="guia-badges">
+          <div class="guia-badge">🏠 Até 35 anos</div>
+          <div class="guia-badge">🏦 100% Financiamento</div>
+          <div class="guia-badge">✅ Isenção IMT</div>
+          <div class="guia-badge">📋 BdP</div>
+        </div>
+      </div>
+
+      <!-- Regras bancárias -->
+      <div class="guia-part-header" onclick="toggleGuia('g-hab-1',this)">
+        <div><div class="guia-part-num">Secção 1</div><div class="guia-part-title">Regras Gerais de Financiamento</div></div>
+        <div class="guia-part-arrow">▾</div>
+      </div>
+      <div class="guia-part-body" id="g-hab-1">
+        <div class="guia-section">
+          <table class="guia-table">
+            <thead><tr><th>Indicador</th><th>Regra</th></tr></thead>
+            <tbody>
+              <tr><td>LTV máximo</td><td class="td-amber">90% para Hab. Própria</td></tr>
+              <tr><td>DSTI máximo</td><td class="td-amber">50% com stress +1,5%</td></tr>
+              <tr><td>Prazo ≤ 30 anos</td><td>Máx. 40 anos</td></tr>
+              <tr><td>Prazo 31–35 anos</td><td>Máx. 37 anos</td></tr>
+              <tr><td>Prazo > 35 anos</td><td>Máx. 35 anos</td></tr>
+            </tbody>
+          </table>
+          <div class="guia-text">Para comparar propostas, o indicador correcto é a <strong>TAEG</strong> (Taxa Anual Efetiva Global), que engloba juros, seguros obrigatórios (Vida e Multirriscos), comissões e impostos.</div>
+        </div>
+      </div>
+
+      <!-- Garantia Pública -->
+      <div class="guia-part-header" onclick="toggleGuia('g-hab-2',this)">
+        <div><div class="guia-part-num">Secção 2</div><div class="guia-part-title">Garantia Pública — 100% Financiamento</div></div>
+        <div class="guia-part-arrow">▾</div>
+      </div>
+      <div class="guia-part-body" id="g-hab-2">
+        <div class="guia-section">
+          <div class="guia-text">O Estado actua como fiador em até <strong>15% do valor</strong>, permitindo empréstimos a 100% LTV. A garantia extingue-se ao fim de 10 anos.</div>
+          <div class="guia-section-title">Requisitos Cumulativos</div>
+          <ul class="guia-list">
+            <li>Idade entre 18 e 35 anos.</li>
+            <li>Rendimentos do agregado ≤ 8.º escalão IRS (~81.199€/ano).</li>
+            <li>Valor do imóvel ≤ 450.000€.</li>
+            <li>Primeira Habitação Própria e Permanente.</li>
+            <li>Não ser proprietário de nenhum imóvel habitacional.</li>
+          </ul>
+          <div class="guia-warning">⚠️ A Garantia do Estado não obriga o banco a aprovar o crédito. O DSTI continua a ser calculado — se os rendimentos forem insuficientes, o crédito é recusado.</div>
+        </div>
+      </div>
+
+      <!-- IMT Jovem -->
+      <div class="guia-part-header" onclick="toggleGuia('g-hab-3',this)">
+        <div><div class="guia-part-num">Secção 3</div><div class="guia-part-title">Isenção de IMT e Imposto do Selo</div></div>
+        <div class="guia-part-arrow">▾</div>
+      </div>
+      <div class="guia-part-body" id="g-hab-3">
+        <div class="guia-section">
+          <div class="guia-text">Para jovens até 35 anos, não dependentes, sem propriedade habitacional nos últimos 3 anos:</div>
+          <table class="guia-table">
+            <thead><tr><th>Valor do Imóvel</th><th>IMT e Selo</th></tr></thead>
+            <tbody>
+              <tr><td>Até 330.539 €</td><td class="td-green">100% isento</td></tr>
+              <tr><td>330.539 € – 660.982 €</td><td class="td-amber">Isento nos primeiros 330.539 €<br>8% sobre o restante</td></tr>
+              <tr><td>Acima de 660.982 €</td><td class="td-red">Sem isenção</td></tr>
+            </tbody>
+          </table>
+          <div class="guia-highlight">💡 Isenção adicional: os jovens abrangidos ficam também isentos dos emolumentos do Registo de Aquisição e Hipoteca — poupança adicional ~700€.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ GUIA: FAQs ══ -->
+    <div class="tab-content" id="tab-faqs">
+      <div class="guia-hero">
+        <div class="guia-hero-label">Casos Práticos</div>
+        <div class="guia-hero-title">Perguntas <span>Frequentes</span></div>
+        <div class="guia-hero-sub">Esclarecimento de dúvidas complexas sobre IRS Jovem e Habitação.</div>
+        <div class="guia-badges">
+          <div class="guia-badge">❓ FAQs</div>
+          <div class="guia-badge">⚖️ Rigor jurídico</div>
+        </div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><div class="faq-q-text">Tive uma quebra de rendimentos e não trabalhei num determinado ano. Perco os 10 anos do IRS Jovem?</div><div class="faq-arrow">▾</div></div>
+        <div class="faq-a">Não. O benefício aplica-se durante 10 <strong>anos de obtenção de rendimentos</strong>. Se houver um ano civil sem rendimentos de Categoria A ou B, a isenção fica suspensa e retoma no ano seguinte, desde que o contribuinte não ultrapasse os 35 anos de idade.</div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><div class="faq-q-text">As medidas da Garantia Pública e do IMT Jovem são acumuláveis?</div><div class="faq-arrow">▾</div></div>
+        <div class="faq-a">Sim, operam de forma independente. Um jovem que cumpra os requisitos pode comprar uma casa de 300.000€ com financiamento a 100% (Garantia Pública) e ficar totalmente isento de IMT e registos.</div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><div class="faq-q-text">Somos um casal — um tem 35 e o outro 38 anos. Temos direito aos apoios na habitação?</div><div class="faq-arrow">▾</div></div>
+        <div class="faq-a"><strong>IMT Jovem:</strong> isenção aplicada de forma proporcional (50%). O membro de 35 anos não paga a sua metade; o de 38 anos paga tributação normal.<br><br><strong>Garantia Pública (100%):</strong> Não. A lei exige que <em>todos</em> os mutuários cumpram o limite de 35 anos. O casal perde a garantia e terá de entrar com os 10% de capitais próprios.</div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><div class="faq-q-text">O banco é obrigado a aprovar o crédito a 100% com a Garantia do Estado?</div><div class="faq-arrow">▾</div></div>
+        <div class="faq-a">Não. A garantia apenas substitui a entrada inicial. O banco continua obrigado a calcular o DSTI. Se os rendimentos não suportarem a prestação, o crédito é recusado por risco de incumprimento.</div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><div class="faq-q-text">Herdei 1/4 da casa dos meus avós há 5 anos. Posso aceder às isenções?</div><div class="faq-arrow">▾</div></div>
+        <div class="faq-a"><strong>Herança indivisa</strong> (sem partilhas formalizadas): o jovem não é considerado proprietário pleno — pode ter acesso às medidas.<br><br><strong>Após partilhas</strong> com quota-parte registada em nome próprio: perde o acesso à Garantia Pública (exige nunca ter sido proprietário) e, dependendo das datas, à isenção de IMT (exige não ser proprietário há pelo menos 3 anos).</div>
+      </div>
+
+      <div style="height:8px;"></div>
+      <div class="disclaimer-note" onclick="document.getElementById('disclaimer-modal').classList.add('open')">
+        <div class="disclaimer-note-icon">⚖️</div>
+        <div class="disclaimer-note-text">Conteúdo estritamente informativo. Não constitui aconselhamento jurídico ou fiscal.</div>
+        <div class="disclaimer-note-link">Ver aviso legal →</div>
+      </div>
+    </div>
+
   </div><!-- end scroll -->
 
   <div class="bottom-nav">
@@ -774,7 +1136,56 @@
     <button class="nav-btn" onclick="switchSection('simular', this)"><div class="nav-icon">🧮</div><div class="nav-label">Simular</div></button>
     <button class="nav-btn" onclick="switchSection('poupanca', this)"><div class="nav-icon">🏦</div><div class="nav-label">Poupança</div></button>
     <button class="nav-btn" onclick="switchSection('taxas', this)"><div class="nav-icon">📈</div><div class="nav-label">Taxas</div></button>
+    <button class="nav-btn" onclick="switchSection('guia', this)"><div class="nav-icon">📘</div><div class="nav-label">Guia</div></button>
   </div>
+
+  <!-- ══ DISCLAIMER MODAL ══ -->
+  <div class="disclaimer-modal" id="disclaimer-modal">
+    <div class="disclaimer-header">
+      <div class="disclaimer-title">⚖️ Aviso Legal</div>
+      <button class="disclaimer-close" onclick="document.getElementById('disclaimer-modal').classList.remove('open')">✕</button>
+    </div>
+    <div class="disclaimer-body">
+      <div style="background:var(--navy);border-radius:16px;padding:18px;margin-bottom:20px;">
+        <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#fff;margin-bottom:6px;">AVISO LEGAL E EXONERAÇÃO DE RESPONSABILIDADE</div>
+        <div style="font-size:0.72rem;color:rgba(255,255,255,0.4);line-height:1.5;">Lê atentamente antes de utilizar esta aplicação.</div>
+      </div>
+
+      <div class="disclaimer-section">
+        <div class="disclaimer-num">Ponto 1</div>
+        <div class="disclaimer-heading">Natureza Exclusivamente Informativa e Educacional</div>
+        <div class="disclaimer-text">Todo o conteúdo, ferramentas, dados, simulações e informações disponibilizados na aplicação Literacia financeira têm fins estritamente informativos e educacionais. Em nenhuma circunstância o conteúdo aqui apresentado deve ser interpretado como aconselhamento financeiro, jurídico, fiscal ou como uma recomendação personalizada de investimento. A nossa missão é promover o conhecimento financeiro, mas cada utilizador tem um perfil de risco e uma situação financeira únicos.</div>
+      </div>
+
+      <div class="disclaimer-section">
+        <div class="disclaimer-num">Ponto 2</div>
+        <div class="disclaimer-heading">Ausência de Intermediação Financeira</div>
+        <div class="disclaimer-text">A Literacia financeira é uma plataforma de cariz tecnológico e educacional. Não somos um intermediário financeiro, consultor de investimentos, corretora ou instituição de crédito. Não estamos registados junto da Comissão do Mercado de Valores Mobiliários (CMVM), do Banco de Portugal ou de qualquer outra entidade reguladora para prestar serviços de consultoria, gestão de carteiras, ou receção e transmissão de ordens sobre instrumentos financeiros.</div>
+      </div>
+
+      <div class="disclaimer-section">
+        <div class="disclaimer-num">Ponto 3</div>
+        <div class="disclaimer-heading">Riscos de Investimento (ETFs, Fundos e Outros Ativos)</div>
+        <div class="disclaimer-text">A subscrição de Fundos de Investimento, Exchange Traded Funds (ETFs) e outros produtos financeiros envolve um elevado grau de risco. O capital investido não é garantido e pode resultar na perda parcial ou total do mesmo. Importa salientar que as rentabilidades passadas não são, em caso algum, garantia de rentabilidades futuras. Qualquer decisão de investimento ou alocação de capital em ativos apresentados, comparados ou mencionados nesta aplicação é da inteira, livre e exclusiva responsabilidade do utilizador. Recomendamos vivamente que leia os Documentos de Informação Fundamental (DIF/KID) e os prospetos dos respetivos fundos antes de tomar qualquer decisão, e que consulte um consultor financeiro certificado caso necessite de aconselhamento adaptado à sua situação pessoal.</div>
+      </div>
+
+      <div class="disclaimer-section">
+        <div class="disclaimer-num">Ponto 4</div>
+        <div class="disclaimer-heading">Transparência de Afiliação (Links de Parceiros)</div>
+        <div class="disclaimer-text">A Literacia financeira mantém parcerias com várias entidades e corretoras financeiras. Para manter a nossa aplicação acessível e em funcionamento, utilizamos links de afiliados. Isto significa que, se o utilizador clicar num link através da nossa plataforma e, subsequentemente, abrir uma conta, fizer um depósito ou subscrever um produto numa entidade terceira, a nossa equipa poderá receber uma compensação financeira (comissão). Esta compensação não representa qualquer custo adicional para o utilizador. A existência destas parcerias não influencia as informações apresentadas, não constitui uma garantia sobre a qualidade do serviço do parceiro e não altera o nosso compromisso com a isenção informativa.</div>
+      </div>
+
+      <div class="disclaimer-section">
+        <div class="disclaimer-num">Ponto 5</div>
+        <div class="disclaimer-heading">Exoneração e Limitação de Responsabilidade</div>
+        <div class="disclaimer-text">Embora envidemos todos os esforços para garantir que a informação fornecida está atualizada, correta e isenta de erros, a Literacia financeira não garante a exatidão, integridade ou atualidade dos dados, taxas, comissões, cotações ou condições dos produtos mencionados.<br><br>A Literacia financeira, os seus fundadores, programadores, colaboradores e parceiros não assumem, em qualquer circunstância, qualquer responsabilidade por perdas financeiras, danos diretos ou indiretos, ou lucros cessantes que possam resultar da utilização da informação contida nesta aplicação ou das decisões tomadas pelo utilizador com base na mesma. O uso de plataformas de terceiros referenciadas na nossa app está sujeito aos Termos e Condições dessas mesmas plataformas.</div>
+      </div>
+
+      <div style="height:20px;"></div>
+    </div>
+  </div>
+
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -791,6 +1202,44 @@ const ANON_KEY = SUPABASE_KEY;
 
 let currentUser = null;
 let currentPerfil = null;
+let guestMode = false;
+
+function continuarSemRegisto() {
+  guestMode = true;
+  document.getElementById('auth-screen').classList.add('hidden');
+  atualizarEstadoAuth();
+}
+
+function mostrarLogin() {
+  guestMode = false;
+  document.getElementById('auth-screen').classList.remove('hidden');
+}
+
+function atualizarEstadoAuth() {
+  const logado = !!currentUser;
+  // Avatar btn
+  const avatarBtn = document.getElementById('avatar-btn');
+  if (avatarBtn) avatarBtn.textContent = logado ? (currentPerfil?.nome || currentUser?.email || '?').split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase() : '👤';
+  // Dashboard
+  const guestDash = document.getElementById('guest-prompt-dashboard');
+  const loggedDash = document.getElementById('logged-dashboard');
+  if (guestDash) guestDash.style.display = logado ? 'none' : 'flex';
+  if (loggedDash) loggedDash.style.display = logado ? '' : 'none';
+  // Definicoes
+  const guestDef = document.getElementById('guest-definicoes');
+  const loggedDef = document.getElementById('logged-definicoes');
+  if (guestDef) guestDef.style.display = logado ? 'none' : '';
+  if (loggedDef) loggedDef.style.display = logado ? '' : 'none';
+  // Registar tab — hide form if guest
+  const regForm = document.querySelector('#tab-registar .sim-card');
+  if (regForm) {
+    if (!logado) {
+      regForm.innerHTML = `<div class="sim-card-title"><div class="sim-icon">🔐</div>Necessário iniciar sessão</div>
+        <p style="font-size:0.83rem;color:var(--muted);line-height:1.6;margin-bottom:16px;">Para registar movimentos financeiros precisas de uma conta.</p>
+        <button class="calc-btn" onclick="mostrarLogin()">🔐 Entrar / Criar conta</button>`;
+    }
+  }
+}
 let mesAtual = new Date();
 mesAtual.setDate(1);
 
@@ -857,12 +1306,17 @@ sb.auth.onAuthStateChange(async (event, session) => {
   if (session?.user) {
     currentUser = session.user;
     document.getElementById('auth-screen').classList.add('hidden');
+    atualizarEstadoAuth();
     await carregarPerfil();
     renderDashboard();
   } else {
     currentUser = null;
     currentPerfil = null;
-    document.getElementById('auth-screen').classList.remove('hidden');
+    // Only show auth screen if not in guest mode
+    if (!guestMode) {
+      document.getElementById('auth-screen').classList.remove('hidden');
+    }
+    atualizarEstadoAuth();
   }
 });
 
@@ -1050,6 +1504,7 @@ const sections = {
     tabs: [
       { label: 'Depósitos a Prazo', id: 'dep-prazo' },
       { label: 'Certificados', id: 'certificados' },
+      { label: 'Fundos & ETFs', id: 'fundos' },
     ],
     default: 'dep-prazo'
   },
@@ -1059,6 +1514,14 @@ const sections = {
       { label: 'Spreads', id: 'spreads' },
     ],
     default: 'euribor'
+  },
+  guia: {
+    tabs: [
+      { label: 'IRS Jovem', id: 'irs-jovem' },
+      { label: 'Habitação', id: 'habitacao' },
+      { label: 'FAQs', id: 'faqs' },
+    ],
+    default: 'irs-jovem'
   }
 };
 
@@ -1090,7 +1553,11 @@ function showTab(tabId) {
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   const el = document.getElementById('tab-' + tabId);
   if (el) el.classList.add('active');
+  // Scroll to top
+  const sa = document.querySelector('.scroll-area');
+  if (sa) sa.scrollTop = 0;
   if (tabId === 'dep-prazo' && allDeposits.length === 0) loadDeposits();
+  if (tabId === 'fundos'    && allEtfs.length    === 0) loadEtfs();
   if (tabId === 'euribor') loadEuribor();
   // Definir data de hoje no registo
   if (tabId === 'registar') {
@@ -1512,6 +1979,113 @@ function renderDeposits(list) {
 }
 
 function toggleDpCard(id) { document.getElementById('dp-card-' + id)?.classList.toggle('open'); }
+
+
+// ============================================================
+// ETFs — Supabase
+// ============================================================
+let allEtfs = [];
+let etfCatFilter = 'Todos';
+
+async function loadEtfs() {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/etfs?select=*&order=ticker.asc`,
+      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+    );
+    if (!res.ok) throw new Error(await res.text());
+    allEtfs = await res.json();
+    renderEtfs();
+  } catch(e) {
+    document.getElementById('etf-list').innerHTML = '<div class="empty-state">❌ Erro ao carregar ETFs</div>';
+  }
+}
+
+function filterEtfCat(cat, btn) {
+  etfCatFilter = cat;
+  document.querySelectorAll('.etf-cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderEtfs();
+}
+
+function perfClass(v) { if (v == null) return 'flat'; return v > 0 ? 'up' : v < 0 ? 'down' : 'flat'; }
+function perfStr(v)   { if (v == null) return '—'; return (v > 0 ? '+' : '') + parseFloat(v).toFixed(2) + '%'; }
+
+function renderEtfs() {
+  const list = etfCatFilter === 'Todos' ? allEtfs : allEtfs.filter(e => e.categoria === etfCatFilter || (etfCatFilter === 'EUA' && e.categoria?.startsWith('EUA')));
+  const heroEl  = document.getElementById('etf-hero-val');
+  const heroSub = document.getElementById('etf-hero-sub');
+  const container = document.getElementById('etf-list');
+  if (!container) return;
+  if (heroEl)  heroEl.textContent  = list.length + ' ETFs';
+  if (heroSub) heroSub.textContent = list.filter(e => e.preco != null).length + ' com cotação actualizada · 28% imposto';
+  if (list.length === 0) { container.innerHTML = '<div class="empty-state">Nenhum ETF nesta categoria.</div>'; return; }
+  try {
+    container.innerHTML = list.map(e => {
+      const ticker   = e.ticker || '—';
+      const abbr     = ticker.split('.')[0];
+      const chgVal   = parseFloat(e.variacao_dia) || null;
+      const chgCls   = perfClass(chgVal);
+      const chgStr   = chgVal != null ? (chgVal > 0 ? '▲ ' : '▼ ') + Math.abs(chgVal).toFixed(2) + '%' : '—';
+      const uid      = ticker.replace(/[^a-z0-9]/gi, '_');
+      const preco    = e.preco != null ? parseFloat(e.preco) : null;
+      const priceStr = preco != null ? preco.toFixed(2) + ' €' : '—';
+      const ret7d    = e.ret_7d  != null ? parseFloat(e.ret_7d)  : null;
+      const ret1m    = e.ret_1m  != null ? parseFloat(e.ret_1m)  : null;
+      const ret6m    = e.ret_6m  != null ? parseFloat(e.ret_6m)  : null;
+      const ret1a    = e.ret_1a  != null ? parseFloat(e.ret_1a)  : null;
+      return '<div class="etf-card" id="etf-card-' + uid + '">'
+        + '<div class="etf-header" onclick="toggleEtfCard(\'' + uid + '\')">'
+          + '<div class="etf-logo">' + abbr + '</div>'
+          + '<div class="etf-info"><div class="etf-name">' + (e.nome || ticker) + '</div><div class="etf-sub">' + ticker + ' · ' + (e.categoria || '') + ' · TER ' + (e.ter ? e.ter + '%' : '—') + '</div></div>'
+          + '<div class="etf-right"><div class="etf-price">' + priceStr + '</div><div class="etf-chg ' + chgCls + '">' + chgStr + '</div></div>'
+          + '<div class="etf-expand-icon">▾</div>'
+        + '</div>'
+
+        + '<div class="etf-details">'
+          + '<div class="etf-detail-row"><span class="etf-dk">Ticker</span><span class="etf-dv">' + ticker + '</span></div>'
+          + '<div class="etf-detail-row"><span class="etf-dk">Cotação Actual</span><span class="etf-dv">' + priceStr + '</span></div>'
+          + '<div class="etf-detail-row"><span class="etf-dk">Variação Hoje</span><span class="etf-dv ' + chgCls + '">' + chgStr + '</span></div>'
+          + '<div class="etf-detail-row"><span class="etf-dk">Rent. 7 Dias</span><span class="etf-dv ' + perfClass(ret7d) + '">' + perfStr(ret7d) + '</span></div>'
+          + '<div class="etf-detail-row"><span class="etf-dk">Rent. 1 Mês</span><span class="etf-dv ' + perfClass(ret1m) + '">' + perfStr(ret1m) + '</span></div>'
+          + '<div class="etf-detail-row"><span class="etf-dk">Rent. 6 Meses</span><span class="etf-dv ' + perfClass(ret6m) + '">' + perfStr(ret6m) + '</span></div>'
+          + '<div class="etf-detail-row"><span class="etf-dk">Rent. 1 Ano</span><span class="etf-dv ' + perfClass(ret1a) + '">' + perfStr(ret1a) + '</span></div>'
+          + '<div class="etf-detail-row"><span class="etf-dk">TER</span><span class="etf-dv">' + (e.ter ? e.ter + '%' : '—') + '</span></div>'
+          + '<div class="etf-detail-row"><span class="etf-dk">Domicílio</span><span class="etf-dv">' + (e.domicilio || '—') + '</span></div>'
+          + '<div class="etf-detail-row"><span class="etf-dk">Distribuição</span><span class="etf-dv">' + (e.distribucao || '—') + '</span></div>'
+          + '<div class="etf-detail-row"><span class="etf-dk">Imposto PT</span><span class="etf-dv red">28% mais-valias</span></div>'
+          + '<div class="etf-tags">'
+            + '<span class="etf-tag">' + (e.categoria || '—') + '</span>'
+            + '<span class="etf-tag ' + (e.distribucao === 'Acumulação' ? 'green' : 'amber') + '">' + (e.distribucao || '—') + '</span>'
+            + '<span class="etf-tag">' + (e.domicilio || '—') + '</span>'
+          + '</div>'
+        + '</div>'
+      + '</div>';
+    }).join('');
+  } catch(err) {
+    container.innerHTML = '<div class="empty-state">❌ Erro ao renderizar: ' + err.message + '</div>';
+  }
+}
+
+function toggleEtfCard(uid) { document.getElementById('etf-card-' + uid)?.classList.toggle('open'); }
+
+
+function toggleGuia(id, header) {
+  const body = document.getElementById(id);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  header.classList.toggle('open', !isOpen);
+  if (!isOpen) {
+    setTimeout(() => header.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 30);
+  }
+}
+
+function toggleFaq(item) {
+  item.classList.toggle('open');
+  if (item.classList.contains('open')) {
+    setTimeout(() => item.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 30);
+  }
+}
 
 // ── PWA ──────────────────────────────────────────────────────
 if ('serviceWorker' in navigator) {
