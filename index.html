@@ -1,1039 +1,603 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Super Guia — Estatística & Econometria</title>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Huddle — Voice Chat</title>
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#fff;--bg2:#f7f7f5;--bg3:#f0f0ec;
-  --line:#e8e8e4;--line2:#d0d0ca;
-  --txt:#111;--txt2:#555;--txt3:#999;
-  --blue:#2563eb;--blue-bg:#eff6ff;--blue-brd:#bfdbfe;
-  --green:#16a34a;--green-bg:#f0fdf4;--green-brd:#bbf7d0;
-  --amber:#b45309;--amber-bg:#fffbeb;--amber-brd:#fde68a;
-  --red:#dc2626;--red-bg:#fef2f2;--red-brd:#fecaca;
-  --purple:#7c3aed;--purple-bg:#f5f3ff;--purple-brd:#ddd6fe;
-  --teal:#0d9488;--teal-bg:#f0fdfa;--teal-brd:#99f6e4;
-  --r:6px;--rmd:8px;
-}
-html{font-size:15px;scroll-behavior:smooth}
-body{background:var(--bg);color:var(--txt);font-family:'Geist',system-ui,sans-serif;min-height:100vh}
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Syne+Mono&display=swap');
 
-/* ══ LAYOUT ══ */
-.shell{display:flex;min-height:100vh}
+  :root {
+    --bg: #f5f0e8;
+    --card: #fff;
+    --ink: #1a1a18;
+    --muted: #888880;
+    --green: #2d9e6b;
+    --red: #d94f3d;
+    --accent: #e8601a;
+    --border: #e0dbd0;
+  }
 
-/* ══ SIDEBAR ══ */
-.side{width:256px;flex-shrink:0;border-right:1px solid var(--line);position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;background:var(--bg)}
-.side-head{padding:20px 18px 16px;border-bottom:1px solid var(--line)}
-.side-brand{font-size:10px;font-family:'Geist Mono',monospace;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
-.side-title{font-size:13.5px;font-weight:500;color:var(--txt);line-height:1.4}
-.side-sub{font-size:11px;color:var(--txt3);margin-top:3px}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-.prog-area{padding:12px 18px;border-bottom:1px solid var(--line)}
-.prog-label{display:flex;justify-content:space-between;font-size:11px;font-family:'Geist Mono',monospace;color:var(--txt3);margin-bottom:5px}
-.prog-track{height:2px;background:var(--line);border-radius:1px}
-.prog-fill{height:100%;border-radius:1px;background:var(--txt);transition:width .4s}
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+  }
 
-.nav-list{flex:1;padding:8px 0 24px;overflow-y:auto}
-.nav-sec{font-size:10px;font-family:'Geist Mono',monospace;letter-spacing:.1em;color:var(--txt3);padding:12px 18px 4px;text-transform:uppercase}
-.nav-btn{display:flex;align-items:center;gap:9px;width:100%;padding:6px 18px;border:none;background:none;font-size:12.5px;color:var(--txt2);cursor:pointer;text-align:left;font-family:'Geist',sans-serif;transition:all .1s;border-left:2px solid transparent}
-.nav-btn:hover{color:var(--txt);background:var(--bg2)}
-.nav-btn.on{color:var(--txt);background:var(--bg2);border-left-color:var(--txt)}
-.nav-btn.done{color:var(--txt3)}
-.ndot{width:6px;height:6px;border-radius:50%;flex-shrink:0;border:1.5px solid var(--txt3)}
-.nav-btn.on .ndot{background:var(--txt);border-color:var(--txt)}
-.nav-btn.done .ndot{background:var(--green);border-color:var(--green)}
-.dc .ndot{border-color:var(--blue)}
-.dq .ndot{border-color:var(--green)}
-.de .ndot{border-color:var(--amber)}
-.ntxt{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.4}
+  /* Subtle grain texture */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.4;
+  }
 
-/* ══ MOBILE HEADER ══ */
-.mob-header{display:none;position:fixed;top:0;left:0;right:0;height:52px;background:var(--bg);border-bottom:1px solid var(--line);z-index:100;align-items:center;padding:0 16px;gap:12px}
-.ham-btn{width:36px;height:36px;border:1px solid var(--line2);border-radius:var(--r);background:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ham-icon{width:16px;height:12px;display:flex;flex-direction:column;justify-content:space-between}
-.ham-icon span{height:1.5px;background:var(--txt);border-radius:1px;display:block}
-.mob-title{font-size:12.5px;font-weight:500;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
-.mob-pct{font-size:11px;font-family:'Geist Mono',monospace;color:var(--txt3);flex-shrink:0}
+  h1 {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 4px;
+  }
 
-/* ══ DRAWER (mobile) ══ */
-.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;opacity:0;pointer-events:none;transition:opacity .2s}
-.drawer-overlay.open{opacity:1;pointer-events:all}
-.drawer{position:fixed;top:0;left:0;bottom:0;width:280px;background:var(--bg);z-index:201;transform:translateX(-100%);transition:transform .25s ease;overflow-y:auto;display:flex;flex-direction:column;border-right:1px solid var(--line)}
-.drawer.open{transform:translateX(0)}
-.drawer-head{padding:18px 16px 14px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-start}
-.drawer-close{border:1px solid var(--line2);border-radius:var(--r);background:none;cursor:pointer;font-size:16px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:var(--txt2);flex-shrink:0}
-.drawer-prog{padding:10px 16px;border-bottom:1px solid var(--line)}
-.drawer-nav{flex:1;padding:6px 0 20px}
+  .tagline {
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 32px;
+  }
 
-/* ══ MAIN ══ */
-.main{flex:1;min-width:0;padding:48px 56px 80px;max-width:760px}
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  }
 
-/* ══ PAGE ══ */
-.eyebrow{display:flex;align-items:center;gap:8px;font-size:11px;font-family:'Geist Mono',monospace;color:var(--txt3);letter-spacing:.06em;margin-bottom:10px}
-.etype{padding:2px 8px;border-radius:3px;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
-.ec{background:var(--blue-bg);color:var(--blue)}
-.eq{background:var(--green-bg);color:var(--green)}
-.ee{background:var(--amber-bg);color:var(--amber)}
+  /* ── Lobby ── */
+  #lobby { display: flex; flex-direction: column; gap: 14px; }
 
-h1.ptitle{font-size:24px;font-weight:500;color:var(--txt);line-height:1.25;margin-bottom:8px;letter-spacing:-.02em}
-.sub-title{font-size:13.5px;color:var(--txt3);margin-bottom:28px;font-weight:300}
+  .field-label {
+    font-family: 'Syne Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
 
-/* ══ CONTENT BLOCKS ══ */
-.body-txt{font-size:14.5px;color:var(--txt2);line-height:1.8;margin-bottom:16px;font-weight:300}
-.body-txt strong{color:var(--txt);font-weight:500}
-.body-txt em{font-style:italic;color:var(--txt)}
-.body-txt code{font-family:'Geist Mono',monospace;font-size:12.5px;background:var(--bg2);border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--txt)}
+  input[type="text"] {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--ink);
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-family: 'Syne Mono', monospace;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input[type="text"]:focus { border-color: var(--accent); }
 
-h3.block-h{font-size:15px;font-weight:500;color:var(--txt);margin:24px 0 10px;letter-spacing:-.01em}
-h4.block-sh{font-size:13px;font-weight:500;color:var(--txt2);margin:18px 0 8px;text-transform:uppercase;letter-spacing:.05em;font-family:'Geist Mono',monospace;font-size:11px}
+  .btn {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+  .btn:hover { opacity: 0.88; }
+  .btn:active { transform: scale(0.98); }
+  .btn-primary { background: var(--ink); color: var(--bg); }
+  .btn-danger  { background: var(--red); color: #fff; }
 
-.formula{border:1px solid var(--line);border-radius:var(--rmd);padding:16px 20px;margin:18px 0;font-family:'Geist Mono',monospace;font-size:13px;color:var(--txt);background:var(--bg2);line-height:1.7;white-space:pre-wrap}
-.formula-lbl{font-size:10px;color:var(--txt3);display:block;margin-bottom:6px;letter-spacing:.06em}
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
 
-/* Callout types */
-.box{border-radius:var(--rmd);padding:14px 18px;margin:18px 0;font-size:14px;line-height:1.75;font-weight:300}
-.box-lbl{font-size:10px;font-family:'Geist Mono',monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px;font-weight:500;display:flex;align-items:center;gap:6px}
-.box-lbl::before{content:'';width:6px;height:6px;border-radius:50%;flex-shrink:0}
+  /* ── Room ── */
+  #room { display: none; flex-direction: column; gap: 20px; }
 
-.box-neutral{background:var(--bg2);border:1px solid var(--line);color:var(--txt2)}
-.box-neutral .box-lbl{color:var(--txt3)}.box-neutral .box-lbl::before{background:var(--txt3)}
+  .room-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-.box-key{background:var(--blue-bg);border:1px solid var(--blue-brd);color:#1e3a5f}
-.box-key .box-lbl{color:var(--blue)}.box-key .box-lbl::before{background:var(--blue)}
+  .room-name {
+    font-family: 'Syne Mono', monospace;
+    font-size: 13px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 10px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.2s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 220px;
+  }
+  .room-name:hover { border-color: var(--accent); color: var(--ink); }
+  .room-name::after { content: ' ⎘'; font-size: 11px; }
 
-.box-warn{background:var(--red-bg);border:1px solid var(--red-brd);color:#7f1d1d}
-.box-warn .box-lbl{color:var(--red)}.box-warn .box-lbl::before{background:var(--red)}
+  .copy-hint {
+    font-size: 11px;
+    color: var(--green);
+    font-family: 'Syne Mono', monospace;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .copy-hint.show { opacity: 1; }
 
-.box-analogy{background:var(--amber-bg);border:1px solid var(--amber-brd);color:#451a03}
-.box-analogy .box-lbl{color:var(--amber)}.box-analogy .box-lbl::before{background:var(--amber)}
+  /* Peers grid */
+  .peers-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    min-height: 120px;
+  }
 
-.box-example{background:var(--green-bg);border:1px solid var(--green-brd);color:#14532d}
-.box-example .box-lbl{color:var(--green)}.box-example .box-lbl::before{background:var(--green)}
+  .peer-tile {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    transition: border-color 0.2s;
+    animation: tile-in 0.25s ease;
+  }
+  @keyframes tile-in {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+  }
 
-.box-beyond{background:var(--purple-bg);border:1px solid var(--purple-brd);color:#2e1065}
-.box-beyond .box-lbl{color:var(--purple)}.box-beyond .box-lbl::before{background:var(--purple)}
+  .peer-tile.speaking { border-color: var(--green); background: rgba(45,158,107,0.05); }
+  .peer-tile.self { border-color: var(--accent); }
 
-.box-insight{background:var(--teal-bg);border:1px solid var(--teal-brd);color:#134e4a}
-.box-insight .box-lbl{color:var(--teal)}.box-insight .box-lbl::before{background:var(--teal)}
+  .peer-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    background: var(--ink);
+    color: var(--bg);
+    position: relative;
+  }
 
-/* Table */
-.dtable{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
-.dtable th{text-align:left;padding:8px 12px 8px 0;font-size:10px;font-family:'Geist Mono',monospace;letter-spacing:.08em;color:var(--txt3);text-transform:uppercase;border-bottom:1px solid var(--line2);font-weight:500}
-.dtable td{padding:9px 12px 9px 0;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.6;color:var(--txt2);font-weight:300}
-.dtable td:first-child{font-family:'Geist Mono',monospace;font-size:12px;color:var(--txt);font-weight:400;white-space:nowrap;padding-right:20px;width:auto}
-.dtable tr:last-child td{border-bottom:none}
+  .speaking-ring {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid var(--green);
+    opacity: 0;
+    transition: opacity 0.15s;
+    animation: none;
+  }
+  .peer-tile.speaking .speaking-ring {
+    opacity: 1;
+    animation: ring 1.2s infinite;
+  }
+  @keyframes ring {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.1); opacity: 0.3; }
+  }
 
-/* Steps */
-.steps{margin:16px 0;counter-reset:step-counter}
-.step{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start}
-.step-num{width:24px;height:24px;border-radius:50%;background:var(--txt);color:var(--bg);font-size:11px;font-family:'Geist Mono',monospace;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
-.step-body{flex:1;font-size:14px;color:var(--txt2);line-height:1.7;font-weight:300}
-.step-body strong{color:var(--txt);font-weight:500}
-.step-body code{font-family:'Geist Mono',monospace;font-size:12.5px;background:var(--bg2);border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+  .peer-name {
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+  }
 
-/* section divider */
-.sec-divider{border:none;border-top:1px solid var(--line);margin:28px 0}
+  .peer-status {
+    font-family: 'Syne Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+  }
 
-/* nav row */
-.navrow{display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--line)}
-.btn{padding:7px 16px;border-radius:var(--r);border:1px solid var(--line2);background:var(--bg);font-size:12.5px;font-family:'Geist',sans-serif;color:var(--txt2);cursor:pointer;transition:all .1s}
-.btn:hover{border-color:var(--txt3);color:var(--txt)}
-.btn:disabled{opacity:.3;cursor:default}
-.btn-p{background:var(--txt);color:var(--bg);border-color:var(--txt)}
-.btn-p:hover{background:#333;border-color:#333;color:var(--bg)}
+  .mute-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--muted);
+    transition: all 0.15s;
+  }
+  .mute-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .mute-btn.muted { border-color: var(--red); color: var(--red); }
 
-/* question */
-.qtext{font-size:16.5px;font-weight:400;color:var(--txt);line-height:1.5;margin-bottom:20px;letter-spacing:-.01em}
-.opts{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
-.opt{display:flex;align-items:flex-start;gap:10px;padding:11px 15px;border-radius:var(--rmd);border:1px solid var(--line);background:var(--bg);cursor:pointer;font-size:14px;color:var(--txt2);font-family:'Geist',sans-serif;text-align:left;transition:all .12s;line-height:1.5;font-weight:300}
-.opt:hover:not(:disabled){border-color:var(--line2);color:var(--txt)}
-.opt.sel{border-color:var(--txt);color:var(--txt);background:var(--bg2)}
-.opt.ok{border-color:var(--green);background:var(--green-bg);color:#14532d}
-.opt.no{border-color:var(--red);background:var(--red-bg);color:#7f1d1d}
-.oltr{width:22px;height:22px;border-radius:50%;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:10px;font-family:'Geist Mono',monospace;flex-shrink:0;margin-top:1px}
-.opt.sel .oltr{border-color:var(--txt);color:var(--txt)}
-.opt.ok .oltr{border-color:var(--green);color:var(--green);background:var(--green-bg)}
-.opt.no .oltr{border-color:var(--red);color:var(--red);background:var(--red-bg)}
+  .empty-state {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 24px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .empty-state .big { font-size: 28px; }
 
-.fb{border-radius:var(--rmd);padding:13px 16px;margin-bottom:14px;font-size:14px;line-height:1.7;font-weight:300}
-.fb strong{font-weight:500}
-.fb-ok{background:var(--green-bg);border:1px solid var(--green-brd);color:#14532d}
-.fb-no{background:var(--red-bg);border:1px solid var(--red-brd);color:#7f1d1d}
+  .leave-btn {
+    background: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    width: 100%;
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .leave-btn:hover { opacity: 0.88; }
 
-/* exam */
-.eq-wrap{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--line)}
-.eq-wrap:last-of-type{border-bottom:none}
-.eq-num{font-size:10px;font-family:'Geist Mono',monospace;color:var(--txt3);letter-spacing:.1em;margin-bottom:8px}
-.eq-txt{font-size:15px;color:var(--txt);line-height:1.5;margin-bottom:12px;font-weight:400}
-.score-box{border:1px solid var(--line);border-radius:var(--rmd);padding:28px;text-align:center;margin-bottom:28px;background:var(--bg2)}
-.score-n{font-size:52px;font-weight:300;letter-spacing:-.04em}
-.score-pass{color:var(--green)}.score-fail{color:var(--red)}
-.score-sub{font-size:12px;font-family:'Geist Mono',monospace;color:var(--txt3);margin-top:5px}
-
-/* ══ ANIMATIONS ══ */
-.fade{animation:fi .2s ease}
-@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-
-/* ══ RESPONSIVE ══ */
-@media(max-width:768px){
-  .side{display:none}
-  .mob-header{display:flex}
-  .main{padding:68px 20px 80px;max-width:100%}
-}
-@media(min-width:769px){
-  .mob-header{display:none}
-  .drawer,.drawer-overlay{display:none}
-}
-
-::-webkit-scrollbar{width:3px}
-::-webkit-scrollbar-thumb{background:var(--line)}
-
-/* Inline tag */
-.tag{display:inline-block;font-family:'Geist Mono',monospace;font-size:11px;background:var(--bg2);border:1px solid var(--line);border-radius:3px;padding:1px 6px;color:var(--txt);margin:0 2px}
-
-/* result row */
-.res-row{display:flex;align-items:baseline;gap:8px;margin:6px 0}
-.res-key{font-family:'Geist Mono',monospace;font-size:12px;color:var(--txt3);min-width:120px}
-.res-val{font-size:14px;color:var(--txt);font-weight:400}
-.res-sub{font-size:12px;color:var(--txt2);font-weight:300}
-
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
-.mini-box{border:1px solid var(--line);border-radius:var(--rmd);padding:14px 16px;background:var(--bg2)}
-.mini-box-lbl{font-size:10px;font-family:'Geist Mono',monospace;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
-.mini-box-val{font-size:20px;font-weight:500;color:var(--txt);letter-spacing:-.02em}
-.mini-box-desc{font-size:12px;color:var(--txt2);margin-top:4px;font-weight:300;line-height:1.5}
-@media(max-width:480px){.two-col{grid-template-columns:1fr}}
+  .status-bar {
+    font-family: 'Syne Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+  }
+  .status-bar.ok { color: var(--green); }
+  .status-bar.err { color: var(--red); }
 </style>
 </head>
 <body>
 
-<!-- MOBILE HEADER -->
-<div class="mob-header" id="mobHeader">
-  <button class="ham-btn" onclick="openDrawer()">
-    <div class="ham-icon"><span></span><span></span><span></span></div>
-  </button>
-  <span class="mob-title" id="mobTitle">Super Guia</span>
-  <span class="mob-pct" id="mobPct">0%</span>
-</div>
+<h1>Huddle</h1>
+<p class="tagline">instant voice rooms — no signup, no app</p>
 
-<!-- DRAWER OVERLAY -->
-<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
-<div class="drawer" id="drawer">
-  <div class="drawer-head">
+<div class="card">
+
+  <!-- LOBBY -->
+  <div id="lobby">
     <div>
-      <div class="side-brand">Estatística & Econometria</div>
-      <div class="side-title" style="font-size:13px">Super Guia</div>
+      <div class="field-label">Your name</div>
+      <input type="text" id="nameInput" placeholder="e.g. João" maxlength="20"/>
     </div>
-    <button class="drawer-close" onclick="closeDrawer()">✕</button>
+    <button class="btn btn-primary" onclick="createRoom()">Create a room</button>
+    <div class="divider">or join existing</div>
+    <div>
+      <div class="field-label">Room code</div>
+      <input type="text" id="roomInput" placeholder="paste room code here" maxlength="40"/>
+    </div>
+    <button class="btn" style="background:var(--bg);border:1px solid var(--border)" onclick="joinRoom()">Join room</button>
   </div>
-  <div class="drawer-prog">
-    <div class="prog-label"><span>Progresso</span><span id="dpct">0%</span></div>
-    <div class="prog-track"><div class="prog-fill" id="dpbar" style="width:0%"></div></div>
+
+  <!-- ROOM -->
+  <div id="room">
+    <div class="room-header">
+      <div>
+        <div class="field-label">Room code — share to invite</div>
+        <div class="room-name" id="roomCode" onclick="copyRoomLink()">—</div>
+      </div>
+      <span class="copy-hint" id="copyHint">copied!</span>
+    </div>
+
+    <div class="peers-grid" id="peersGrid">
+      <div class="empty-state">
+        <span class="big">👂</span>
+        <span>Waiting for others…</span>
+      </div>
+    </div>
+
+    <div class="status-bar" id="statusBar">connecting…</div>
+    <button class="leave-btn" onclick="leaveRoom()">Leave room</button>
   </div>
-  <nav class="drawer-nav" id="drawerNav"></nav>
-</div>
 
-<div class="shell">
-  <!-- DESKTOP SIDEBAR -->
-  <aside class="side">
-    <div class="side-head">
-      <div class="side-brand">Super Guia · Tese 2026</div>
-      <div class="side-title">Estatística & Econometria</div>
-      <div class="side-sub">do Zero à Defesa</div>
-    </div>
-    <div class="prog-area">
-      <div class="prog-label"><span>Progresso</span><span id="spct">0%</span></div>
-      <div class="prog-track"><div class="prog-fill" id="spbar" style="width:0%"></div></div>
-    </div>
-    <nav class="nav-list" id="sideNav"></nav>
-  </aside>
-
-  <main class="main" id="main"></main>
 </div>
 
 <script>
-/* ══════════════════════════════════════════════
-   COURSE DATA
-══════════════════════════════════════════════ */
-const C={sections:[
-
-/* ── S1: FUNDAMENTOS ─────────────────────────────── */
-{id:"s1",title:"Fundamentos de Estatística",pages:[
-
-{id:"p1_1",type:"content",title:"O que são dados, variáveis e séries temporais",sub:"A matéria-prima de qualquer análise quantitativa",blocks:[
-{t:"txt",c:"Antes de qualquer fórmula, precisamos de perceber o que estamos a medir e como estão organizados os dados. Esta distinção parece trivial mas determina toda a metodologia que vem a seguir."},
-{t:"h3",c:"Tipos de dados"},
-{t:"txt",c:"Os dados podem ser organizados de três formas fundamentais, cada uma com as suas técnicas analíticas adequadas:"},
-{t:"table",cols:["Tipo","Estrutura","Exemplo na tua tese","Técnicas típicas"],rows:[
-["Secção cruzada","Uma observação por entidade num único momento","—","Regressão OLS, ANOVA"],
-["Série temporal","Múltiplas observações da mesma entidade ao longo do tempo","PSI-20 diário 1998–2024","ARIMA, GARCH, cointegração"],
-["Dados de painel","Múltiplas entidades × múltiplos períodos","PSI-20 + IBEX + CAC em simultâneo","Modelos de efeitos fixos/aleatórios"]
-]},
-{t:"h3",c:"O que é uma série temporal — em profundidade"},
-{t:"txt",c:"Uma série temporal é uma sequência de observações <strong>indexada pelo tempo</strong>, onde a ordem importa. Não são apenas números — são números com uma estrutura temporal que contém informação adicional. Dois retornos de 1% no dia 1 e 1% no dia 1000 são o mesmo número, mas o seu <em>contexto temporal</em> (o que aconteceu antes, o regime de mercado) pode ser completamente diferente."},
-{t:"analogy",title:"Analogia: a série temporal como diário",c:"Imagina que tens um diário com uma entrada por dia durante 26 anos. Não é a mesma coisa que 7.116 notas soltas — a sequência tem significado. O que escreveste ontem influencia como interpretas o que escreveste hoje. Uma série temporal funciona da mesma forma: cada observação carrega a história de tudo o que veio antes."},
-{t:"table",cols:["Conceito","Definição","Na tua tese"],rows:[
-["Observação","Um único ponto de dados","Valor de fecho do PSI-20 num dia de bolsa"],
-["Período / frequência","Intervalo entre observações","Diário (excluindo fins-de-semana e feriados)"],
-["Comprimento","Número total de observações","n = 7.116 dias (1998–2024)"],
-["Índice temporal","A variável que identifica cada obs.","Data de bolsa t"],
-["Lag","Observação k períodos atrás","PSI-20 no dia t−1, t−2, ..."]
-]},
-{t:"h3",c:"Porquê dados diários e não mensais ou anuais?"},
-{t:"txt",c:"A escolha da frequência dos dados é uma decisão metodológica com consequências. Com dados diários: tens mais observações (maior poder estatístico), captas dinâmicas de curto prazo (reações imediatas a eventos políticos), e podes estudar volatilidade — que é um fenómeno essencialmente de curto prazo. Com dados mensais ou anuais perderias a dinâmica GARCH completamente."},
-{t:"beyond",title:"Onde mais encontras séries temporais",c:"Medicina: registo de batimentos cardíacos (ECG), glicemia ao longo do dia. Engenharia: sensores de temperatura numa fábrica, consumo de energia. Meteorologia: temperatura diária, precipitação. Economia: PIB trimestral, inflação mensal. Em todas estas situações, a análise de séries temporais usa as mesmas ferramentas que aplicaste na tua tese."}
-]},
-
-{id:"p1_2",type:"content",title:"Retornos logarítmicos — porquê e como",sub:"A transformação mais importante em finanças quantitativas",blocks:[
-{t:"txt",c:"Trabalhar diretamente com os preços das ações é quase sempre um erro metodológico. O retorno logarítmico resolve múltiplos problemas em simultâneo e é a forma padrão de trabalhar em finanças quantitativas."},
-{t:"h3",c:"O problema com os preços brutos"},
-{t:"txt",c:"Imagina que o PSI-20 estava em 1.000 pontos em 1998 e em 5.000 em 2024. Estas duas séries têm <strong>escalas completamente diferentes</strong> — uma análise que trate 100 pontos em 1998 da mesma forma que 100 pontos em 2024 estaria errada. Além disso, a série de preços tem uma tendência crescente (não é estacionária), o que invalida a maioria dos testes estatísticos."},
-{t:"h3",c:"Retorno simples vs. retorno logarítmico"},
-{t:"table",cols:["","Retorno simples","Retorno logarítmico"],rows:[
-["Fórmula","(P_t − P_{t-1}) / P_{t-1}","ln(P_t / P_{t-1})"],
-["Em percentagem","× 100","× 100"],
-["Aditividade no tempo","NÃO","SIM"],
-["Simetria ±","NÃO (−50% ≠ +50%)","SIM (−50% ≈ +50%)"],
-["Adequado para GARCH","Sim (mas inferior)","Sim (preferível)"]
-]},
-{t:"formula",lbl:"Retorno logarítmico diário (em %)",c:"r_t = ln(P_t / P_{t-1}) × 100\n\nonde P_t = preço de fecho do PSI-20 no dia t"},
-{t:"example",title:"Exemplo trabalhado — passo a passo",c:"Dia 1: PSI-20 fecha em 5.200 pontos\nDia 2: PSI-20 fecha em 5.148 pontos\n\nRetorno logarítmico:\n  r_t = ln(5148 / 5200) × 100\n       = ln(0.99) × 100\n       = −0.01005 × 100\n       = −1.005%\n\nInterpretação: o PSI-20 desceu aproximadamente 1% nesse dia."},
-{t:"h3",c:"A propriedade de aditividade — porquê é crucial"},
-{t:"txt",c:"Com retornos logarítmicos, o retorno total de um período é a <em>soma</em> dos retornos diários. Isto é matematicamente conveniente e é uma das razões pelas quais os modelos GARCH são escritos em termos de log-retornos. Com retornos simples, o retorno total seria o <em>produto</em> — muito mais difícil de trabalhar."},
-{t:"formula",lbl:"Aditividade dos retornos logarítmicos",c:"r_total = r_1 + r_2 + ... + r_n\n\nExemplo: 3 dias com retornos +1%, −0.5%, +2%\n  r_total = 1 + (−0.5) + 2 = 2.5%"},
-{t:"h3",c:"A simetria — porquê importa"},
-{t:"txt",c:"Com retornos simples, uma queda de 50% requer uma subida de 100% para recuperar. Com retornos logarítmicos, uma queda de 50% e uma subida de 50% têm magnitudes comparáveis. Isto torna a distribuição mais simétrica e facilita a modelação estatística."},
-{t:"key",title:"Multiplicar por 100 — não esquecer",c:"A convenção em finanças é expressar o retorno em percentagem. Sem o ×100, um retorno de 1% seria 0.01, o que cria dificuldades numéricas na estimação. Com o ×100, um retorno de 1% é o número 1 — muito mais intuitivo e numericamente estável."},
-{t:"beyond",title:"Onde mais se usa o log-retorno",c:"Medicina: a dose eficaz de um medicamento segue frequentemente uma escala logarítmica. Acústica: o decibel é uma escala logarítmica (dB = 20 × log). Psicologia: a percepção humana de estímulos (som, luz) é logarítmica — a lei de Weber-Fechner. Em todos estes casos, a transformação logarítmica torna a escala mais 'natural' para o fenómeno em estudo."}
-]},
-
-{id:"p1_3",type:"content",title:"Média, variância e desvio-padrão — a fundo",sub:"As três medidas que descrevem qualquer distribuição",blocks:[
-{t:"txt",c:"A média, variância e desvio-padrão são os pilares da estatística descritiva. Mas compreendê-los verdadeiramente — não apenas saber as fórmulas — é o que separa alguém que usa estatística de alguém que a compreende."},
-{t:"h3",c:"A média — o ponto de equilíbrio"},
-{t:"txt",c:"A média aritmética é o valor que, se todos os dados fossem iguais a ele, produziria a mesma soma total. É o <strong>centro de gravidade</strong> da distribuição. Para os retornos diários do PSI-20 ao longo de 26 anos, a média é muito próxima de zero — o que é esperado: num mercado eficiente, não deverias conseguir prever se amanhã o mercado sobe ou desce."},
-{t:"formula",lbl:"Média amostral",c:"μ̂ = (1/n) × Σᵢ rᵢ = (r₁ + r₂ + ... + rₙ) / n"},
-{t:"analogy",title:"Analogia: a média como saldo bancário dividido pelos dias",c:"Se ganhaste e perdeste dinheiro durante 26 anos de bolsa, a média dos retornos diários é como calcular o 'ganho médio por dia'. Com 7.116 dias e um ganho total razoável, esse ganho diário médio é minúsculo — um número positivo mas quase imperceptível, como 0.02% por dia."},
-{t:"h3",c:"A variância — a dispersão média ao quadrado"},
-{t:"txt",c:"A variância mede quão longe os dados estão, em média, da média. Eleva ao quadrado os desvios para que positivos e negativos não se anulem, e para <em>penalizar</em> desvios grandes de forma quadrática (um desvio de 2 pesa 4 vezes mais que um desvio de 1)."},
-{t:"formula",lbl:"Variância amostral",c:"σ̂² = (1/(n−1)) × Σᵢ (rᵢ − μ̂)²\n\nNota: usamos n−1 em vez de n para obter um estimador não-enviesado (correção de Bessel)"},
-{t:"h3",c:"O desvio-padrão — de volta às unidades originais"},
-{t:"txt",c:"A variância está em unidades ao quadrado (% ao quadrado, no caso dos retornos), o que é difícil de interpretar. O desvio-padrão é simplesmente a raiz quadrada da variância — está nas mesmas unidades que os dados originais."},
-{t:"formula",lbl:"Desvio-padrão e a regra empírica 68-95-99.7",c:"σ̂ = √σ̂²\n\nSe os dados forem normalmente distribuídos:\n  68% dos dados estão dentro de [μ − σ, μ + σ]\n  95% dos dados estão dentro de [μ − 2σ, μ + 2σ]\n  99.7% dos dados estão dentro de [μ − 3σ, μ + 3σ]"},
-{t:"example",title:"Exemplo com valores reais — PSI-20",c:"Suponhamos:\n  Média diária (μ) ≈ 0.01%\n  Desvio-padrão diário (σ) ≈ 1.1%\n\nPela regra 68-95-99.7:\n  Num dia 'normal', o PSI-20 varia entre −1.09% e +1.11%\n  95% dos dias têm variações entre −2.19% e +2.21%\n  Variações acima de ±3.3% são raras mas existem (3 em cada 1000 dias)\n\nNa prática, como os retornos têm fat tails (curtose > 3),\nestas variações extremas acontecem com mais frequência do que a normal prevê."},
-{t:"beyond",title:"O desvio-padrão fora das finanças",c:"Controlo de qualidade (Six Sigma): uma fábrica quer que os seus produtos estejam dentro de ±3σ da especificação. Medicina: a distribuição do peso à nascença tem μ ≈ 3.4 kg e σ ≈ 0.5 kg. Um bebé com 2.4 kg (2σ abaixo da média) é considerado de baixo peso. Nota escolar: se a média é 12 e σ = 2, uma nota de 16 está 2σ acima da média — no top 2.5%."}
-]},
-
-{id:"p1_4",type:"content",title:"Assimetria, curtose e fat tails",sub:"Porque os retornos financeiros não são normais — e o que isso implica",blocks:[
-{t:"txt",c:"A distribuição normal é conveniente matematicamente, mas os retornos financeiros diários têm características que a afastam sistematicamente da normalidade. Compreender estas deviações é essencial para justificar os modelos GARCH."},
-{t:"h3",c:"Assimetria (Skewness) — a distribuição não é simétrica"},
-{t:"txt",c:"Uma distribuição simétrica tem assimetria = 0. A maioria dos índices financeiros tem <strong>assimetria negativa</strong> — a cauda esquerda (perdas) é mais longa e pesada do que a cauda direita (ganhos). Em linguagem prática: as quedas extremas são mais frequentes e mais intensas do que as subidas equivalentes."},
-{t:"formula",lbl:"Coeficiente de assimetria (fórmula simplificada)",c:"Skewness = (1/n) × Σᵢ [(rᵢ − μ) / σ]³\n\nAssimetria = 0  →  simétrico (normal)\nAssimetria < 0  →  cauda esquerda mais pesada (típico em finanças)\nAssimetria > 0  →  cauda direita mais pesada"},
-{t:"h3",c:"Curtose — a altura das caudas"},
-{t:"txt",c:"A curtose mede a 'pesadez' das caudas de uma distribuição. Uma distribuição normal tem curtose = 3. Distribuições com curtose > 3 são <strong>leptocúrticas</strong> e têm <strong>fat tails</strong> — retornos extremos ocorrem com mais frequência do que a normal prevê."},
-{t:"formula",lbl:"Curtose e curtose excessiva",c:"Kurtosis = (1/n) × Σᵢ [(rᵢ − μ) / σ]⁴\n\nKurtosis normal = 3\nKurtosis excessiva = Kurtosis − 3\n\nSe Kurtosis excessiva > 0  →  fat tails (leptocúrtica)\nSe Kurtosis excessiva < 0  →  caudas finas (platicúrtica)"},
-{t:"analogy",title:"Analogia: fat tails como terramotos",c:"Uma distribuição normal seria como prever que um terramoto com magnitude 7+ ocorre uma vez em 10.000 anos. Com fat tails, pode ocorrer uma vez em 100 anos. Os mercados financeiros têm fat tails — 'terramotos' de mercado (crashes de −10% ou mais) ocorrem muito mais frequentemente do que um modelo normal preveria. Em 2008, 2011, 2020 — eventos que a normal classificaria como 'impossíveis' aconteceram."},
-{t:"warn",title:"A consequência prática dos fat tails",c:"Modelos baseados na distribuição normal subestimam sistematicamente o risco de eventos extremos. O colapso do Long-Term Capital Management (LTCM) em 1998 ocorreu parcialmente porque os seus modelos assumiam normalidade. Os fat tails nos retornos do PSI-20 são uma das principais justificações para usar GARCH em vez de OLS simples."},
-{t:"example",title:"Comparação normal vs. leptocúrtica",c:"Suponhamos μ = 0%, σ = 1%, n = 7116 observações.\n\nPelo modelo normal:\n  Probabilidade de retorno < −3%: 0.13% ≈ 9 dias em 7116\n  Probabilidade de retorno < −5%: 0.00003% ≈ 0.002 dias (quase impossível)\n\nCom fat tails (curtose = 6):\n  Probabilidade de retorno < −3%: ~0.5% ≈ 36 dias em 7116\n  Probabilidade de retorno < −5%: ~0.1% ≈ 7 dias em 7116\n\nNa realidade, o PSI-20 teve vários dias com quedas superiores a −5%,\no que confirma a presença de fat tails."},
-{t:"beyond",title:"Fat tails em outras áreas",c:"Catástrofes naturais: a distribuição de magnitude de terramotos, cheias e furacões é de cauda pesada (lei de potência). Internet: a distribuição de visitas a websites, seguidores nas redes sociais — uns poucos têm imenso, a maioria quase nada. Finanças pessoais: a distribuição da riqueza (lei de Pareto — 80/20). Em todas estas situações, assumir normalidade seria um erro grave."}
-]},
-
-{id:"p1_q1",type:"question",title:"Retorno logarítmico — cálculo",
-question:"O PSI-20 fecha em 5.400 pontos na segunda-feira e em 5.319 pontos na terça-feira. Qual é o retorno logarítmico diário (em %)?",
-options:["−1.52% (calculado como (5319−5400)/5400 × 100)","−1.50% (calculado como ln(5319/5400) × 100)","−0.015%","+1.52% porque a segunda tem um valor maior"],
-answer:1,expl:"r_t = ln(5319/5400) × 100 = ln(0.98500) × 100 = −0.01511 × 100 ≈ −1.51%. Nota: o retorno simples seria −1.50% e o logarítmico −1.51% — valores próximos para retornos pequenos, mas a diferença acumula-se ao longo do tempo. O retorno logarítmico é sempre ligeiramente mais negativo que o simples quando há quedas."},
-
-{id:"p1_q2",type:"question",title:"Fat tails — implicações",
-question:"Os retornos do PSI-20 têm curtose = 7.2. A curtose de uma distribuição normal é 3. O que implica esta diferença para a modelação?",
-options:["Não implica nada — a diferença é pequena","Os modelos que assumem normalidade subestimam a probabilidade de retornos extremos; justifica o uso de GARCH em vez de OLS simples","A série é não-estacionária","O desvio-padrão está incorretamente calculado"],
-answer:1,expl:"Curtose = 7.2 >> 3 indica fat tails severas. A distribuição normal subestimaria massivamente a frequência de crashes e rallys extremos. O OLS assume erros normais (curtose = 3) — com curtose = 7.2 esta suposição é violada, tornando os testes t e valores-p inválidos. O GARCH não exige normalidade dos retornos individuais."},
-
-{id:"p1_5",type:"content",title:"Testes de hipótese — a lógica completa",sub:"O framework mais importante da estatística inferencial",blocks:[
-{t:"txt",c:"Um teste de hipótese é uma forma formalizada de responder à pergunta: 'será que este padrão que observo nos dados é real, ou poderia ter acontecido por acaso?' É o fundamento de toda a inferência estatística."},
-{t:"h3",c:"A filosofia — inocente até prova em contrário"},
-{t:"txt",c:"O teste de hipótese funciona como um tribunal. A hipótese nula (H₀) é o réu — assumimos que é verdadeira até termos evidência suficiente para a refutar. O nível de significância α é o limiar de 'prova além da dúvida razoável'. Se a probabilidade de observar os nossos dados assumindo H₀ (o valor-p) for muito pequena, rejeitamos H₀."},
-{t:"analogy",title:"Analogia: o teste de gravidez",c:"H₀: não está grávida. H₁: está grávida. O teste deteta a hormona HCG. Se a concentração for suficientemente alta (p < α), rejeitamos H₀. O teste nunca prova que está grávida com 100% de certeza — apenas rejeita (ou não) a hipótese de não estar. Erros são possíveis: falsos positivos (erro tipo I) e falsos negativos (erro tipo II)."},
-{t:"h3",c:"Os dois tipos de erro"},
-{t:"table",cols:["","H₀ é verdadeira","H₀ é falsa"],rows:[
-["Rejeitamos H₀","Erro tipo I (α) — falso positivo","Decisão correta (potência = 1−β)"],
-["Não rejeitamos H₀","Decisão correta","Erro tipo II (β) — falso negativo"]
-]},
-{t:"txt",c:"O <strong>erro tipo I</strong> (falso positivo): concluir que há um efeito quando não existe. Se α = 0.05, estamos dispostos a aceitar 5% de probabilidade de cometer este erro. O <strong>erro tipo II</strong> (falso negativo): concluir que não há efeito quando ele existe. A <strong>potência</strong> do teste (1 − β) é a probabilidade de detetar um efeito real quando ele existe."},
-{t:"h3",c:"O valor-p — a interpretação correta"},
-{t:"txt",c:"O valor-p é o conceito mais mal interpretado em estatística. A definição correta é: <em>a probabilidade de observar uma estatística de teste tão extrema (ou mais) do que a que observámos, assumindo que H₀ é verdadeira</em>."},
-{t:"warn",title:"O que o valor-p NÃO é",c:"• NÃO é a probabilidade de H₀ ser verdadeira (isso é Bayesiano)\n• NÃO é a probabilidade de os resultados serem devidos ao acaso\n• NÃO é a probabilidade de que o estudo vai replicar\n• p = 0.05 não significa '95% de probabilidade de o efeito ser real'\n\nEsta distinção é crucial numa defesa de tese — o júri pode perguntar."},
-{t:"formula",lbl:"Como funciona o valor-p",c:"Dado H₀: coeficiente = 0\n\n1. Calculamos a estatística t = coeficiente / erro-padrão\n2. Calculamos P(|T| > |t observado| | H₀ verdadeira)\n3. Se esta probabilidade < α → rejeitar H₀\n\nInterpretação: se o coeficiente fosse realmente zero, qual a probabilidade\nde observarmos um t tão extremo como o que observámos?"},
-{t:"table",cols:["p-value","Notação","Interpretação","Exemplo na tua tese"],rows:[
-["< 0.001","***","Evidência muito forte para rejeitar H₀","shock_economic = −0.273***"],
-["< 0.01","**","Evidência forte","het(left_gov) = −0.077**"],
-["< 0.05","*","Evidência moderada","γ (leverage) = −0.078*"],
-["< 0.10","·","Evidência fraca / marginal","gov_type na het, p = 0.055·"],
-["> 0.10","—","Sem evidência suficiente","Variáveis eleitorais na média"]
-]},
-{t:"h3",c:"Significância estatística vs. prática"},
-{t:"txt",c:"Com amostras grandes (n = 7.116), até efeitos minúsculos podem ser estatisticamente significativos. Um coeficiente de 0.001% com p < 0.001 é significativo estatisticamente mas irrelevante na prática. Sempre considera a <strong>magnitude do efeito</strong> além da significância estatística."},
-{t:"beyond",title:"Testes de hipótese fora das finanças",c:"Medicina: um novo medicamento reduz a pressão arterial em média 2 mmHg (p < 0.001). É estatisticamente significativo, mas clinicamente irrelevante (a variação normal é muito maior). Direito: o nível de significância α é como o standard 'beyond reasonable doubt'. Engenharia: testes de qualidade para decidir se um lote de produtos passa no controlo."}
-]},
-
-{id:"p1_6",type:"content",title:"A estatística t e os intervalos de confiança",sub:"Como quantificamos a incerteza dos coeficientes",blocks:[
-{t:"txt",c:"Quando estimamos um coeficiente de regressão — por exemplo, o beta de mercado β₁ ≈ 0.557 — não o obtemos com certeza perfeita. Há sempre incerteza de estimação. A estatística t e os intervalos de confiança quantificam essa incerteza."},
-{t:"h3",c:"O erro-padrão — a incerteza do estimador"},
-{t:"txt",c:"O erro-padrão (SE) mede a precisão com que estimámos o coeficiente. Um SE pequeno significa que, se repetíssemos o estudo múltiplas vezes, obteríamos sempre valores próximos. Um SE grande significa estimativas muito variáveis."},
-{t:"formula",lbl:"Estatística t e intervalo de confiança",c:"t = β̂ / SE(β̂)\n\nIntervalo de confiança 95%:\n  IC₉₅% = β̂ ± 1.96 × SE(β̂)\n\nExemplo (β₁ = 0.557, SE = 0.012):\n  t = 0.557 / 0.012 = 46.4  →  p < 0.0001\n  IC₉₅% = [0.557 − 1.96×0.012, 0.557 + 1.96×0.012]\n          = [0.534, 0.580]"},
-{t:"example",title:"Interpretação do IC₉₅%",c:"IC₉₅% = [0.534, 0.580] para β₁\n\nSignifica: estamos 95% confiantes de que o verdadeiro beta de\nmercado do PSI-20 relativamente ao EuroStoxx 50 está entre\n0.534 e 0.580. Como o intervalo não inclui 0, rejeitamos\nH₀: β₁ = 0 — a relação é estatisticamente significativa.\n\nNota: '95% confiante' não significa P(β ∈ IC) = 0.95!\nSignifica: se repetíssemos o estudo 100 vezes, 95 dos ICs construídos\nconteria o verdadeiro valor de β."},
-{t:"h3",c:"Os erros-padrão OPG — porquê na tua tese"},
-{t:"txt",c:"Nos modelos GARCH, há três métodos para calcular os erros-padrão: o Hessiano (assume especificação correta), o OPG (Outer Product of Gradients), e o Sandwich (QMLE, combinação de ambos). A tua tese usa o OPG porque é mais <strong>robusto a má-especificação</strong> da distribuição — usa os gradientes individuais de cada observação, em vez de apenas a curvatura global da função de verossimilhança."},
-{t:"beyond",title:"Estatísticas t em outras áreas",c:"Psicologia: comparar a pontuação média em testes de memória entre dois grupos. O t-test de Student (1908, publicado por William Gosset sob o pseudónimo 'Student') foi desenvolvido originalmente para controlo de qualidade na Guinness. Medicina: comparar tempos de sobrevivência entre dois tratamentos. Marketing: A/B tests para comparar taxas de conversão de duas versões de uma página web."}
-]},
-
-{id:"p1_ex",type:"exam",title:"Exame — Fundamentos de Estatística",questions:[
-{q:"r_t = ln(P_t/P_{t-1}) × 100 = 2.3. O que significa?",opts:["O preço subiu 2.3 pontos","O PSI-20 subiu aproximadamente 2.3% nesse dia","O preço duplicou","A variância aumentou 2.3%"],a:1},
-{q:"Curtose excessiva = Kurtosis − 3 = 4.2 nos retornos do PSI-20. Isto implica:",opts:["A distribuição é perfeitamente normal","Fat tails — retornos extremos mais frequentes que a normal preveria","A série tem raiz unitária","O OLS é adequado"],a:1},
-{q:"Um coeficiente tem p = 0.003. O que podes afirmar com rigor?",opts:["H₀ tem probabilidade 0.3% de ser verdadeira","Se H₀ fosse verdadeira, observaríamos este resultado em apenas 0.3% dos casos por acaso — evidência forte para rejeitar H₀","O coeficiente é 0.003","O resultado é marginalmente significativo"],a:1},
-{q:"Erro tipo I num teste de hipótese é:",opts:["Não rejeitar H₀ quando é falsa","Rejeitar H₀ quando é verdadeira — falso positivo","Usar um nível α errado","Ter uma amostra pequena"],a:1},
-{q:"O IC₉₅% de β₁ é [0.534, 0.580]. Podes rejeitar H₀: β₁ = 0 a 5%?",opts:["Não — o IC contém valores próximos de zero","Sim — o IC não contém 0, logo rejeitamos H₀: β₁ = 0","Não é possível saber sem o valor-p","Apenas se n > 1000"],a:1}
-]}
-]}, /* end s1 */
-
-/* ── S2: SÉRIES TEMPORAIS ─────────────────────────── */
-{id:"s2",title:"Séries Temporais",pages:[
-
-{id:"p2_1",type:"content",title:"Estacionariedade — a condição mais importante",sub:"Porquê as propriedades estatísticas têm de ser constantes no tempo",blocks:[
-{t:"txt",c:"A estacionariedade é, sem dúvida, o conceito mais importante na análise de séries temporais. É o equivalente a garantir que as 'regras do jogo' não mudam ao longo do tempo — que os padrões que encontrámos no passado ainda se aplicam hoje."},
-{t:"h3",c:"Definição formal — estacionariedade em sentido fraco"},
-{t:"txt",c:"Uma série temporal é <strong>covariância-estacionária (fraca)</strong> se satisfizer três condições simultaneamente:"},
-{t:"steps",steps:[
-{n:1,c:"<strong>Média constante:</strong> E[r_t] = μ para todo o t. O valor esperado não muda ao longo do tempo — a série não tem tendência."},
-{n:2,c:"<strong>Variância finita e constante:</strong> Var[r_t] = σ² < ∞ para todo o t. A dispersão dos dados não aumenta nem diminui com o tempo."},
-{n:3,c:"<strong>Autocovariância depende apenas do lag:</strong> Cov[r_t, r_{t-k}] = γ(k) — depende apenas da distância temporal k, não do momento t em si."}
-]},
-{t:"h3",c:"Porquê a estacionariedade é essencial"},
-{t:"txt",c:"Se uma série não for estacionária, os parâmetros estimados (médias, variâncias, correlações) são ficções — o que é verdade num período não é verdade noutro. É como tentar medir a temperatura média de uma cidade enquanto ela está a ser destruída por um incêndio — o que medes não representa o estado 'normal'."},
-{t:"warn",title:"O problema das regressões espúrias",c:"Se regredires duas séries não-estacionárias independentes uma na outra, obterás quase sempre um R² alto e um t-statistic significativo — mesmo que as séries não tenham qualquer relação real. Este fenómeno chama-se 'regressão espúria' e foi documentado por Granger & Newbold (1974).\n\nExemplo clássico: a correlação entre o número de padres em Portugal e o consumo de manteiga em França pode ser elevada ao longo do tempo, simplesmente porque ambas as séries têm tendências — mas não há relação causal alguma."},
-{t:"h3",c:"Preços vs. retornos — o contraste"},
-{t:"analogy",title:"Analogia: a balança vs. a variação de peso",c:"O peso de uma pessoa ao longo de anos não é estacionário — pode crescer continuamente. Mas a variação diária de peso (hoje menos ontem) oscila em torno de zero. Os preços das ações são como o peso — têm tendência crescente. Os retornos são como a variação diária — oscilam em torno de zero e são estacionários."},
-{t:"table",cols:["","Preços PSI-20","Retornos log. PSI-20"],rows:[
-["Estacionariedade","Não-estacionária — random walk com drift","Estacionária I(0)"],
-["Média","Cresce ao longo do tempo","≈ 0 (constante)"],
-["Variância","Pode variar ao longo do tempo","Aproximadamente constante (em nível)"],
-["Adequada para OLS/GARCH","Não — resultados espúrios","Sim — com ressalvas (ARCH)"]
-]},
-{t:"key",title:"Na tua tese",c:"O teste ADF aos retornos do PSI-20 dá Z(t) = −45.15 (p = 0.000). Confirma que os retornos são I(0) — estacionários em nível. Este resultado é pré-requisito para a validade de todas as inferências subsequentes. Sem ele, os coeficientes GARCH não teriam interpretação válida."}
-]},
-
-{id:"p2_2",type:"content",title:"Raiz unitária e o modelo random walk",sub:"O modelo de não-estacionariedade mais comum em finanças",blocks:[
-{t:"txt",c:"O modelo de <strong>random walk</strong> é o protótipo de série não-estacionária e descreve muito bem o comportamento dos preços financeiros. Compreender este modelo é essencial para perceber porque precisamos do teste ADF."},
-{t:"h3",c:"O random walk — definição e intuição"},
-{t:"formula",lbl:"Random walk puro (com raiz unitária)",c:"P_t = P_{t-1} + ε_t\n\nonde ε_t ~ i.i.d. (0, σ²)\n\nExpandindo:\nP_t = P_0 + ε_1 + ε_2 + ... + ε_t"},
-{t:"txt",c:"A característica chave: o nível atual é a soma de <em>todos</em> os choques passados. Nada se esquece. Um choque de −5% hoje afeta o preço para sempre — há <strong>memória infinita</strong>. A série 'deriva' sem tendência a regressar a nenhum nível fixo."},
-{t:"analogy",title:"O bêbado a sair do bar",c:"Imagina um bêbado a sair de um bar a meio da noite. Cada passo é aleatório — pode ir para qualquer direção. Onde estará daqui a 1 hora? Em teoria, pode estar em qualquer sítio. A sua posição acumula todos os passos anteriores. Não há uma 'posição central' a que tende a regressar — pode derivar indefinidamente. Os preços das ações comportam-se assim."},
-{t:"h3",c:"Porque é problemático — a variância cresce com o tempo"},
-{t:"formula",lbl:"Variância do random walk cresce linearmente com o tempo",c:"Var(P_t) = Var(P_0 + ε_1 + ... + ε_t) = t × σ²\n\nSe σ² = 1 e t = 100 dias: Var(P_100) = 100\nSe t = 1000 dias: Var(P_1000) = 1000\n\nA variância cresce sem limite — pressuposto de variância constante é violado."},
-{t:"h3",c:"Random walk com drift — o modelo dos preços acionistas"},
-{t:"formula",lbl:"Random walk com drift",c:"P_t = μ + P_{t-1} + ε_t\n\nonde μ é o drift (tendência média por período)\n\nSe μ > 0: tendência crescente (como o mercado no longo prazo)\nSe μ = 0: random walk puro\nSe μ < 0: tendência decrescente"},
-{t:"h3",c:"A raiz unitária — de onde vem o nome"},
-{t:"txt",c:"O nome 'raiz unitária' vem da álgebra linear. Se escrevermos o modelo como P_t = ρ × P_{t-1} + ε_t, uma raiz unitária significa que ρ = 1. Se ρ < 1, a série é estacionária e tende a regressar à média. Se ρ = 1, há raiz unitária e a série é um random walk. Se ρ > 1, a série é explosiva — cresce sem limite."},
-{t:"beyond",title:"Random walks em outras áreas",c:"Física Browniana: o movimento de uma partícula em suspensão num fluido é um random walk (Einstein, 1905). Genética: a deriva genética — frequências de alelos numa população pequena seguem um random walk. Neuociência: o processo de decisão é modelado como um random walk com barreiras — decides quando a evidência acumulada ultrapassa um limiar."}
-]},
-
-{id:"p2_3",type:"content",title:"Teste ADF — como funciona por dentro",sub:"A mecânica do teste de raiz unitária de Dickey-Fuller",blocks:[
-{t:"txt",c:"O teste ADF (Augmented Dickey-Fuller) é o teste de raiz unitária mais usado em econometria. Perceber como funciona por dentro — não só como interpretar o output — torna-te muito mais capaz de defender a sua aplicação."},
-{t:"h3",c:"A regressão auxiliar do ADF"},
-{t:"txt",c:"O ADF testa H₀: ρ = 1 (raiz unitária) contra H₁: ρ < 1 (estacionária). A forma mais fácil de fazer isto é reparametrizar o modelo para testar se a diferença ΔP_t depende do nível passado P_{t-1}:"},
-{t:"formula",lbl:"Regressão auxiliar do ADF",c:"ΔP_t = α + δ × P_{t-1} + γ₁ΔP_{t-1} + γ₂ΔP_{t-2} + ... + ε_t\n\nonde ΔP_t = P_t − P_{t-1} (a primeira diferença)\n\nH₀: δ = 0  →  raiz unitária (série não-estacionária)\nH₁: δ < 0  →  sem raiz unitária (série estacionária)\n\nOs lags de ΔP (os termos 'Augmented') controlam para autocorrelação."},
-{t:"h3",c:"Porquê a tabela crítica é diferente da distribuição normal"},
-{t:"txt",c:"A estatística de teste do ADF segue uma distribuição de Dickey-Fuller — não uma distribuição normal standard. Isto acontece porque, sob H₀ (raiz unitária), o estimador se comporta de forma completamente diferente do habitual. Os valores críticos são muito mais negativos do que numa distribuição normal, e foram calculados por simulação de Monte Carlo."},
-{t:"table",cols:["Nível de significância","Valor crítico típico (sem constante)","Valor crítico (com constante)","Valor crítico (com tendência)"],rows:[
-["10%","−1.62","−2.57","−3.12"],
-["5%","−1.95","−2.86","−3.41"],
-["1%","−2.58","−3.43","−3.96"]
-]},
-{t:"example",title:"Interpretação do resultado da tua tese",c:"Z(t) = −45.15 para os retornos do PSI-20\n\nValor crítico a 1% ≈ −3.43\n\n−45.15 << −3.43\n\nConclusão: rejeitamos H₀ (raiz unitária) com p = 0.000.\nOs retornos são estacionários I(0).\n\nNota: Z(t) = −45.15 é extremamente negativo porque os retornos são\nobviamente estacionários — oscilam em torno de zero com grande velocidade.\nNão te preocupes se o valor parece 'anormalmente' negativo — é normal."},
-{t:"h3",c:"I(0), I(1), I(2) — a ordem de integração"},
-{t:"txt",c:"Uma série I(d) precisa de ser diferenciada d vezes para se tornar estacionária. Na prática, séries económicas são quase sempre I(0) ou I(1) — raramente I(2)."},
-{t:"table",cols:["Ordem","Definição","Exemplo","Tornar estacionária"],rows:[
-["I(0)","Estacionária em nível","Retornos log do PSI-20","Não é necessário"],
-["I(1)","Estacionária após 1ª diferença","Preços do PSI-20","Calcular retornos (1ª diferença)"],
-["I(2)","Estacionária após 2ª diferença","PIB nominal (raro)","2ª diferença do log"]
-]},
-{t:"beyond",title:"O ADF em outras áreas",c:"Macroeconomia: testar se o PIB tem raiz unitária (é controverso — pode ser I(1) ou ter mudanças de regime). Climatologia: testar se as temperaturas globais são I(1) — resposta: são próximas de I(1), o que torna a modelação de tendências climáticas mais complexa. Medicina: testar se séries de EEG são estacionárias antes de analisar padrões de ondas cerebrais."}
-]},
-
-{id:"p2_4",type:"content",title:"Autocorrelação e volatility clustering",sub:"As duas propriedades que justificam os modelos GARCH",blocks:[
-{t:"txt",c:"A autocorrelação — a correlação de uma série com versões desfasadas de si própria — e o volatility clustering são os dois fenómenos empíricos que mais caracterizam os retornos financeiros diários."},
-{t:"h3",c:"Autocorrelação — a memória da série"},
-{t:"formula",lbl:"Função de autocorrelação (ACF) ao lag k",c:"ρ_k = Cov(r_t, r_{t-k}) / Var(r_t)\n\n= Correlação entre r_t e o mesmo r, k períodos atrás\n\nρ₀ = 1 (correlação consigo próprio)\nρ_k pode variar entre −1 e +1"},
-{t:"txt",c:"Nos retornos financeiros diários, a ACF dos <em>retornos</em> em nível é tipicamente muito próxima de zero para todos os lags k > 0. Isto é consistente com a hipótese de eficiência de mercado — o retorno de ontem não prevê o retorno de hoje."},
-{t:"txt",c:"Mas a ACF dos <em>retornos ao quadrado</em> (r²_t) é muito elevada e decai lentamente. Isto indica que a <strong>volatilidade</strong> (magnitude dos retornos) é autocorrelacionada — quando os mercados estão agitados, tendem a continuar agitados."},
-{t:"h3",c:"Volatility clustering — a observação empírica central"},
-{t:"txt",c:"O volatility clustering é o padrão empírico mais robusto dos mercados financeiros: <em>grandes variações tendem a ser seguidas de grandes variações, e pequenas variações de pequenas variações</em>. Não o sinal (positivo ou negativo), mas a <strong>magnitude</strong> é persistente."},
-{t:"analogy",title:"Analogia: o oceano em tempestade",c:"O oceano tem dois regimes: calmo e tempestuoso. Em dias de tempestade, as ondas são grandes e irregulares — e amanhã provavelmente continuarão a ser grandes. Em dias de calmaria, as ondas são pequenas — e amanhã provavelmente serão pequenas. Os mercados financeiros têm 'tempestades' (crises de 2008, 2011, 2020) e 'calmarias'. O volatility clustering captura exatamente isto."},
-{t:"example",title:"Volatility clustering no PSI-20",c:"Período de calmaria (ex: 2005–2007):\n  Variações diárias típicas: ±0.5% a ±1%\n  σ diário estimado: ~0.8%\n\nPeríodo de turbulência (ex: 2011–2012 — crise da dívida):\n  Variações diárias típicas: ±2% a ±5%\n  σ diário estimado: ~2.5%\n\nO regime de alta volatilidade persistiu durante meses.\nEsto é o volatility clustering — não uma oscilação aleatória entre regimes."},
-{t:"key",title:"Implicação metodológica fundamental",c:"O volatility clustering implica que Var(ε_t) não é constante — é variável no tempo. Formalmente: E[ε²_t | informação até t−1] = σ²_t ≠ constante. Isto viola a homocedasticidade do OLS. Os modelos ARCH e GARCH foram desenvolvidos especificamente para modelar esta variância condicional σ²_t que muda ao longo do tempo."},
-{t:"beyond",title:"Clustering em outras áreas",c:"Sismologia: os terramotos tendem a ocorrer em clusters — após um sismo forte, seguem-se réplicas. Isto é modelado com processos de Hawkes, que são uma generalização dos modelos ARCH. Epidemiologia: contágios tendem a ocorrer em clusters espaciais e temporais. Telecomunicações: pacotes de dados na internet chegam em rajadas (bursts) — clustering temporal na transmissão."}
-]},
-
-{id:"p2_q1",type:"question",title:"Estacionariedade — identificação",
-question:"Uma série temporal com média crescente ao longo do tempo (tendência positiva) é:",
-options:["Estacionária — a média é sempre positiva","Não-estacionária — a média não é constante, violando a condição de estacionariedade em sentido fraco","Estacionária se tiver variância constante","Estacionária se a ACF decair rapidamente"],
-answer:1,expl:"Para ser covariância-estacionária (fraca), a série tem de ter média CONSTANTE para todo o t. Uma série com tendência crescente tem média diferente em t=1 vs. t=7116 — viola esta condição. Os preços do PSI-20 têm exactamente este problema, razão pela qual trabalhamos com retornos."},
-
-{id:"p2_q2",type:"question",title:"Random walk e raiz unitária",
-question:"P_t = P_{t-1} + ε_t. Um choque de −5% hoje (ε_t = −5%) afeta o preço:",
-options:["Apenas neste período — amanhã 'esquece' o choque","Para sempre — o choque acumula-se na série e nunca se dissipa completamente","Durante 5 períodos, depois reverte à média","Apenas durante um período de volatilidade alta"],
-answer:1,expl:"No random walk P_t = P_0 + Σ ε_i, cada choque acumula-se para sempre. Expandindo: P_t = P_{t-1} + ε_t = P_{t-2} + ε_{t-1} + ε_t = ... = P_0 + ε_1 + ... + ε_t. O choque de hoje (ε_t) permanece em todas as observações futuras — memória infinita. Isto contrasta com uma série estacionária onde os choques se dissipam."},
-
-{id:"p2_ex",type:"exam",title:"Exame — Séries Temporais",questions:[
-{q:"Condições para covariância-estacionariedade (sentido fraco):",opts:["Apenas média constante e variância finita","Média constante, variância constante, e autocovariância dependendo só do lag k","Distribuição normal e ausência de autocorrelação","Raiz unitária negativa e trend determinístico"],a:1},
-{q:"O teste ADF testa H₀: raiz unitária. Z(t) = −45.15 (p = 0.000). Concluímos:",opts:["Não rejeitamos H₀ — os retornos têm raiz unitária","Rejeitamos H₀ — os retornos são estacionários I(0)","Os preços são estacionários","O GARCH não é necessário"],a:1},
-{q:"A ACF dos retornos ao quadrado r²_t ser elevada indica:",opts:["Os retornos são altamente preditíveis","Volatility clustering — a magnitude dos retornos é persistente; justifica GARCH","A série tem raiz unitária","Os retornos são normalmente distribuídos"],a:1},
-{q:"Uma série I(1) é estacionária:",opts:["Em nível — sem qualquer transformação","Apenas após uma diferenciação (ex: calcular retornos do log dos preços)","Nunca — I(1) é sempre não-estacionária","Após duas diferenciações"],a:1}
-]}
-]}, /* end s2 */
-
-/* ── S3: OLS ──────────────────────────────────────── */
-{id:"s3",title:"Regressão e OLS",pages:[
-
-{id:"p3_1",type:"content",title:"OLS — o estimador e a sua geometria",sub:"O que minimizar os quadrados dos resíduos realmente significa",blocks:[
-{t:"txt",c:"A regressão OLS (Ordinary Least Squares — Mínimos Quadrados Ordinários) é o estimador mais fundamental da econometria. Antes de perceber porque falha nos retornos financeiros, é essencial perceber profundamente como funciona."},
-{t:"h3",c:"A ideia central — minimizar o erro"},
-{t:"txt",c:"O OLS encontra a reta (ou hiperplano, em múltipla dimensões) que <strong>melhor explica</strong> os dados, no sentido de minimizar a soma dos quadrados das diferenças entre os valores observados e os previstos pelo modelo."},
-{t:"formula",lbl:"Problema de minimização do OLS",c:"min_{α, β} Σₜ ε²_t = min_{α, β} Σₜ (r_t − α − β₁x₁_t − ...)²\n\nSolução analítica (forma matricial):\n  β̂ = (X'X)⁻¹ X'y\n\nOnde X é a matriz de variáveis explicativas,\ny é o vetor da variável dependente."},
-{t:"analogy",title:"Analogia: a reta de melhor ajustamento",c:"Imagina que tens 100 pontos num gráfico de dispersão (EuroStoxx 50 no eixo x, PSI-20 no eixo y). O OLS encontra a reta que, se traçares uma linha vertical de cada ponto até à reta, a soma dos quadrados dessas distâncias verticais é mínima. Não é a reta que minimiza a distância perpendicular (que seria ortogonal), mas a distância vertical — porque queremos minimizar o erro de previsão do eixo y."},
-{t:"h3",c:"Porquê elevar ao quadrado — e não ao valor absoluto?"},
-{t:"txt",c:"Podia-se minimizar |ε_t| em vez de ε²_t — isso chama-se regressão LAD (Least Absolute Deviations). A vantagem de elevar ao quadrado é que: (1) a solução é analítica — há uma fórmula fechada para β̂; (2) penaliza desvios grandes desproporcionalmente; (3) a função objetivo é diferenciável em todo o lado. A desvantagem: os quadrados tornam o OLS muito sensível a valores extremos (outliers)."},
-{t:"h3",c:"Pressupostos de Gauss-Markov — cada um em detalhe"},
-{t:"txt",c:"O Teorema de Gauss-Markov garante que o OLS é BLUE (Best Linear Unbiased Estimator) se todos os seus pressupostos forem satisfeitos. Vamos a cada um:"},
-{t:"table",cols:["Pressuposto","O que significa","O que quebra se violado","No teu caso"],rows:[
-["Linearidade","Y = f(X)β + ε com f linear nos parâmetros","Estimativas enviesadas","OK — relação linear nos retornos"],
-["Exogeneidade","E[ε | X] = 0 — X não está correlacionado com ε","Estimativas enviesadas e inconsistentes","Possível problema de endogeneidade (limitação)"],
-["Homocedasticidade","Var(ε_t) = σ² constante","Erros-padrão inconsistentes → testes inválidos","VIOLADO — ARCH-LM χ²=1668.6"],
-["Sem autocorrelação","Cov(ε_t, ε_s) = 0 para t≠s","Erros-padrão sub-estimados → over-rejection","VIOLADO nos quadrados dos resíduos"],
-["Normalidade dos erros","ε ~ N(0, σ²)","Inferência inexata em amostras pequenas","Mitigado pelo TLC (n=7116)"]
-]},
-{t:"warn",title:"OLS com heterocedasticidade — o que realmente acontece",c:"Quando os erros são heterocedásticos (variância variável), as estimativas dos coeficientes (β̂) são ainda não-enviesadas — continuam 'certas' em média. O problema está nos erros-padrão: o OLS calcula-os como se a variância fosse constante, o que é errado. Erros-padrão errados → estatísticas t erradas → valores-p errados → conclusões inválidas.\n\nNa tua tese, se usasses OLS, o β₁ ≈ 0.557 estaria provavelmente correto, mas os seus erros-padrão e valor-p seriam incorretos."}
-]},
-
-{id:"p3_2",type:"content",title:"Interpretação de coeficientes — o guia completo",sub:"Como ler e comunicar os resultados de uma regressão",blocks:[
-{t:"txt",c:"Saber estimar um modelo é metade do trabalho. A outra metade — frequentemente mais difícil — é interpretar corretamente o que os resultados dizem."},
-{t:"h3",c:"A interpretação ceteris paribus"},
-{t:"txt",c:"O princípio fundamental de interpretação dos coeficientes de regressão é <em>ceteris paribus</em> — mantendo tudo o resto constante. Quando dizemos que β₁ = 0.557, significa que um aumento de 1 p.p. no EuroStoxx 50 está associado a um aumento de 0.557 p.p. no PSI-20, <strong>mantendo todas as outras variáveis constantes</strong>."},
-{t:"example",title:"Interpretação do beta de mercado",c:"Modelo: r_PSI20,t = α + 0.557 × r_ES50,t + β₂ × Var_Política_t + ε_t\n\nInterpretação de β₁ = 0.557:\n'Um aumento de 1 ponto percentual no retorno diário do EuroStoxx 50\nem dia t está associado a um aumento esperado de 0.557 pontos\npercentuais no retorno do PSI-20 no mesmo dia, mantendo constante\na variável política.'\n\nSignificado económico: o PSI-20 segue o EuroStoxx 50 com uma\nelas­ticidade de 0.557 — é um mercado menos volátil que a média europeia."},
-{t:"h3",c:"Variáveis dummy — interpretação"},
-{t:"txt",c:"Uma variável dummy é 0 ou 1. O seu coeficiente representa a <strong>diferença média na variável dependente</strong> entre os dois estados (dummy = 1 vs. dummy = 0), ceteris paribus."},
-{t:"example",title:"Interpretação de shock_economic = −0.273",c:"shock_economic = 1 durante as janelas em torno do pedido de resgate (2011)\ne do colapso do BES (2014); = 0 nos outros dias.\n\nCoeficiente = −0.273 (p < 0.001)\n\nInterpretação:\n'Durante as janelas de choque económico, os retornos diários do PSI-20\nforam em média 0.273 pontos percentuais mais baixos do que nos outros\nperíodos, controlando para o retorno do EuroStoxx 50.'\n\nOu seja: na média, os dias de choque económico foram piores em 0.273 p.p.\npara o PSI-20, mesmo depois de isolar o efeito do mercado europeu."},
-{t:"h3",c:"O que significa 'não significativo'"},
-{t:"txt",c:"Quando uma variável tem p > 0.10, não significa que o seu efeito seja zero — significa que <strong>não temos evidência estatística suficiente para rejeitar H₀: efeito = 0</strong>. A diferença é importante. Para as variáveis eleitorais não significativas na tua tese, existem duas explicações possíveis: (1) o efeito é realmente zero (consistente com eficiência de mercado); (2) o efeito existe mas a amostra não tem poder suficiente para detetá-lo (janelas de 7.6% da amostra)."},
-{t:"beyond",title:"Regressão OLS em outras áreas",c:"Economia da saúde: o efeito do tabagismo no salário (com controlo para educação, experiência, etc.). Educação: o efeito do tamanho das turmas no desempenho escolar. Ciências políticas: o efeito da despesa de campanha na votação. Em todos estes casos, a interpretação ceteris paribus e a discussão de endogeneidade são centrais — exatamente como na tua tese."}
-]},
-
-{id:"p3_q1",type:"question",title:"OLS — pressuposto violado",
-question:"O teste ARCH-LM dá χ²(1) = 1668.6, p = 0.000. Qual pressuposto do OLS é violado e qual a consequência?",
-options:["Linearidade — os coeficientes ficam enviesados","Homocedasticidade — os erros-padrão ficam inconsistentes, tornando os testes t e valores-p inválidos","Exogeneidade — os coeficientes ficam inconsistentes","Normalidade — a inferência fica impossível"],
-answer:1,expl:"O ARCH-LM testa a presença de efeitos ARCH — heterocedasticidade condicional. Rejeitar H₀ (p = 0.000) confirma que Var(ε_t) não é constante. Com homocedasticidade violada, o OLS calcula erros-padrão incorretamente, tornando estatísticas t e valores-p inválidos. Os coeficientes em si (β̂) ainda são não-enviesados, mas não podemos confiar nos testes de significância."},
-
-{id:"p3_ex",type:"exam",title:"Exame — Regressão e OLS",questions:[
-{q:"β₁ = 0.557 para o EuroStoxx 50. Interpretação correta:",opts:["O PSI-20 sobe sempre 0.557% por dia","Quando o ES50 sobe 1% num dia, o PSI-20 tende a subir 0.557% no mesmo dia, ceteris paribus","O ES50 explica 55.7% da variância dos retornos","O coeficiente de correlação é 0.557"],a:1},
-{q:"shock_economic = −0.273 (p < 0.001). Conclusão correta:",opts:["Os choques económicos causaram quedas de 0.273 p.p.","Durante janelas de choque económico, os retornos foram em média 0.273 p.p. mais baixos, ceteris paribus","O modelo explica 27.3% da variância","O choque económico é a única variável significativa"],a:1},
-{q:"Uma variável política não é significativa (p = 0.42). Isto significa:",opts:["O seu efeito é definitivamente zero","Não temos evidência suficiente para rejeitar H₀: efeito = 0 — pode ser zero ou pode ser pequeno e não detetável","A variável foi mal especificada","O modelo está errado"],a:1}
-]}
-]}, /* end s3 */
-
-/* ── S4: ARCH e GARCH ─────────────────────────────── */
-{id:"s4",title:"Modelos ARCH e GARCH",pages:[
-
-{id:"p4_1",type:"content",title:"Heterocedasticidade condicional — o problema que o ARCH resolve",sub:"Porquê a variância dos erros muda ao longo do tempo",blocks:[
-{t:"txt",c:"O ARCH — Autoregressive Conditional Heteroscedasticity — foi introduzido por Robert Engle em 1982 e valeu-lhe o Prémio Nobel de Economia em 2003. A ideia central é simples mas revolucionária: <em>a variância dos erros pode ser modelada e prevista</em>."},
-{t:"h3",c:"Heterocedasticidade condicional vs. incondicional"},
-{t:"txt",c:"É crucial distinguir dois tipos de heterocedasticidade:"},
-{t:"table",cols:["Tipo","Definição","Causa típica","Remédio"],rows:[
-["Incondicional","Var(ε) ≠ constante em geral","Dados de corte transversal com grupos de diferente escala","Mínimos quadrados generalizados (GLS), erros robustos"],
-["Condicional (ARCH)","Var(ε_t | Ω_{t-1}) = σ²_t variável no tempo","Volatility clustering em séries temporais financeiras","Modelos GARCH"]
-]},
-{t:"txt",c:"Na tua tese, o problema é a heterocedasticidade <strong>condicional</strong> — a variância dos retornos num determinado dia depende do que aconteceu nos dias anteriores. Isto é precisamente o que os modelos ARCH/GARCH captam."},
-{t:"h3",c:"O teste ARCH-LM — a mecânica por dentro"},
-{t:"txt",c:"O teste ARCH-LM funciona em dois passos:"},
-{t:"steps",steps:[
-{n:1,c:"<strong>Estima o modelo de regressão básico</strong> (OLS) e guarda os resíduos ε̂_t."},
-{n:2,c:"<strong>Faz uma regressão auxiliar</strong> dos resíduos ao quadrado ε̂²_t nos seus próprios lags: ε̂²_t = α₀ + α₁ε̂²_{t-1} + ... + α_qε̂²_{t-q} + u_t."},
-{n:3,c:"<strong>Calcula a estatística LM</strong> = n × R² desta regressão auxiliar. Sob H₀ (sem efeitos ARCH), segue uma distribuição χ²(q)."},
-{n:4,c:"<strong>Rejeita H₀</strong> se a estatística for suficientemente grande — evidência de que os resíduos ao quadrado são autocorrelacionados, i.e., há volatility clustering."}
-]},
-{t:"example",title:"Interpretação do resultado na tua tese",c:"H₀: não há efeitos ARCH (homocedasticidade condicional)\nH₁: há efeitos ARCH\n\nResultado: χ²(1) = 1668.6, p = 0.000\n\nValor crítico χ²(1) a 5% = 3.84\n\nRazão: 1668.6 / 3.84 ≈ 434 — a estatística é 434 vezes o valor crítico!\n\nConclusão: evidência esmagadora de efeitos ARCH nos retornos do PSI-20.\nO OLS é completamente inadequado. O uso de GARCH não é uma opção\n— é uma necessidade metodológica indesmentível."},
-{t:"beyond",title:"Efeitos ARCH em outras séries",c:"Taxa de câmbio EUR/USD: igualmente forte clustering de volatilidade. Taxas de juro: crises de dívida geram episódios de alta volatilidade prolongados. Commodities (petróleo): as crises do petróleo (1973, 1990, 2008, 2020) geraram clustering intenso. Em todas estas séries, o teste ARCH-LM tipicamente rejeita H₀ com facilidade."}
-]},
-
-{id:"p4_2",type:"content",title:"GARCH(1,1) — cada parâmetro em profundidade",sub:"O modelo mais poderoso e parcimonioso da volatilidade financeira",blocks:[
-{t:"txt",c:"Bollerslev (1986) generalizou o modelo ARCH de Engle adicionando lags da própria variância condicional. O resultado — o GARCH(p,q) — é um modelo de média móvel autorregressiva para a variância. O GARCH(1,1) tornou-se o padrão da indústria."},
-{t:"formula",lbl:"Sistema de equações do GARCH(1,1)",c:"Equação da média:\n  r_t = μ + β₁ × r_ES50,t + β₂ × Var_Política_t + ε_t\n  onde ε_t = σ_t × z_t,  z_t ~ i.i.d.(0,1)\n\nEquação da variância (GARCH):\n  σ²_t = ω + α × ε²_{t-1} + β × σ²_{t-1}\n\nRestrições de não-negatividade:\n  ω > 0,  α ≥ 0,  β ≥ 0\n\nCondição de estacionariedade:\n  α + β < 1"},
-{t:"h3",c:"ω — o nível base de volatilidade"},
-{t:"txt",c:"ω (omega) é a componente constante da equação da variância. Define o nível mínimo de volatilidade mesmo na ausência de choques recentes. A variância incondicional (o nível de longo prazo) é dada por ω / (1 − α − β)."},
-{t:"formula",lbl:"Variância incondicional de longo prazo",c:"σ̄² = ω / (1 − α − β)\n\nExemplo: se ω = 0.012, α = 0.10, β = 0.86:\n  σ̄² = 0.012 / (1 − 0.10 − 0.86) = 0.012 / 0.04 = 0.30\n  σ̄ = √0.30 ≈ 0.548% (desvio-padrão diário de longo prazo)"},
-{t:"h3",c:"α — a reação imediata (efeito ARCH)"},
-{t:"txt",c:"α mede quão intensamente um choque ontem afeta a volatilidade hoje. Um α elevado significa que os mercados reagem rapidamente a novos choques — alta volatilidade hoje se houve uma grande variação ontem."},
-{t:"analogy",title:"Analogia: α como a sensibilidade de um alarme",c:"Imagina um alarme de incêndio. Um α elevado é como um alarme muito sensível — qualquer fumo (choque pequeno) dispara o alarme (volatilidade alta). Um α baixo é um alarme menos sensível — só dispara com fogo real. Na tua tese M1: α ≈ 0.225 — reação moderada a choques."},
-{t:"h3",c:"β — a persistência (efeito GARCH)"},
-{t:"txt",c:"β mede quão persistente é a volatilidade — quanto do nível de volatilidade de ontem persiste hoje. Um β elevado (próximo de 1) significa que episódios de alta volatilidade são prolongados. Na tua tese β ≈ 0.706–0.946 — muito persistente."},
-{t:"analogy",title:"Analogia: β como a memória do mercado",c:"β é como a memória do mercado. Com β = 0.9, 90% da volatilidade de ontem ainda está presente hoje. É como uma dor de cabeça — não desaparece de um dia para o outro, demora dias a diminuir. Com β = 0.3, a dor de cabeça passa rapidamente. Os mercados financeiros têm β elevado — memória longa da volatilidade."},
-{t:"h3",c:"α + β — a persistência total"},
-{t:"formula",lbl:"Semi-vida de um choque de volatilidade",c:"α + β = persistência total\n\nSemi-vida = ln(0.5) / ln(β)\n\nCom β = 0.948 (modelo EGARCH M5):\n  Semi-vida = ln(0.5) / ln(0.948)\n            = −0.693 / (−0.053)\n            ≈ 13 dias de bolsa\n\nInterpretação: 13 dias após um choque, a volatilidade\nextra gerada pelo choque terá reduzido para metade."},
-{t:"example",title:"Interpretação completa dos parâmetros da tua tese (Modelo M1 GARCH)",c:"ω ≈ 0.041 → Nível base de variância condicional\nα ≈ 0.225 → Cada choque de ontem contribui com 22.5% para a volatilidade hoje\nβ ≈ 0.706 → 70.6% da volatilidade de ontem persiste hoje\nα + β ≈ 0.931 → Persistência total 93.1% — choques persistem muito\n\nVariância incondicional: σ̄² = 0.041 / (1 − 0.931) ≈ 0.594\nDesvio-padrão incondicional: σ̄ ≈ 0.77% por dia\n\nAnualizado (×√252): σ_anual ≈ 12.2% — razoável para um índice acionista."},
-{t:"beyond",title:"GARCH fora das finanças",c:"Gestão de riscos (VaR — Value at Risk): bancos usam GARCH para estimar o risco diário das suas carteiras. Regulação bancária: Basileia III exige modelos de VaR que podem usar GARCH. Derivados financeiros: o GARCH pode ser usado para precificar opções, dado que a volatilidade implícita segue dinâmicas similares. Seguros: a volatilidade das indemnizações ao longo do tempo pode ser modelada com GARCH."}
-]},
-
-{id:"p4_3",type:"content",title:"Estimação por máxima verossimilhança (MLE)",sub:"Como o computador encontra os parâmetros GARCH",blocks:[
-{t:"txt",c:"Os parâmetros GARCH não podem ser calculados com uma fórmula simples — precisam de ser encontrados numericamente, maximizando uma função de verossimilhança. Perceber este processo é essencial para interpretar a convergência dos modelos e os critérios de comparação."},
-{t:"h3",c:"A ideia da máxima verossimilhança"},
-{t:"txt",c:"A MLE encontra os parâmetros que tornam os dados observados <em>mais prováveis</em>. Se os dados observados são r₁, r₂, ..., r_n, queremos encontrar os parâmetros θ = (ω, α, β, ...) que maximizam a probabilidade de observar exatamente estes dados."},
-{t:"analogy",title:"Analogia: detetar a moeda viciada",c:"Lançaste uma moeda 100 vezes e obtiveste 70 caras. Qual é a probabilidade de caras (θ) que torna esta observação mais provável? A função L(θ) = θ^70 × (1-θ)^30 é maximizada com θ = 70/100 = 0.70. A MLE encontrou o parâmetro! O GARCH usa o mesmo princípio mas com uma função muito mais complexa."},
-{t:"formula",lbl:"Log-verossimilhança do GARCH (assumindo distribuição normal)",c:"ln L(θ) = Σₜ ℓ_t(θ)\n\nonde ℓ_t = −½ × ln(2π) − ½ × ln(σ²_t) − ½ × ε²_t / σ²_t\n\nMaximizar ln L equivale a:\n  1. Penalizar quando σ²_t é grande sem necessidade [−½ ln(σ²_t)]\n  2. Penalizar quando o resíduo é grande relativamente à variância [−ε²_t / σ²_t]"},
-{t:"h3",c:"O algoritmo de otimização — BFGS"},
-{t:"txt",c:"O algoritmo BFGS (Broyden-Fletcher-Goldfarb-Shanno) é uma forma eficiente de encontrar o máximo de uma função multidimensional. Funciona iterativamente: começa com valores iniciais dos parâmetros, calcula o gradiente da função objetivo, move-se na direção que mais aumenta a log-verossimilhança, e repete até convergir."},
-{t:"key",title:"Convergência limpa — o que significa",c:"A tua tese refere que 'todos os seis modelos convergem sem erros de otimização'. Isto é um sinal positivo: o algoritmo encontrou um máximo global sem ficar preso em máximos locais nem ter problemas numéricos. Se o modelo não convergir, é sinal de má especificação ou de dados problemáticos."},
-{t:"h3",c:"AIC, BIC e a comparação de modelos"},
-{t:"formula",lbl:"Critérios de informação",c:"AIC = −2 × ln L̂ + 2k\nBIC = −2 × ln L̂ + k × ln(n)\n\nonde L̂ = log-verossimilhança maximizada\n      k = número de parâmetros\n      n = número de observações\n\nRegra: MENOR AIC/BIC = MELHOR MODELO\n\nNa tua tese (n = 7116, ln(7116) ≈ 8.87):\n  BIC penaliza cada parâmetro adicional 8.87/2 ≈ 4.4× mais que o AIC."},
-{t:"example",title:"Comparação dos teus 6 modelos",c:"M1 (GARCH base):             AIC = 17441.2, BIC = 17475.5\nM2 (GARCH + het):             AIC = 17437.6, BIC = 17476.1\nM3 (GARCH + eleitorais):      AIC = 17439.8, BIC = 17480.3\nM4 (GARCH + choques):         AIC = 17434.1, BIC = 17474.6\nM5 (EGARCH base):             AIC = 17430.1, BIC = 17468.6\nM6 (EGARCH + eleitorais):     AIC = 17427.3, BIC = 17482.3  ← MELHOR\n\nM6 tem menor AIC → melhor ajustamento geral.\nM5 tem menor BIC → prefere a especificação mais parcimoniosa.\nEsta pequena discrepância é normal e deves explicá-la na defesa."},
-{t:"beyond",title:"AIC/BIC em machine learning",c:"No machine learning, o AIC e BIC equivalem à regularização — penalizar modelos complexos para evitar overfitting. O LASSO e o Ridge regression usam penalizações similares. A 'bias-variance tradeoff' é o mesmo conceito: modelos mais complexos têm menor bias mas maior variância (overfitting). O AIC/BIC formaliza este trade-off para modelos de verossimilhança."}
-]},
-
-{id:"p4_q1",type:"question",title:"GARCH — parâmetros",
-question:"No GARCH(1,1), α = 0.15 e β = 0.82. α + β = 0.97. O que podemos concluir?",
-options:["O modelo está mal especificado — α + β deve ser > 1","Alta persistência da volatilidade (97%); processo covariância-estacionário (α + β < 1)","Os choques de volatilidade desaparecem em 2 dias","O nível base de volatilidade ω é zero"],
-answer:1,expl:"α + β = 0.97 < 1 → o processo é covariância-estacionário (condição satisfeita). A alta persistência (97%) significa que 97% de um choque de volatilidade ainda está presente no dia seguinte. Semi-vida = ln(0.5)/ln(0.82) ≈ 3.5 dias. A variância converge para a média incondicional σ̄² = ω/(1−0.97) no longo prazo."},
-
-{id:"p4_ex",type:"exam",title:"Exame — ARCH e GARCH",questions:[
-{q:"O teste ARCH-LM testa:",opts:["Se os retornos são estacionários","Se os resíduos ao quadrado são autocorrelacionados — presença de volatility clustering/efeitos ARCH","Se os coeficientes são conjuntamente significativos","Se o modelo GARCH convergiu"],a:1},
-{q:"No GARCH(1,1): σ²_t = ω + α·ε²_{t-1} + β·σ²_{t-1}. O que representa α·ε²_{t-1}?",opts:["A memória da volatilidade — quanto do nível de ontem persiste","O efeito do choque de ontem na volatilidade de hoje","O nível base de volatilidade","A variância incondicional de longo prazo"],a:1},
-{q:"Variância incondicional de longo prazo do GARCH(1,1):",opts:["σ̄² = ω","σ̄² = ω/(1−α−β)","σ̄² = α+β","σ̄² = ω/(α+β)"],a:1},
-{q:"AIC do M5 = 17430.1. AIC do M6 = 17427.3. O modelo preferido é:",opts:["M5 — tem AIC maior","M6 — tem menor AIC, indicando melhor ajustamento penalizado pelo número de parâmetros","São equivalentes","Depende do BIC"],a:1}
-]}
-]}, /* end s4 */
-
-/* ── S5: EGARCH ───────────────────────────────────── */
-{id:"s5",title:"EGARCH e Leverage Effect",pages:[
-
-{id:"p5_1",type:"content",title:"O leverage effect — assimetria nos mercados",sub:"Porquê más notícias geram mais volatilidade do que boas",blocks:[
-{t:"txt",c:"O leverage effect é um dos factos empíricos mais robustos dos mercados financeiros. Documentado por Fischer Black em 1976, é o padrão pelo qual retornos negativos (más notícias) geram sistematicamente mais volatilidade futura do que retornos positivos de igual magnitude."},
-{t:"h3",c:"A observação empírica"},
-{t:"txt",c:"Numa distribuição simétrica de choques, um retorno de −3% e um retorno de +3% deveriam ter o mesmo efeito na volatilidade futura. Na realidade, não é assim. Uma queda de 3% no PSI-20 tende a gerar um período de volatilidade elevada mais intenso e prolongado do que uma subida de 3%."},
-{t:"example",title:"Evidência do leverage effect nos dados",c:"Nos teus modelos EGARCH:\n  M5: γ = −0.078 (p < 0.001)\n  M6: γ = −0.083 (p < 0.001)\n\nWith α = 0.338 e γ = −0.078 (M5):\n  Impacto de uma boa notícia (z > 0):\n    efeito = α + γ = 0.338 + (−0.078) = 0.260\n\n  Impacto de uma má notícia (z < 0):\n    efeito = α − γ = 0.338 − (−0.078) = 0.416\n\n  Razão: 0.416 / 0.260 = 1.60\n\nMás notícias geram 60% mais volatilidade que boas notícias equivalentes."},
-{t:"h3",c:"Os dois mecanismos propostos por Black (1976)"},
-{t:"table",cols:["Mecanismo","Descrição","Evidência empírica"],rows:[
-["Alavancagem financeira","Quando o preço das ações cai, o rácio dívida/capital próprio aumenta (empresa mais alavancada) → maior risco → maior volatilidade exigida pelos investidores","Parcialmente confirmado, mas fraco para grandes índices"],
-["Feedback da volatilidade","Quando a volatilidade esperada aumenta, os investidores exigem maior retorno esperado → preço atual cai → retorno negativo","Empiricamente mais forte — é o mecanismo dominante"]
-]},
-{t:"txt",c:"Além destes dois, há um terceiro fator: o <strong>comportamento assimétrico dos investidores</strong>. As perdas pesam psicologicamente mais do que os ganhos equivalentes (Kahneman & Tversky, 1979 — prospect theory). Uma queda de 3% gera mais vendas em pânico do que uma subida de 3% gera compras entusiastas."},
-{t:"analogy",title:"Analogia: más notícias vs. boas notícias no dia a dia",c:"Imagina um restaurante. Uma crítica muito má (má notícia) gera uma tempestade de reações — artigos, comentários nas redes, discussões. Uma crítica muito boa (boa notícia) gera entusiasmo, mas menos turbulência. O mesmo assimetria: o impacto negativo é desproporcionalmente mais intenso que o positivo. Os mercados financeiros funcionam da mesma forma."},
-{t:"beyond",title:"Leverage effect em outros ativos",c:"Obrigações: a relação é invertida — más notícias para as obrigações (subida de taxas) tendem a ter efeitos mais suaves em volatilidade. Opções: a skewness do 'volatility smile' captura precisamente este efeito — opções de venda (puts) têm volatilidade implícita mais alta que calls equivalentes. Criptomoedas: curiosamente, o leverage effect é fraco ou invertido — boas notícias podem gerar mais volatilidade."}
-]},
-
-{id:"p5_2",type:"content",title:"O modelo EGARCH — especificação e interpretação",sub:"Como o Exponential GARCH de Nelson (1991) capta a assimetria",blocks:[
-{t:"txt",c:"Daniel Nelson (1991) desenvolveu o EGARCH para superar as limitações do GARCH simétrico. A ideia-chave: trabalhar com o logaritmo da variância condicional, o que elimina as restrições de não-negatividade e permite captar assimetria."},
-{t:"formula",lbl:"EGARCH(1,1) — equação completa",c:"ln(σ²_t) = ω + β·ln(σ²_{t-1}) + α·[|z_{t-1}| − E|z_{t-1}|] + γ·z_{t-1}\n\nonde:\n  z_t = ε_t / σ_t  →  resíduo padronizado\n  E|z_{t-1}| = √(2/π) ≈ 0.798  (para z normal standard)\n\nExponenciando ambos os lados:\n  σ²_t = exp(ω) × σ²_{t-1}^β × exp(α·[|z_{t-1}| − E|z|] + γ·z_{t-1})"},
-{t:"h3",c:"Cada parâmetro em profundidade"},
-{t:"table",cols:["Parâmetro","Papel","Na tua tese (M5)","Interpretação"],rows:[
-["ω","Constante da log-variância","ω < 0 típico","Determina o nível incondicional de ln(σ²)"],
-["β","Persistência da log-variância","β = 0.948","94.8% da log-volatilidade de ontem persiste hoje"],
-["α","Efeito da magnitude do choque (simétrico)","α = 0.338","Choques grandes (positivos ou negativos) aumentam σ²"],
-["γ","Assimetria — o parâmetro do leverage effect","γ = −0.078***","γ < 0: más notícias aumentam mais a volatilidade"]
-]},
-{t:"h3",c:"Como ler a equação — passo a passo"},
-{t:"txt",c:"O termo <code>α·[|z_{t-1}| − E|z_{t-1}|]</code> é a componente <em>simétrica</em>: qualquer choque grande (positivo ou negativo) aumenta ln(σ²_t). O termo <code>γ·z_{t-1}</code> é a componente <em>assimétrica</em>: quando z_{t-1} < 0 (retorno negativo), como γ < 0, este termo é positivo, aumentando mais ln(σ²_t). Quando z_{t-1} > 0, o termo é negativo, amortecendo o efeito."},
-{t:"formula",lbl:"Cálculo explícito do efeito assimétrico",c:"Quando z_{t-1} > 0 (boa notícia):\n  efeito total = α·(z − E|z|) + γ·z = (α + γ)·z − α·E|z|\n  componente assimétrica ∝ (α + γ) = 0.338 − 0.078 = 0.260\n\nQuando z_{t-1} < 0 (má notícia), |z_{t-1}| = −z_{t-1}:\n  efeito total = α·(−z − E|z|) + γ·z = (−α + γ)·z − α·E|z|\n  componente assimétrica ∝ (α − γ) = 0.338 + 0.078 = 0.416\n\nRazão: 0.416 / 0.260 ≈ 1.60 → 60% mais impacto das más notícias."},
-{t:"h3",c:"Vantagens do EGARCH sobre o GARCH simétrico"},
-{t:"table",cols:["Característica","GARCH(1,1)","EGARCH(1,1)"],rows:[
-["Assimetria","Não — α positivo e negativo têm mesmo efeito","Sim — parâmetro γ captura leverage effect"],
-["Não-negatividade","Requer ω>0, α≥0, β≥0","Não — trabalha em log, qualquer sinal é ok"],
-["Interpretação dos parâmetros","Direta em níveis","Requer exponenciação para σ²"],
-["Ajustamento típico","Bom","Melhor (Hansen & Lunde, 2005)"]
-]},
-{t:"key",title:"Hansen & Lunde (2005) — a comparação definitiva",c:"Num estudo seminal que comparou 330 modelos de volatilidade com dados de 5 ativos, Hansen & Lunde concluíram que o GARCH(1,1) simétrico é claramente inferior a modelos com leverage effect para retornos de índices acionistas. O EGARCH e o GJR-GARCH consistentemente superam o GARCH simples. Esta é a base teórica da tua escolha do EGARCH."}
-]},
-
-{id:"p5_q1",type:"question",title:"EGARCH — leverage effect",
-question:"No EGARCH, γ = −0.083 (M6, p < 0.001). Uma boa notícia (+2% no PSI-20, z_t = +1.5) e uma má notícia (−2%, z_t = −1.5) têm o mesmo módulo. Qual tem maior impacto na volatilidade seguinte?",
-options:["Boa notícia — γ negativo amplifica retornos positivos","Má notícia — com γ < 0, choques negativos geram mais volatilidade do que positivos de igual magnitude","São iguais — o EGARCH trata z e |z| igualmente","Depende do sinal de α"],
-answer:1,expl:"Com γ = −0.083 < 0: choque positivo tem efeito ∝ (α + γ) = α − 0.083; choque negativo tem efeito ∝ (α − γ) = α + 0.083. Como −0.083 < 0, o efeito negativo é maior. Má notícia: efeito = α + |γ| > α − |γ| = efeito da boa notícia."},
-
-{id:"p5_ex",type:"exam",title:"Exame — EGARCH e Leverage Effect",questions:[
-{q:"O leverage effect (γ < 0 no EGARCH) significa que:",opts:["A volatilidade é negativa em alguns períodos","Más notícias (retornos negativos) geram mais volatilidade do que boas notícias de igual magnitude","Boas notícias geram mais volatilidade","Os choques são simétricos"],a:1},
-{q:"Vantagem do EGARCH sobre o GARCH(1,1) simétrico:",opts:["Tem menos parâmetros","Capta assimetria (leverage effect) sem restrições de não-negatividade dos parâmetros","Tem convergência mais rápida","Tem sempre menor AIC"],a:1},
-{q:"α + β < 1 no GARCH; β < 1 no EGARCH garantem:",opts:["Que os parâmetros são positivos","Estacionariedade covariância — a volatilidade não explode para infinito","Que o leverage effect existe","Que o OLS seria adequado"],a:1}
-]}
-]}, /* end s5 */
-
-/* ── S6: VARIÁVEIS POLÍTICAS ──────────────────────── */
-{id:"s6",title:"Variáveis Políticas e het()",pages:[
-
-{id:"p6_1",type:"content",title:"Como incluir eventos políticos num modelo GARCH",sub:"Dois canais: a média dos retornos e a variância",blocks:[
-{t:"txt",c:"Incluir variáveis políticas num modelo GARCH requer decisões metodológicas cuidadosas. Há dois canais pelos quais a política pode afetar os mercados: o nível dos retornos (canal da média) e a incerteza (canal da variância)."},
-{t:"h3",c:"Canal da média — efeito nos retornos médios"},
-{t:"txt",c:"Incluir variáveis políticas na equação da média testa se eventos políticos afetam o nível esperado dos retornos. Um coeficiente significativo indicaria que o mercado, em média, vai melhor ou pior durante esse período."},
-{t:"formula",lbl:"Equação da média com variáveis políticas",c:"r_t = α + β₁·r_ES50,t + β₂·D_político,t + ε_t\n\nβ₂ = efeito da variável política nos retornos médios\n\nH₀: β₂ = 0  (sem efeito médio)"},
-{t:"key",title:"Resultado na tua tese — canal da média",c:"Quase nenhuma variável política é significativa na equação da média. A única excepção é shock_economic = −0.273*** — os choques económicos (resgate de 2011, BES 2014) afetam negativamente os retornos médios. As variáveis eleitorais não são significativas. Este resultado é consistente com a eficiência semi-forte."},
-{t:"h3",c:"Canal da variância — efeito na volatilidade"},
-{t:"txt",c:"Mais interessante: as variáveis políticas podem afetar a <em>incerteza</em> (volatilidade) sem afetar os retornos médios. Um governo de esquerda pode não fazer o mercado subir ou descer em média, mas pode torná-lo mais ou menos volátil."},
-{t:"formula",lbl:"Especificação het() — variáveis na variância incondicional",c:"σ²_t = σ̄² × exp(δ × D_político,t) × [dinâmica GARCH]\n\nonde σ̄² = variância incondicional de referência\n      exp(δ) = fator multiplicativo da variância quando D = 1\n\nSe δ = −0.077 e D_político = 1:\n  σ²_t = σ̄² × exp(−0.077) × [dinâmica]\n        = σ̄² × 0.926 × [dinâmica]\n        → variância 7.4% mais baixa durante este período"},
-{t:"h3",c:"Porquê especificação multiplicativa e não aditiva"},
-{t:"txt",c:"A especificação multiplicativa <code>exp(δ·D)</code> tem duas vantagens: (1) a variância permanece sempre positiva independentemente do valor de δ; (2) δ é interpretado como um efeito proporcional (percentual), o que é mais natural do que um efeito em unidades absolutas."},
-{t:"example",title:"Interpretação het(left_gov) = −0.077",c:"δ = −0.077, D = 1 durante governos de esquerda\n\nEfeito multiplicativo: exp(−0.077) ≈ 0.926\n\nIsso significa:\n  σ²_t (governo esquerda) = 0.926 × σ²_t (governo direita) × [dinâmica]\n\nA variância condicional é 7.4% mais baixa sob governos de esquerda\ndo que sob governos de direita (estado de referência),\nmantendo constante a dinâmica GARCH e o risco europeu.\n\nNota: exp(−0.077) − 1 ≈ −7.4%, não −7.7%. O texto da tese usa −7.7%\n(interpretação aproximada de δ × 100). Para pequenos δ, as duas\naproximações são similares."},
-{t:"beyond",title:"Het() em outras aplicações",c:"Macroeconomia: testar se recessões aumentam a volatilidade do crescimento do PIB. Energia: testar se invernos frios aumentam a volatilidade dos preços da eletricidade. Agronomia: testar se anos de seca aumentam a volatilidade dos preços agrícolas. Em todos estes casos, o het() testa se uma condição binária (recessão = 1, inverno frio = 1) afeta a volatilidade de uma série."}
-]},
-
-{id:"p6_2",type:"content",title:"Construção das variáveis e janelas de eventos",sub:"Decisões metodológicas com impacto nos resultados",blocks:[
-{t:"txt",c:"A forma como construímos as variáveis dummy políticas tem impacto direto nos resultados. Há duas decisões principais: a largura das janelas de eventos e a exclusividade mútua das dummies."},
-{t:"h3",c:"Janelas de ±30 dias — a lógica"},
-{t:"txt",c:"A janela de ±30 dias antes e depois de cada evento foi escolhida para captar três fases distintas:"},
-{t:"steps",steps:[
-{n:1,c:"<strong>Período de antecipação (−30 a −1 dias)</strong>: os mercados começam a incorporar a incerteza associada ao evento iminente. A volatilidade pode aumentar antes da eleição, à medida que os investidores se protegem."},
-{n:2,c:"<strong>Dia do evento (0)</strong>: o próprio evento — eleição, formação de governo, anúncio de choque."},
-{n:3,c:"<strong>Período pós-evento (+1 a +30 dias)</strong>: resolução da incerteza e ajustamento às novas condições políticas. A volatilidade pode diminuir após as eleições."}
-]},
-{t:"table",cols:["Escolha de janela","Vantagens","Desvantagens"],rows:[
-["±15 dias","Mais limpa — menos 'ruído' de outros eventos","Pode perder efeitos de antecipação mais distantes"],
-["±30 dias","Equilíbrio razoável — capta antecipação e resolução","Pode incluir eventos não relacionados"],
-["±60 dias","Captura efeitos mais prolongados","Mais overlap entre eventos; multicolinearidade"]
-]},
-{t:"h3",c:"Dummies mutuamente exclusivas — porquê é importante"},
-{t:"txt",c:"A tua tese constrói <code>regular_only</code> e <code>snap_only</code> como mutuamente exclusivas. Um dia pode cair na janela de uma eleição regular, ou de uma eleição antecipada, mas não de ambas. Isto resolve o problema de multicolinearidade."},
-{t:"warn",title:"O que é multicolinearidade e porque é um problema",c:"Multicolinearidade ocorre quando duas variáveis explicativas são altamente correlacionadas entre si. As estimativas dos coeficientes ficam muito imprecisas (erros-padrão enormes) e é difícil saber qual variável está a 'fazer o trabalho'. Com dummies não-mutuamente-exclusivas, um mesmo dia poderia ser codificado como 1 em ambas — criando correlação perfeita. As dummies mutuamente exclusivas eliminam este problema."},
-{t:"key",title:"Poder estatístico — a limitação fundamental",c:"Com ±30 dias × 9 eleições ≈ 540 dias de 'tratamento' em 7.116 total (≈ 7.6%), o poder estatístico para detetar efeitos pequenos é limitado. Se o efeito real for de 0.1 p.p. de redução de volatilidade, pode não ser detetável com esta proporção de observações tratadas. Isto explica — pelo menos parcialmente — a ausência de efeitos significativos nas variáveis eleitorais individuais."}
-]},
-
-{id:"p6_q1",type:"question",title:"het() — interpretação",
-question:"het(left_gov) = −0.077 (p < 0.001) na equação da variância. A interpretação correta é:",
-options:["Os retornos médios são 7.7% mais baixos sob governos de esquerda","A variância condicional é aproximadamente 7.4% mais baixa (menor volatilidade) sob governos de esquerda vs. direita, com tudo o resto constante","O leverage effect é mais forte sob governos de esquerda","Os resultados do GARCH são inválidos sob governos de esquerda"],
-answer:1,expl:"Na especificação het(), δ = −0.077 actua sobre a variância incondicional de forma multiplicativa: a variância é exp(−0.077) ≈ 0.926 vezes a variância de referência, ou seja, ~7.4% mais baixa. Note que é um efeito sobre a VARIÂNCIA (volatilidade), não sobre os retornos médios."},
-
-{id:"p6_ex",type:"exam",title:"Exame — Variáveis Políticas",questions:[
-{q:"Porquê construir regular_only e snap_only como mutuamente exclusivas?",opts:["Para aumentar o poder estatístico","Para evitar multicolinearidade — dois dummies correlacionados produzem coeficientes imprecisos","Para reduzir o número de observações tratadas","Para garantir α + β < 1 no GARCH"],a:1},
-{q:"A ausência de efeitos significativos das variáveis eleitorais na equação da média é consistente com:",opts:["A forma fraca da EMH — preços passados não preveem","A eficiência semi-forte — eventos públicos antecipados já estão nos preços","O leverage effect — más notícias geram mais volatilidade","A não-estacionariedade dos preços"],a:1},
-{q:"Het() é metodologicamente preferível a incluir variáveis políticas apenas na equação da média porque:",opts:["É computacionalmente mais simples","Permite distinguir efeitos na média (nível dos retornos) de efeitos na volatilidade (incerteza) — dimensões independentes","Elimina a necessidade de testar ARCH-LM","Aumenta o número de observações"],a:1}
-]}
-]}, /* end s6 */
-
-/* ── S7: EFICIÊNCIA DE MERCADO ────────────────────── */
-{id:"s7",title:"Eficiência de Mercado",pages:[
-
-{id:"p7_1",type:"content",title:"A Hipótese dos Mercados Eficientes — em profundidade",sub:"Eugene Fama, 1970: o enquadramento teórico central",blocks:[
-{t:"txt",c:"A Hipótese dos Mercados Eficientes (EMH) é um dos pilares da teoria financeira moderna e o enquadramento teórico central da tua tese. Compreendê-la em profundidade — incluindo as suas nuances e limitações — é essencial para a defesa."},
-{t:"h3",c:"A ideia central"},
-{t:"txt",c:"Fama (1970) propôs que os preços dos ativos financeiros refletem toda a informação relevante disponível. Numa versão extrema, não seria possível 'vencer o mercado' de forma consistente — qualquer informação disponível já estaria incorporada no preço."},
-{t:"analogy",title:"Analogia: as notas no chão",c:"Um professor de finanças e o seu aluno caminham pelo campus quando o aluno vê uma nota de 20€ no chão. 'Posso apanhá-la?', pergunta. O professor responde: 'Não pode ser real — se fosse, alguém já a teria apanhado.' Esta é a lógica da EMH: em mercados eficientes, as oportunidades de lucro são exploradas tão rapidamente que desaparecem quase instantaneamente."},
-{t:"h3",c:"As três formas de eficiência"},
-{t:"table",cols:["Forma","Informação incorporada","O que não funciona","Testável com"],rows:[
-["Fraca","Toda a história de preços e retornos","Análise técnica (padrões de preços)","Autocorrelação, regras de filtro"],
-["Semi-forte","Toda a informação PÚBLICA (anúncios, políticas, macro)","Análise fundamentalista","Event studies — tua tese!"],
-["Forte","TODA a informação, incluindo insider","Qualquer estratégia","Difícil — testada indiretamente"]
-]},
-{t:"h3",c:"Event studies — como se testa a eficiência semi-forte"},
-{t:"txt",c:"Um event study analisa o comportamento dos retornos em torno de um evento para verificar se há <strong>retornos anormais</strong> — retornos acima ou abaixo do esperado dado o risco do ativo. Se os mercados forem semi-fortemente eficientes, não deverá haver retornos anormais sistematicamente previsíveis em torno de eventos públicos."},
-{t:"formula",lbl:"Retorno anormal num event study",c:"AR_t = r_PSI20,t − E[r_PSI20,t | informação]\n\nonde E[r_PSI20,t] pode ser estimado como:\n  α + β₁ × r_ES50,t  (modelo de mercado)\n\nSe os mercados forem eficientes:\n  E[AR_t] = 0  para todos os t em torno do evento"},
-{t:"h3",c:"A nuance crucial — retornos vs. volatilidade"},
-{t:"txt",c:"Este é o ponto mais importante para a tua tese: a EMH diz que os <em>retornos médios</em> não são previsíveis com informação pública. Não diz nada sobre a <em>volatilidade</em>."},
-{t:"key",title:"Eficiência de retornos ≠ eficiência de volatilidade",c:"É perfeitamente possível que:\n  • Os retornos médios sejam eficientes (não previsíveis)\n  • A volatilidade tenha padrões previsíveis associados ao ciclo político\n\nA tua tese encontra exactamente isto:\n  • Variáveis eleitorais na média → não significativas (eficiência semi-forte)\n  • het(left_gov) na variância → significativo (**)\n\nEstes dois resultados são complementares, não contraditórios."},
-{t:"beyond",title:"A EMH em contextos não-financeiros",c:"Mercado de apostas desportivas: odds de futebol tendem a refletir bem as probabilidades reais — é difícil ganhar consistentemente. Mercado imobiliário: mais ineficiente (menos transparência, custos de transação altos) — há mais evidência de previsibilidade de preços. Mercado de trabalho: salários refletem competências (produtividade)? Há evidências de ineficiências (discriminação, assimetrias de informação)."}
-]},
-
-{id:"p7_2",type:"content",title:"Ciclos políticos e mercados — a literatura",sub:"Nordhaus, Hibbs, Alesina, Pástor & Veronesi",blocks:[
-{t:"txt",c:"A ligação entre ciclos políticos e mercados financeiros tem uma literatura vasta. Os modelos teóricos evoluíram de simples modelos oportunistas para modelos sofisticados com expectativas racionais."},
-{t:"h3",c:"Os modelos clássicos"},
-{t:"table",cols:["Autor","Modelo","Mecanismo","Relevância para a tua tese"],rows:[
-["Nordhaus (1975)","Ciclo político-económico oportunista","Governantes manipulam a economia antes das eleições para maximizar votos","Prevê efeitos eleitorais — não encontrados nos retornos"],
-["Hibbs (1977)","Teoria partidária","Esquerda prefere desemprego baixo; direita prefere inflação baixa","Base para testar left_gov"],
-["Alesina (1987)","Teoria partidária racional","Apenas a SURPRESA eleitoral gera efeitos reais — resultado esperado já está nos preços","Explica ausência de efeitos sistemáticos em janelas de ±30 dias"]
-]},
-{t:"h3",c:"Pástor & Veronesi (2020) — a resolução moderna do 'Presidential Puzzle'"},
-{t:"txt",c:"Santa-Clara & Valkanov (2003) documentaram que ações americanas têm retornos mais altos sob governos democratas do que republicanos. Pástor & Veronesi (2020) propuseram a explicação racional: não são as políticas democráticas que causam melhores retornos — é que os democratas tendem a ser eleitos em momentos de alta aversão ao risco, que coincide com maior prémio de risco."},
-{t:"analogy",title:"Analogia: a confundição e o guarda-chuva",c:"Há uma forte correlação entre vender guarda-chuvas e chover. Mas os guarda-chuvas não causam a chuva — a chuva causa a compra de guarda-chuvas. Da mesma forma: governos de esquerda não causam melhores retornos — as condições de alta aversão ao risco (que geram maiores retornos esperados) causam tanto os bons retornos como a eleição de governos de esquerda."},
-{t:"key",title:"Ligação ao teu resultado het(left_gov)",c:"O efeito de menor volatilidade sob governos de esquerda (δ = −0.077**) pode refletir um efeito de composição temporal:\n  • Governos PS em Portugal: 1995–2002 (crescimento), 2015–2023 (recuperação)\n  • Governos PSD/CDS: 2002–2005, 2011–2015 (ambos períodos de crise)\n\nO modelo controla para o risco europeu via EuroStoxx 50, mas não elimina completamente a confundição com o ciclo económico português. Isto é uma limitação honesta que deve ser reconhecida na defesa."}
-]},
-
-{id:"p7_q1",type:"question",title:"EMH — forma semi-forte",
-question:"Os retornos do PSI-20 em torno de eleições não são significativamente diferentes de zero (variáveis eleitorais na equação da média, p > 0.10). O que podes concluir?",
-options:["Os mercados portugueses são completamente ineficientes","Este resultado é consistente com a eficiência semi-forte — eleições são eventos públicos antecipados; a incerteza é incorporada gradualmente, não em janelas discretas de ±30 dias","Os mercados são eficientes na forma forte","O modelo GARCH está mal especificado"],
-answer:1,expl:"Eficiência semi-forte implica que eventos públicos antecipados (como eleições com data conhecida) já são incorporados nos preços muito antes de acontecerem. A ausência de retornos anormais em ±30 dias é consistente com esta hipótese. Atenção: não prova a eficiência semi-forte — apenas não a rejeita."},
-
-{id:"p7_ex",type:"exam",title:"Exame — Eficiência de Mercado",questions:[
-{q:"Eficiência semi-forte da EMH implica que os preços refletem:",opts:["Apenas preços históricos","Toda a informação pública disponível (anúncios, políticas, macro)","Toda a informação incluindo insider","Apenas a história recente de preços"],a:1},
-{q:"Segundo Alesina (1987), o que gera efeitos de mercado em torno de eleições?",opts:["O resultado eleitoral em si","A surpresa eleitoral — resultado diferente do esperado gera efeitos reais transitórios","As políticas implementadas nos primeiros 100 dias","A volatilidade pré-eleitoral"],a:1},
-{q:"A tua tese encontra: (1) variáveis eleitorais não significativas na equação da média; (2) het(left_gov) significativo na variância. Estes dois resultados são:",opts:["Contraditórios — um refuta o outro","Complementares — eficiência de retornos e previsibilidade de volatilidade são dimensões independentes","Impossíveis de ocorrer simultaneamente","Prova de que a EMH é falsa em Portugal"],a:1}
-]}
-]}, /* end s7 */
-
-/* ── S8: DIAGNÓSTICOS AVANÇADOS ───────────────────── */
-{id:"s8",title:"Diagnósticos e Robustez",pages:[
-
-{id:"p8_1",type:"content",title:"Diagnósticos pós-estimação dos modelos GARCH",sub:"Como verificar que o modelo está bem especificado",blocks:[
-{t:"txt",c:"Estimar um modelo é apenas o primeiro passo. Depois de estimar, é obrigatório verificar que o modelo captura adequadamente as características dos dados — que os resíduos se comportam como deveriam se o modelo fosse correto."},
-{t:"h3",c:"Resíduos padronizados — z_t = ε_t / σ_t"},
-{t:"txt",c:"Se o GARCH estiver bem especificado, os resíduos padronizados z_t = ε_t / σ_t devem ser aproximadamente i.i.d. (independentes e identicamente distribuídos) com média zero e variância 1. Específicamente, a variância condicional σ²_t deve capturar toda a heterocedasticidade, deixando z_t com variância constante."},
-{t:"table",cols:["Diagnóstico","O que testa","H₀","Resultado desejado"],rows:[
-["Ljung-Box em z_t","Autocorrelação nos resíduos padronizados","Sem autocorrelação","p > 0.05 — não rejeitar"],
-["Ljung-Box em z²_t","Autocorrelação nos quadrados — efeitos ARCH residuais","Sem efeitos ARCH residuais","p > 0.05 — não rejeitar"],
-["Média de z_t","Média dos resíduos padronizados","Média = 0","Próxima de 0"],
-["Variância de z_t","Variância dos resíduos padronizados","Variância = 1","Próxima de 1"]
-]},
-{t:"h3",c:"Convergência dos modelos"},
-{t:"txt",c:"A tua tese refere que 'todos os seis modelos convergem sem erros de otimização'. Isto é mais importante do que parece. A função de log-verossimilhança do GARCH pode ter múltiplos máximos locais ou regiões planas que dificultam a convergência. Convergência limpa indica que o algoritmo encontrou o máximo global e que os resultados são numericamente fiáveis."},
-{t:"h3",c:"Robustez — o que significa e porque importa"},
-{t:"txt",c:"Um resultado é <strong>robusto</strong> se se mantém quando fazemos escolhas metodológicas alternativas razoáveis. Na tua tese, a robustez manifesta-se em várias dimensões:"},
-{t:"table",cols:["Resultado","Evidência de robustez"],rows:[
-["γ ≈ −0.08 (leverage effect)","Confirmado em AMBOS M5 e M6 — especificações distintas com e sem variáveis eleitorais"],
-["β₁ ≈ 0.557 (EuroStoxx 50)","Extremamente estável em todos os 6 modelos — indica boa especificação"],
-["het(left_gov) ≈ −0.077","Encontrado no EGARCH com melhor ajustamento (AIC)"],
-["Convergência limpa","Todos os 6 modelos convergem — confirma estabilidade numérica"]
-]},
-{t:"key",title:"Porque os erros-padrão OPG são adequados na tua tese",c:"Os erros-padrão nos modelos GARCH podem ser calculados por três métodos: Hessiano (assume especificação correta), OPG (Outer Product of Gradients), ou Sandwich (QMLE). O OPG usa os gradientes individuais de cada uma das 7.116 observações para construir uma estimativa da matrix de informação que é robusta a má-especificação da função de verossimilhança. É mais conservador que o Hessiano — erros-padrão tendem a ser maiores, inferências mais prudentes. É uma escolha metodologicamente defensável."}
-]},
-
-{id:"p8_q1",type:"question",title:"Diagnósticos — interpretação",
-question:"O teste Ljung-Box aplicado aos resíduos padronizados ao quadrado z²_t tem p = 0.32 (lag 10). O que podes concluir sobre o ajustamento do modelo GARCH?",
-options:["O modelo está mal especificado — deve-se rejeitar","Com p = 0.32 > 0.05, não rejeitamos H₀ (sem autocorrelação em z²_t) — o modelo capturou adequadamente os efeitos ARCH, sem heterocedasticidade condicional residual","Os resíduos têm fat tails — é necessário mudar de distribuição","O alpha do modelo GARCH é zero"],
-answer:1,expl:"H₀ do Ljung-Box: sem autocorrelação nos resíduos até lag 10. Com p = 0.32 > 0.05, não rejeitamos H₀. Isto é sinal positivo: significa que o modelo GARCH capturou toda a heterocedasticidade condicional — os resíduos padronizados ao quadrado já não são autocorrelacionados."}
-]}, /* end s8 */
-
-/* ── S9: GUIA DE DEFESA ───────────────────────────── */
-{id:"s9",title:"Guia de Defesa",pages:[
-
-{id:"p9_1",type:"content",title:"Perguntas prováveis — respostas estruturadas",sub:"Como responder ao júri com clareza e rigor",blocks:[
-{t:"txt",c:"A defesa de tese é uma conversa académica, não um interrogatório. O júri quer verificar que compreendes o que fizeste e consegues defender as tuas escolhas. Prepara respostas estruturadas: 'o que fiz', 'porquê', 'o que diz o resultado', 'quais as limitações'."},
-{t:"h3",c:"As perguntas mais prováveis"},
-{t:"callout",v:"ct",title:"P1: Porque usaste GARCH e não OLS simples?",c:"Resposta estruturada:\n1. PROBLEMA: O OLS assume Var(ε_t) = σ² constante (homocedasticidade).\n2. EVIDÊNCIA DE VIOLAÇÃO: O teste ARCH-LM dá χ²(1) = 1668.6, p = 0.000 — 434 vezes acima do valor crítico. Homocedasticidade é massivamente violada.\n3. CONSEQUÊNCIA: Com homocedasticidade violada, os erros-padrão OLS são inconsistentes → testes t e valores-p inválidos.\n4. SOLUÇÃO: Os modelos GARCH foram desenvolvidos precisamente para modelar σ²_t variável no tempo — produzem estimativas eficientes e inferências válidas."},
-{t:"callout",v:"ct",title:"P2: O que significa α + β = 0.968?",c:"Resposta:\n• α + β é a persistência total dos choques de volatilidade.\n• 0.968 significa que 96.8% de um choque de volatilidade ainda está presente no dia seguinte.\n• Como α + β < 1, o processo é covariância-estacionário — a volatilidade converge para a média incondicional no longo prazo.\n• Semi-vida: ln(0.5)/ln(0.968) ≈ 21 dias — ao fim de 21 dias de bolsa, metade do choque dissipou-se."},
-{t:"callout",v:"ct",title:"P3: Porque γ negativo confirma o leverage effect?",c:"Resposta:\n• No EGARCH, z_t = ε_t/σ_t é positivo se o retorno foi positivo, negativo se foi negativo.\n• Na equação: ln(σ²_t) = ... + γ·z_{t-1}\n• Se γ < 0 e z_{t-1} < 0 (má notícia), então γ·z_{t-1} > 0 → ln(σ²_t) aumenta mais.\n• Se γ < 0 e z_{t-1} > 0 (boa notícia), então γ·z_{t-1} < 0 → ln(σ²_t) aumenta menos.\n• γ = −0.08 → más notícias geram ~60% mais volatilidade que boas notícias equivalentes."},
-{t:"callout",v:"ct",title:"P4: Porque não encontraste efeitos eleitorais nos retornos?",c:"Resposta (dois mecanismos complementares):\n1. EFICIÊNCIA SEMI-FORTE: As eleições têm datas conhecidas antecipadamente. Os mercados incorporam a incerteza eleitoral gradualmente ao longo de semanas/meses — não há concentração de ajustamento em janelas de ±30 dias.\n2. PODER ESTATÍSTICO: ±30 dias × 9 eleições ≈ 540 dias tratados em 7.116 total (7.6%). Para efeitos pequenos, este poder pode ser insuficiente. A ausência de significância ≠ ausência de efeito."},
-{t:"callout",v:"ct",title:"P5: Porque governos de esquerda têm menor volatilidade?",c:"Resposta (duas interpretações):\n1. CANAL DE EXPECTATIVAS (Leblang & Mukherjee, 2005): governos de esquerda sinalizam políticas mais expansionistas, reduzindo a incerteza sobre taxas de juro reais e, portanto, a volatilidade das valorizações.\n2. COMPOSIÇÃO TEMPORAL: Em Portugal, governos PS coincidiram com crescimento (1995–2002, 2015–2023); PSD/CDS com crises (2002–2005, 2011–2015). O modelo controla para risco europeu via EuroStoxx 50, mas a confundição com o ciclo económico português não é eliminada completamente — esta é uma limitação reconhecida."}
-]},
-
-{id:"p9_2",type:"content",title:"Conceitos que o júri pode testar",sub:"Definições rápidas e distinções importantes",blocks:[
-{t:"h3",c:"Distinções fundamentais para a defesa"},
-{t:"table",cols:["Conceito A","vs.","Conceito B","A diferença"],rows:[
-["Estacionariedade em sentido forte","vs.","Covariância-estacionariedade (sentido fraco)","Forte: distribuição idêntica para todo o t. Fraco: apenas média e variância constantes — mais fácil de verificar e suficiente para a maioria dos modelos"],
-["Significância estatística","vs.","Significância prática","Estatística: p < α. Prática: a magnitude do efeito importa para decisões reais. Com n = 7116, até efeitos ínfimos podem ser significativos estatisticamente"],
-["Estimador não-enviesado","vs.","Estimador consistente","Não-enviesado: E[β̂] = β para qualquer n. Consistente: β̂ → β quando n → ∞. Um estimador pode ser consistente sem ser não-enviesado"],
-["Heterocedasticidade condicional","vs.","Heterocedasticidade incondicional","Condicional: Var(ε_t | Ω_{t-1}) varia — clustering. Incondicional: Var(ε_t) varia — escala. GARCH modela a condicional"],
-["Eficiência de retornos","vs.","Eficiência de volatilidade","Retornos eficientes: não previsíveis com info pública. Volatilidade: pode ter padrões previsíveis sem violar a EMH"]
-]},
-{t:"h3",c:"Glossário completo"},
-{t:"table",cols:["Sigla","Nome completo","Papel na tua tese"],rows:[
-["ARCH","Autoregressive Conditional Heteroscedasticity","Modelo de base para variância condicional — Engle (1982)"],
-["GARCH","Generalized ARCH","Estende ARCH com lags da própria variância — Bollerslev (1986)"],
-["EGARCH","Exponential GARCH","Capta leverage effect (assimetria) — Nelson (1991)"],
-["OPG","Outer Product of Gradients","Método robusto para calcular erros-padrão nos modelos GARCH"],
-["ADF","Augmented Dickey-Fuller","Teste de raiz unitária — Z(t) = −45.15 para retornos PSI-20"],
-["ARCH-LM","Lagrange Multiplier for ARCH","Justifica uso de GARCH — χ²(1) = 1668.6"],
-["AIC/BIC","Critérios de Akaike/Bayesiano","M6 tem menor AIC; M5 tem menor BIC"],
-["MLE","Maximum Likelihood Estimation","Método de estimação dos parâmetros GARCH"],
-["EMH","Efficient Market Hypothesis","Fama (1970) — resultados eleitorais consistentes com forma semi-forte"],
-["het()","Heteroscedasticity specification","Coloca variáveis externas na variância incondicional — het(left_gov) = −0.077"],
-["VaR","Value at Risk","Aplicação prática dos modelos GARCH — percentil da distribuição de perdas"]
-]}
-]},
-
-{id:"p9_ex",type:"exam",title:"Exame Final — Super Guia Completo",questions:[
-{q:"Z(t) = −45.15 (p = 0.000) no ADF para os retornos do PSI-20. Conclusão:",opts:["Retornos não-estacionários — têm raiz unitária","Retornos estacionários I(0) — sem raiz unitária — pré-requisito para inferências válidas","Preços são estacionários","GARCH não é necessário"],a:1},
-{q:"χ²(1) = 1668.6 (p = 0.000) no ARCH-LM. O que justifica?",opts:["Usar OLS com erros-padrão robustos","Usar modelos GARCH — heterocedasticidade condicional extremamente forte","Que os retornos são normais","Que a série tem raiz unitária"],a:1},
-{q:"No GARCH(1,1): σ²_t = ω + α·ε²_{t-1} + β·σ²_{t-1}. Condição de estacionariedade:",opts:["α > 0 e β > 0","α + β < 1 (e ω > 0, α ≥ 0, β ≥ 0)","α + β = 1","α < β"],a:1},
-{q:"γ = −0.083 (p < 0.001) no EGARCH. Interpretação:",opts:["Volatilidade negativa em alguns períodos","Más notícias geram mais volatilidade do que boas notícias de igual magnitude (leverage effect)","GARCH simétrico é preferível","Ausência de persistência de volatilidade"],a:1},
-{q:"het(left_gov) = −0.077 (p < 0.001). Interpretação:",opts:["Retornos médios 7.7% mais baixos sob esquerda","Variância condicional ~7.4% mais baixa (menor volatilidade) sob governos de esquerda vs. direita","Leverage effect mais forte sob esquerda","Série não-estacionária sob esquerda"],a:1},
-{q:"A tua tese não encontra efeitos eleitorais na média dos retornos. Isto é consistente com:",opts:["Eficiência semi-forte — eleições antecipadas já incorporadas nos preços","Forma forte da EMH","O leverage effect","I(1) nos preços"],a:1},
-{q:"Semi-vida = ln(0.5)/ln(β) = 13 dias (β = 0.948). Significa:",opts:["Volatilidade desaparece em 13 dias","Ao fim de 13 dias de bolsa, o efeito de um choque de volatilidade reduziu para metade","α + β = 13","σ̄² = 13%"],a:1},
-{q:"Porque usamos MLE e não OLS para estimar GARCH?",opts:["OLS é equivalente aqui","GARCH modela a variância condicional variável — MLE maximiza a verossimilhança do modelo heterocedástico de forma eficiente","MLE é mais fácil de computar","OLS não existe para séries temporais"],a:1},
-{q:"Fat tails (curtose > 3) nos retornos implica que:",opts:["A série é não-estacionária","Retornos extremos (crashes, rallys) ocorrem com mais frequência do que a distribuição normal preveria — modelos normais subestimam o risco","A média não é constante","Os erros são autocorrelacionados"],a:1},
-{q:"het(left_gov) = −0.077 e shock_economic = −0.273*** são resultados de:",opts:["O mesmo canal — ambos afetam os retornos médios","Canais diferentes: het() afeta a VARIÂNCIA (volatilidade); shock_economic afeta a MÉDIA dos retornos","O mesmo canal — ambos afetam a variância","Canais sem interpretação económica clara"],a:1}
-]}
-]}
-]}; /* end course — sections array + C object */
-
-/* ═══════════════════════════════════════════════════
-   STATE & PERSISTENCE
-═══════════════════════════════════════════════════ */
-let pages=[], secMap=[];
-C.sections.forEach(s=>s.pages.forEach(p=>{secMap.push(s.title);pages.push({...p})}));
-
-let cur=0, done=new Set(), qst={}, est={};
-
-function save(){try{localStorage.setItem('sg_cur',cur);localStorage.setItem('sg_done',JSON.stringify([...done]))}catch(e){}}
-function load(){try{const c=localStorage.getItem('sg_cur');const d=localStorage.getItem('sg_done');if(c!==null)cur=parseInt(c)||0;if(d!==null)done=new Set(JSON.parse(d))}catch(e){}}
-
-/* ═══════════════════════════════════════════════════
-   MOBILE DRAWER
-═══════════════════════════════════════════════════ */
-function openDrawer(){document.getElementById('drawer').classList.add('open');document.getElementById('drawerOverlay').classList.add('open');buildDrawerNav()}
-function closeDrawer(){document.getElementById('drawer').classList.remove('open');document.getElementById('drawerOverlay').classList.remove('open')}
-
-/* ═══════════════════════════════════════════════════
-   NAVIGATION
-═══════════════════════════════════════════════════ */
-function goto(i){if(i<0||i>=pages.length)return;cur=i;qst={};est={};save();render();window.scrollTo(0,0);closeDrawer()}
-
-function buildNavHTML(containerClass){
-  let html='',last='';
-  pages.forEach((p,i)=>{
-    const s=secMap[i];
-    if(s!==last){html+=`<div class="nav-sec">${s}</div>`;last=s}
-    const dc={'content':'dc','question':'dq','exam':'de'}[p.type];
-    const on=i===cur,dn=done.has(i)&&!on;
-    html+=`<button class="nav-btn${on?' on':''}${dn?' done':''} ${dc}" onclick="goto(${i})">
-      <span class="ndot"></span>
-      <span class="ntxt">${p.title}</span>
-    </button>`;
-  });
-  return html;
-}
-
-function buildSideNav(){
-  document.getElementById('sideNav').innerHTML=buildNavHTML('sideNav');
-  const pct=Math.round(done.size/pages.length*100);
-  document.getElementById('spct').textContent=pct+'%';
-  document.getElementById('spbar').style.width=pct+'%';
-}
-function buildDrawerNav(){
-  document.getElementById('drawerNav').innerHTML=buildNavHTML('drawerNav');
-  const pct=Math.round(done.size/pages.length*100);
-  document.getElementById('dpct').textContent=pct+'%';
-  document.getElementById('dpbar').style.width=pct+'%';
-}
-function updateMobHeader(){
-  document.getElementById('mobTitle').textContent=pages[cur].title;
-  const pct=Math.round(done.size/pages.length*100);
-  document.getElementById('mobPct').textContent=pct+'%';
-}
-
-/* ═══════════════════════════════════════════════════
-   BLOCK RENDERING
-═══════════════════════════════════════════════════ */
-const VARIANTS={
-  neutral:'box-neutral',key:'box-key',warn:'box-warn',
-  analogy:'box-analogy',example:'box-example',
-  beyond:'box-beyond',insight:'box-insight',
-  ct:'box-neutral',ck:'box-key',cw:'box-warn'
-};
-const LABELS={
-  neutral:'Nota',key:'Conceito chave',warn:'Atenção',
-  analogy:'Analogia',example:'Exemplo trabalhado',
-  beyond:'Para além da tese',insight:'Insight',
-  ct:'Na tua tese',ck:'Conceito chave',cw:'Atenção'
+// ── Config ───────────────────────────────────────────────────────────────
+// Uses the free public PeerJS server. For production, self-host or use PeerJS Cloud.
+const PEER_CONFIG = {
+  host: '0.peerjs.com',
+  port: 443,
+  path: '/',
+  secure: true
 };
 
-function rblocks(bs){
-  return bs.map(b=>{
-    if(b.t==='txt') return`<p class="body-txt">${b.c}</p>`;
-    if(b.t==='h3') return`<h3 class="block-h">${b.c}</h3>`;
-    if(b.t==='h4') return`<h4 class="block-sh">${b.c}</h4>`;
-    if(b.t==='formula') return`<div class="formula"><span class="formula-lbl">${b.lbl}</span>${b.c}</div>`;
-    if(b.t==='table'){
-      const th=b.cols?`<tr>${b.cols.map(c=>`<th>${c}</th>`).join('')}</tr>`:'';
-      const td=b.rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');
-      return`<table class="dtable">${th}${td}</table>`;
-    }
-    if(b.t==='steps') return`<div class="steps">${b.steps.map(s=>`<div class="step"><div class="step-num">${s.n}</div><div class="step-body">${s.c}</div></div>`).join('')}</div>`;
-    if(['neutral','key','warn','analogy','example','beyond','insight','ct','ck','cw','callout'].includes(b.t)){
-      const v=b.v||b.t;
-      const cls=VARIANTS[v]||'box-neutral';
-      const lbl=b.title||(LABELS[v]||'Nota');
-      return`<div class="box ${cls}"><div class="box-lbl">${lbl}</div>${b.c}</div>`;
-    }
-    return'';
-  }).join('');
+// ── State ────────────────────────────────────────────────────────────────
+let myName = '';
+let myPeer = null;
+let myStream = null;
+let isMuted = false;
+let connections = {};   // peerId → DataConnection
+let calls = {};         // peerId → MediaConnection
+let peers = {};         // peerId → { name, speaking }
+let roomId = '';
+
+// ── Speaking detection ───────────────────────────────────────────────────
+function monitorSpeaking(stream, peerId) {
+  try {
+    const ctx = new AudioContext();
+    const src = ctx.createMediaStreamSource(stream);
+    const analyser = ctx.createAnalyser();
+    analyser.fftSize = 512;
+    src.connect(analyser);
+    const data = new Uint8Array(analyser.frequencyBinCount);
+    let speakingNow = false;
+
+    setInterval(() => {
+      analyser.getByteFrequencyData(data);
+      const vol = data.reduce((a,b) => a+b, 0) / data.length;
+      const isSpeaking = vol > 6;
+      if (isSpeaking !== speakingNow) {
+        speakingNow = isSpeaking;
+        updateTile(peerId, { speaking: isSpeaking });
+      }
+    }, 120);
+  } catch {}
 }
 
-/* ═══════════════════════════════════════════════════
-   PAGE RENDER
-═══════════════════════════════════════════════════ */
-function render(){
-  const p=pages[cur],m=document.getElementById('main');
-  const tl={'content':'Lição','question':'Prática','exam':'Exame'}[p.type];
-  const tc={'content':'ec','question':'eq','exam':'ee'}[p.type];
-  let h=`<div class="fade">`;
-  h+=`<div class="eyebrow"><span class="etype ${tc}">${tl}</span><span>${secMap[cur]}</span></div>`;
-  h+=`<h1 class="ptitle">${p.title}</h1>`;
-  if(p.sub)h+=`<p class="sub-title">${p.sub}</p>`;
-  if(p.type==='content'){h+=rcontent(p);done.add(cur);}
-  else if(p.type==='question')h+=rquestion(p);
-  else h+=rexam(p);
-  h+=`</div>`;
-  m.innerHTML=h;
-  save();
-  buildSideNav();
-  updateMobHeader();
+// ── Room creation ────────────────────────────────────────────────────────
+async function createRoom() {
+  const name = document.getElementById('nameInput').value.trim();
+  if (!name) { alert('Enter your name first'); return; }
+  myName = name;
+  roomId = randomId();
+  await initPeer(roomId);
 }
 
-function rcontent(p){
-  let h=rblocks(p.blocks);
-  h+=`<div class="navrow">
-    <button class="btn" onclick="goto(${cur-1})" ${cur===0?'disabled':''}>← Anterior</button>
-    <button class="btn btn-p" onclick="goto(${cur+1})" ${cur===pages.length-1?'disabled':''}>Seguinte →</button>
-  </div>`;
-  return h;
+async function joinRoom() {
+  const name = document.getElementById('nameInput').value.trim();
+  let room = document.getElementById('roomInput').value.trim();
+  if (!name) { alert('Enter your name first'); return; }
+  if (!room) { alert('Paste a room code'); return; }
+  // Support full URLs
+  try { room = new URL(room).searchParams.get('room') || room; } catch {}
+  myName = name;
+  roomId = room;
+  await initPeer(randomId()); // joiner gets random peer id
 }
 
-function rquestion(p){
-  const s=qst;
-  let opts=p.options.map((o,i)=>{
-    let c='';
-    if(s.sub){if(i===p.answer)c='ok';else if(s.sel===i)c='no';}
-    else if(s.sel===i)c='sel';
-    return`<button class="opt ${c}" onclick="pickopt(${i})" ${s.sub?'disabled':''}>
-      <span class="oltr">${String.fromCharCode(65+i)}</span><span>${o}</span>
-    </button>`;
-  }).join('');
-  let fb='',nav='';
-  if(s.sub){
-    const ok=s.sel===p.answer;done.add(cur);
-    fb=`<div class="fb ${ok?'fb-ok':'fb-no'}"><strong>${ok?'Correto.':'Não é bem assim.'}</strong> ${p.expl}</div>`;
-    nav=`<div class="navrow"><button class="btn" onclick="goto(${cur-1})" ${cur===0?'disabled':''}>← Anterior</button><button class="btn btn-p" onclick="goto(${cur+1})" ${cur===pages.length-1?'disabled':''}>Seguinte →</button></div>`;
-  }else{
-    nav=`<div class="navrow"><button class="btn" onclick="goto(${cur-1})" ${cur===0?'disabled':''}>← Anterior</button><button class="btn btn-p" onclick="checkq()" ${s.sel===undefined?'disabled':''}>Verificar</button></div>`;
+async function initPeer(peerId) {
+  setStatus('connecting…');
+  showRoom();
+
+  try {
+    myStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+  } catch {
+    setStatus('Mic access denied', 'err');
+    return;
   }
-  return`<p class="qtext">${p.question}</p><div class="opts">${opts}</div>${fb}${nav}`;
+
+  myPeer = new Peer(peerId, PEER_CONFIG);
+
+  myPeer.on('open', (id) => {
+    setStatus('connected ✓', 'ok');
+    renderSelf();
+
+    // If we're the joiner, connect to the room host
+    if (id !== roomId) {
+      connectToPeer(roomId);
+    }
+
+    document.getElementById('roomCode').textContent = roomId;
+  });
+
+  myPeer.on('connection', (conn) => {
+    setupDataConn(conn);
+  });
+
+  myPeer.on('call', (call) => {
+    call.answer(myStream);
+    handleCall(call);
+  });
+
+  myPeer.on('error', (e) => {
+    setStatus('Error: ' + e.type, 'err');
+  });
+
+  // Read room code from URL if present
+  const urlRoom = new URLSearchParams(location.search).get('room');
+  if (urlRoom && urlRoom !== roomId) {
+    connectToPeer(urlRoom);
+  }
 }
 
-function rexam(p){
-  const s=est;
-  if(s.sub)return rexamres(p,s);
-  let qs=p.questions.map((q,qi)=>{
-    let os=q.opts.map((o,oi)=>`<button class="opt ${s[qi]===oi?'sel':''}" onclick="pickexam(${qi},${oi})">
-      <span class="oltr">${String.fromCharCode(65+oi)}</span><span>${o}</span>
-    </button>`).join('');
-    return`<div class="eq-wrap"><div class="eq-num">QUESTÃO ${qi+1} / ${p.questions.length}</div><p class="eq-txt">${q.q}</p><div class="opts">${os}</div></div>`;
-  }).join('');
-  const ans=Object.keys(s).length;
-  return`${qs}<div class="navrow"><button class="btn" onclick="goto(${cur-1})" ${cur===0?'disabled':''}>← Anterior</button><button class="btn btn-p" onclick="submitexam()" ${ans<p.questions.length?'disabled':''}>Submeter (${ans}/${p.questions.length})</button></div>`;
+function connectToPeer(targetId) {
+  if (connections[targetId] || targetId === myPeer.id) return;
+
+  const conn = myPeer.connect(targetId, { metadata: { name: myName } });
+  setupDataConn(conn);
+
+  conn.on('open', () => {
+    // Call them with audio
+    const call = myPeer.call(targetId, myStream, { metadata: { name: myName } });
+    handleCall(call);
+  });
 }
 
-function rexamres(p,s){
-  const corr=p.questions.filter((q,i)=>s[i]===q.a).length;
-  const pct=Math.round(corr/p.questions.length*100);
-  const pass=pct>=60;done.add(cur);
-  let qs=p.questions.map((q,qi)=>{
-    let os=q.opts.map((o,oi)=>{
-      let c='';if(oi===q.a)c='ok';else if(s[qi]===oi)c='no';
-      return`<button class="opt ${c}" disabled><span class="oltr">${String.fromCharCode(65+oi)}</span><span>${o}</span></button>`;
-    }).join('');
-    return`<div class="eq-wrap"><div class="eq-num">QUESTÃO ${qi+1}</div><p class="eq-txt">${q.q}</p><div class="opts">${os}</div></div>`;
-  }).join('');
-  return`<div class="score-box"><div class="score-n ${pass?'score-pass':'score-fail'}">${pct}%</div><div class="score-sub">${corr} / ${p.questions.length} corretas — ${pass?'aprovado ✓':'revê o material e tenta novamente'}</div></div>${qs}<div class="navrow"><button class="btn" onclick="retryexam()">↺ Tentar novamente</button><button class="btn btn-p" onclick="goto(${cur+1})" ${cur===pages.length-1?'disabled':''}>Seguinte →</button></div>`;
+function setupDataConn(conn) {
+  const peerId = conn.peer;
+  connections[peerId] = conn;
+
+  conn.on('open', () => {
+    const theirName = conn.metadata?.name || peerId.slice(0,6);
+    peers[peerId] = { name: theirName, speaking: false };
+    renderPeers();
+
+    // Share our name + list of known peers so mesh can form
+    conn.send({ type: 'hello', name: myName, peers: Object.keys(connections) });
+  });
+
+  conn.on('data', (msg) => {
+    if (msg.type === 'hello') {
+      peers[peerId] = { name: msg.name, speaking: false };
+      renderPeers();
+      // Connect to any peers we don't know yet
+      (msg.peers || []).forEach(id => {
+        if (id !== myPeer.id && !connections[id]) connectToPeer(id);
+      });
+    }
+  });
+
+  conn.on('close', () => {
+    delete connections[peerId];
+    delete peers[peerId];
+    delete calls[peerId];
+    renderPeers();
+  });
 }
 
-/* ═══════════════════════════════════════════════════
-   HANDLERS
-═══════════════════════════════════════════════════ */
-function pickopt(i){if(qst.sub)return;qst.sel=i;render()}
-function checkq(){if(qst.sel===undefined)return;qst.sub=true;render()}
-function pickexam(qi,oi){if(est.sub)return;est[qi]=oi;render()}
-function submitexam(){const p=pages[cur];if(Object.keys(est).length<p.questions.length)return;est.sub=true;render()}
-function retryexam(){est={};render()}
+function handleCall(call) {
+  calls[call.peer] = call;
+  call.on('stream', (remoteStream) => {
+    const audio = new Audio();
+    audio.srcObject = remoteStream;
+    audio.play().catch(() => {});
+    monitorSpeaking(remoteStream, call.peer);
+  });
+  call.on('close', () => delete calls[call.peer]);
+}
 
-/* ═══════════════════════════════════════════════════
-   INIT
-═══════════════════════════════════════════════════ */
-load();
-render();
+// ── Leave ────────────────────────────────────────────────────────────────
+function leaveRoom() {
+  Object.values(calls).forEach(c => c.close());
+  Object.values(connections).forEach(c => c.close());
+  if (myStream) myStream.getTracks().forEach(t => t.stop());
+  if (myPeer) myPeer.destroy();
+  calls = {}; connections = {}; peers = {};
+  myPeer = null; myStream = null;
+  document.getElementById('room').style.display = 'none';
+  document.getElementById('lobby').style.display = 'flex';
+}
+
+// ── UI ───────────────────────────────────────────────────────────────────
+function showRoom() {
+  document.getElementById('lobby').style.display = 'none';
+  document.getElementById('room').style.display = 'flex';
+}
+
+function renderSelf() {
+  renderPeers(); // re-render includes self tile
+}
+
+function renderPeers() {
+  const grid = document.getElementById('peersGrid');
+  grid.innerHTML = '';
+
+  // Self tile
+  const selfTile = makeTile(myPeer?.id || 'me', myName, true);
+  grid.appendChild(selfTile);
+
+  // Remote peers
+  const ids = Object.keys(peers);
+  if (ids.length === 0 && grid.children.length <= 1) {
+    const empty = document.createElement('div');
+    empty.className = 'empty-state';
+    empty.innerHTML = '<span class="big">👂</span><span>Waiting for others…</span>';
+    grid.appendChild(empty);
+  } else {
+    ids.forEach(id => {
+      const tile = makeTile(id, peers[id].name, false, peers[id].speaking);
+      grid.appendChild(tile);
+    });
+  }
+}
+
+function makeTile(id, name, isSelf, speaking = false) {
+  const tile = document.createElement('div');
+  tile.className = 'peer-tile' + (isSelf ? ' self' : '') + (speaking ? ' speaking' : '');
+  tile.id = 'tile-' + id;
+
+  const initials = name.slice(0,2).toUpperCase();
+  tile.innerHTML = `
+    <div class="peer-avatar">
+      ${initials}
+      <div class="speaking-ring"></div>
+    </div>
+    <div class="peer-name">${escHtml(name)}${isSelf ? ' (you)' : ''}</div>
+    ${isSelf ? `<button class="mute-btn${isMuted?' muted':''}" onclick="toggleMute()">${isMuted?'unmute':'mute'}</button>` : ''}
+    ${!isSelf ? `<div class="peer-status">${speaking ? '🔊 speaking' : 'connected'}</div>` : ''}
+  `;
+  return tile;
+}
+
+function updateTile(peerId, updates) {
+  if (peers[peerId]) Object.assign(peers[peerId], updates);
+  renderPeers();
+}
+
+function toggleMute() {
+  isMuted = !isMuted;
+  if (myStream) myStream.getAudioTracks().forEach(t => t.enabled = !isMuted);
+  renderPeers();
+}
+
+function copyRoomLink() {
+  const url = location.origin + location.pathname + '?room=' + roomId;
+  navigator.clipboard.writeText(url).then(() => {
+    const hint = document.getElementById('copyHint');
+    hint.classList.add('show');
+    setTimeout(() => hint.classList.remove('show'), 2000);
+  });
+}
+
+function setStatus(msg, type = '') {
+  const el = document.getElementById('statusBar');
+  el.textContent = msg;
+  el.className = 'status-bar ' + type;
+}
+
+function randomId() {
+  return Math.random().toString(36).slice(2, 10);
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// Auto-join from URL
+window.addEventListener('DOMContentLoaded', () => {
+  const urlRoom = new URLSearchParams(location.search).get('room');
+  if (urlRoom) {
+    document.getElementById('roomInput').value = urlRoom;
+  }
+});
 </script>
 </body>
 </html>
